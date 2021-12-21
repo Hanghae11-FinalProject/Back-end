@@ -3,10 +3,8 @@ package com.team11.backend.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.team11.backend.model.CurrentState;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.team11.backend.model.Image;
+import lombok.*;
 
 import java.util.List;
 
