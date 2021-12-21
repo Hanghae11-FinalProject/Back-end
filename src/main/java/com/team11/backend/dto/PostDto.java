@@ -24,12 +24,14 @@ public class PostDto {
                 @JsonProperty("title") String title,
                 @JsonProperty("content") String content,
                 @JsonProperty("category") String category,
-                @JsonProperty("currentState") String currentState
+                @JsonProperty("currentState") String currentState,
+                @JsonProperty("tag") List<TagDto.RequestDto> tagReqeustDtos
         ){
             this.title = title;
             this.content = content;
             this.category = category;
             this.currentState = CurrentState.valueOf(currentState);
+            this.tagRequsetDtos = tagReqeustDtos;
         }
     }
   
