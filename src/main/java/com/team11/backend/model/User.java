@@ -1,10 +1,13 @@
 package com.team11.backend.model;
+import com.team11.backend.oauth.entity.ProviderType;
+import com.team11.backend.oauth.entity.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -31,5 +34,15 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(name = "PROVIDER_TYPE", length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private ProviderType providerType;
+
+    @Column(name = "ROLE_TYPE", length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private RoleType roleType;
 
 }
