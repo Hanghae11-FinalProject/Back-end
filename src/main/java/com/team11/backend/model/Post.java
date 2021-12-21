@@ -16,23 +16,20 @@ public class Post extends Timestamped{
     @Id
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
     private CurrentState currentState;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "userId",nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "categoryId", nullable = false)
-    private Category category;
-
-
+    @Column(nullable = false)
+    private String category;
 
 }
