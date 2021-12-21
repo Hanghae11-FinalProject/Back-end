@@ -1,10 +1,14 @@
 package com.team11.backend.model;
 
+import com.team11.backend.dto.PostDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @Builder
@@ -16,23 +20,35 @@ public class Post extends Timestamped{
     @Id
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
     private CurrentState currentState;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "userId",nullable = false)
     private User user;
+    
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Image> images;
 
-    @ManyToOne
-    @JoinColumn(name = "categoryId", nullable = false)
-    private Category category;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Tag> tags;
 
+    @Column(nullable = false)
+    private String category;
 
+    public void updatePost(PostDto.RequestDto requestDto, List<Image> images, List<Tag> tags){
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.currentState = requestDto.getCurrentState();
+        this.images = images;
+        this.tags = tags;
+        this.category = requestDto.getCategory();
+    }
 
 }

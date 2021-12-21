@@ -1,6 +1,7 @@
 package com.team11.backend.model;
 
 import com.sun.istack.NotNull;
+import com.team11.backend.model.AuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
