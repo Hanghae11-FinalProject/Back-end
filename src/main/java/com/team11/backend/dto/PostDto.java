@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 public class PostDto {
 
     @Setter
@@ -17,6 +19,7 @@ public class PostDto {
         private String content;
         private String category;
         private CurrentState currentState;
+        private List<TagDto.RequestDto> tagRequsetDtos;
 
         @JsonCreator
         public RequestDto(

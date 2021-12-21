@@ -34,6 +34,9 @@ public class Post extends Timestamped{
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Image> images;
 
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Tag> tags;
+
     @Column(nullable = false)
     private String category;
 

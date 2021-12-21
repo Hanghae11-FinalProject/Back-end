@@ -38,6 +38,7 @@ public class PostService {
                 .username("asdasdasd")
                 .profileImg("asdasdasd")
                 .build();
+        ///////////////////////////////////////////////////////
 
         Post post = Post.builder()
                 .title(requestDto.getTitle())

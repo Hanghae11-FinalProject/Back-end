@@ -21,8 +21,4 @@ public class Tag {
     @Column(nullable = true)
     private String tagName;
 
-    @ManyToOne
-    @JoinColumn(name = "postId",nullable = false)
-    private Post post;
-
 }
