@@ -24,7 +24,4 @@ public class Image {
     @Column(nullable = false)
     private  String imageUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "postId",nullable = false)
-    private Post post;
 }
