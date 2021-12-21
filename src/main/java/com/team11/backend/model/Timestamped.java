@@ -15,5 +15,5 @@ public abstract class Timestamped {
     @CreatedDate
     private LocalDateTime createAt; //글작성 최초 시점
 }
-////////
+//
 
