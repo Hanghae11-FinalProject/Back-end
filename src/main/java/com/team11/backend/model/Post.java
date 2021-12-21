@@ -1,5 +1,6 @@
 package com.team11.backend.model;
 
+import com.team11.backend.dto.PostDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,5 +41,14 @@ public class Post extends Timestamped{
 
     @Column(nullable = false)
     private String category;
+
+    public void updatePost(PostDto.RequestDto requestDto, List<Image> images, List<Tag> tags){
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.currentState = requestDto.getCurrentState();
+        this.images = images;
+        this.tags = tags;
+        this.category = requestDto.getCategory();
+    }
 
 }

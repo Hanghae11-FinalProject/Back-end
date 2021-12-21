@@ -1,6 +1,7 @@
 package com.team11.backend.model;
 
 
+import com.team11.backend.dto.ImageDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,4 +25,8 @@ public class Image {
     @Column(nullable = false)
     private  String imageUrl;
 
+    public void updateImage(ImageDto imageDto){
+        this.imageName = imageDto.getImageName();
+        this.imageUrl = imageDto.getImageUrl();
+    }
 }

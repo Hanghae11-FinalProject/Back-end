@@ -1,5 +1,6 @@
 package com.team11.backend.component;
 
+import com.team11.backend.dto.ImageDto;
 import com.team11.backend.model.Image;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,8 +15,8 @@ import java.util.UUID;
 public class FileComponent {
 
     //파일업로드용 함수
-    public List<Image> fileUploadAndGetImageList(List<MultipartFile> images) throws IOException {
-        List<Image> imageList = new ArrayList<>();
+    public List<ImageDto> fileUploadAndGetImageList(List<MultipartFile> images) throws IOException {
+        List<ImageDto> imageDtos = new ArrayList<>();
         // 이미지 파일을 저장할 경로
         String saveLocation = "/Users/jeong-yeongbin/Desktop/image/";
 
@@ -23,14 +24,14 @@ public class FileComponent {
             String fileName = createRandomFileNameAndGetFilePath(image);
             //savelocation 위치로 파일 업로드를 실행한다.
             image.transferTo(new File(saveLocation + fileName));
-            Image newImage = Image.builder()
+            ImageDto imageDto = ImageDto.builder()
                     .imageName(fileName)
                     .imageUrl("images/"+fileName)
                     .build();
-            imageList.add(newImage);
+            imageDtos.add(imageDto);
         }
 
-        return imageList;
+        return imageDtos;
 
     }
 
@@ -47,4 +48,5 @@ public class FileComponent {
         // 예시 -> .png
         return "."+unprocessedContentType[1];
     }
+
 }
