@@ -2,13 +2,14 @@ package com.team11.backend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team11.backend.component.FileComponent;
+import com.team11.backend.model.User;
 import com.team11.backend.dto.PostDto;
-import com.team11.backend.model.Category;
 import com.team11.backend.model.Image;
 import com.team11.backend.model.Post;
-import com.team11.backend.model.User;
+
 import com.team11.backend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

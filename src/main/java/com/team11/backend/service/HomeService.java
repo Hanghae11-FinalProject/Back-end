@@ -1,10 +1,7 @@
 package com.team11.backend.service;
 
 import com.team11.backend.dto.PostDto;
-import com.team11.backend.model.CurrentState;
-import com.team11.backend.model.Image;
 import com.team11.backend.model.Post;
-import com.team11.backend.model.User;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
