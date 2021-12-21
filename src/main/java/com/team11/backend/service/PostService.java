@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team11.backend.component.FileComponent;
 import com.team11.backend.dto.PostDto;
 import com.team11.backend.model.Category;
+import com.team11.backend.model.Image;
 import com.team11.backend.model.Post;
 import com.team11.backend.model.User;
 import com.team11.backend.repository.PostRepository;
@@ -21,8 +22,8 @@ public class PostService {
     private final PostRepository postRepository;
 
     public void createPostService(List<MultipartFile> images, String jsonString) throws IOException {
-        //파일 업로드 하는 부분
-        fileComponent.fileUpload(images);
+        //파일 업로드를 성공하고 이미지 리스트를 반환하는 함수.
+        List<Image> imageList = fileComponent.fileUploadAndGetImageList(images);
 
         //String 형태의 jsonString을 Dto로 변환부분
         ObjectMapper objectMapper = new ObjectMapper();
@@ -43,8 +44,10 @@ public class PostService {
                 .content(requestDto.getContent())
                 .category(requestDto.getCategory())
                 .currentState(requestDto.getCurrentState())
+                .images(imageList)
                 .user(user)
                 .build();
+
         //Post저장
         postRepository.save(post);
     }
