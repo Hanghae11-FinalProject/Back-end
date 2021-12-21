@@ -2,6 +2,8 @@ package com.team11.backend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team11.backend.component.FileComponent;
+import com.team11.backend.dto.TagDto;
+import com.team11.backend.model.Tag;
 import com.team11.backend.model.User;
 import com.team11.backend.dto.PostDto;
 import com.team11.backend.model.Image;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +26,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     public void createPostService(List<MultipartFile> images, String jsonString) throws IOException {
+        List<Tag> tagList = new ArrayList<>();
         //파일 업로드를 성공하고 이미지 리스트를 반환하는 함수.
         List<Image> imageList = fileComponent.fileUploadAndGetImageList(images);
 
@@ -40,6 +44,12 @@ public class PostService {
                 .profileImg("asdasdasd")
                 .build();
         ///////////////////////////////////////////////////////
+        for (TagDto.RequestDto tagRequestDto: requestDto.getTagRequsetDtos()) {
+            Tag tag = Tag.builder()
+                    .tagName(tagRequestDto.getTagName())
+                    .build();
+            tagList.add(tag);
+        }
 
         Post post = Post.builder()
                 .title(requestDto.getTitle())
@@ -48,6 +58,7 @@ public class PostService {
                 .currentState(requestDto.getCurrentState())
                 .images(imageList)
                 .user(user)
+                .tags(tagList)
                 .build();
 
         //Post저장
