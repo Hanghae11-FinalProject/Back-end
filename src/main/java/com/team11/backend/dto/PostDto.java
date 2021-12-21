@@ -34,4 +34,20 @@ public class PostDto {
             this.currentState = CurrentState.valueOf(currentState);
         }
     }
+  
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ResponseDto{
+        private Long postId;
+        private String nickname;
+        private String title;
+        private String content;
+        private String address;
+        private List<Image> images;
+        private CurrentState currentState;
+        private String createdAt;
+    }
+
 }

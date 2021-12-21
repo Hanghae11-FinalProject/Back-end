@@ -29,6 +29,9 @@ public class Post extends Timestamped{
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "userId",nullable = false)
     private User user;
+    
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Image> images;
 
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -39,6 +42,5 @@ public class Post extends Timestamped{
 
     @Column(nullable = false)
     private String category;
-
 
 }
