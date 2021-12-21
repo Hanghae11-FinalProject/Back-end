@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @Builder
@@ -28,11 +29,11 @@ public class Post extends Timestamped{
     @ManyToOne
     @JoinColumn(name = "userId",nullable = false)
     private User user;
+    
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Image> images;
 
-    @ManyToOne
-    @JoinColumn(name = "categoryId", nullable = false)
-    private Category category;
-
-
+    @Column(nullable = false)
+    private String category;
 
 }
