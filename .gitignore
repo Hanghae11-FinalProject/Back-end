@@ -19,6 +19,9 @@ bin/
 
 ### IntelliJ IDEA ###
 application.properties
+application.yml
+application-aws.yml
+application-credentials.yml
 .idea
 *.iws
 *.iml
