@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -54,12 +55,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) {
-//        // CustomAuthenticationProvider()를 호출하기 위해서 Overriding
-//        auth
-//                .authenticationProvider(formLoginAuthProvider());
-//    }
+    @Override
+    public void configure(WebSecurity web) {
+        // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
+        web
+                .ignoring()
+                .antMatchers("/h2-console/**")
+                .antMatchers("/v2/api-docs", "/swagger-resources/**", "**/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
+    }
 
     public void configure(HttpSecurity http) throws Exception {
 
