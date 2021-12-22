@@ -54,12 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) {
-        // CustomAuthenticationProvider()를 호출하기 위해서 Overriding
-        auth
-                .authenticationProvider(formLoginAuthProvider());
-    }
+//    @Override
+//    public void configure(AuthenticationManagerBuilder auth) {
+//        // CustomAuthenticationProvider()를 호출하기 위해서 Overriding
+//        auth
+//                .authenticationProvider(formLoginAuthProvider());
+//    }
 
     public void configure(HttpSecurity http) throws Exception {
 
@@ -79,7 +79,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/",
                         "/user/signup",
-                        "/user/login",
                         "/error",
                         "/favicon.ico",
                         "/**/*.png",
@@ -90,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint()//인가에 대한 요청을 서비스할 때 사용한다. 기본 URL은 /oauth/authorize
@@ -113,10 +112,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+/*    @Bean
     public FormLoginAuthProvider formLoginAuthProvider() {
-        return new FormLoginAuthProvider(encodePassword());
-    }
+        return new FormLoginAuthProvider();
+    }*/
 
     @Bean
     public FormLoginFilter formLoginFilter() throws Exception {
