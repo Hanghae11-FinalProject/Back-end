@@ -48,7 +48,7 @@ public class BookMarkService {
         if (user == null) throw new NullPointerException("로그인이 필요합니다");
         List<BookMark> bookMarkList =
                 bookMarkRepository.findByUserUsername(user.getUsername());
-        return bookMarkList.stream().map(s -> new BookMarkDto(s.getPost().getId(), s.getPost().getTitle(), s.getUser().getAddress())).collect(Collectors.toList());
+        return bookMarkList.stream().map(s -> new BookMarkDto(s.getPost().getId(), s.getPost().getTitle(), s.getPost().getCurrentState().name())).collect(Collectors.toList());
     }
 
     private void impossibleMyPostBookMark(User user, Post post) {
