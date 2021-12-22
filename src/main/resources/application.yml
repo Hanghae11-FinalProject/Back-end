@@ -1,0 +1,92 @@
+
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:Back-end
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 147411542994-dl2a4f22ibpec19irv565t902b7v3nhg.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8080/oauth2/callback/{registrationId}
+            scope: #??? ??? ??(??)?? ???? ??????? ??????? ??? ?????
+              - email
+              - profile
+
+          naver:
+            clientId: tPf1MlPF2dbfjT6A5BPl
+            clientSecret: KWWTT9O3Ha
+            clientAuthenticationMethod: post
+            authorizationGrantType: authorization_code
+            redirect-uri: http://localhost:8080/oauth2/callback/{registrationId}
+            scope:
+              - nickname
+              - email
+            clientName: Naver
+
+          kakao:
+            client-id: 397c0abcfdf1e8bb72359a99d7784e74
+            client-secret: mYiuU2iGogjn1etlfxsUVcg7IMuraICk
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/oauth2/callback/{registrationId}
+            scope:
+              - profile_nickname
+              - account_email
+
+            client-authentication-method: POST
+            client-name: kakao
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+
+          naver:
+            authorizationUri: https://nid.naver.com/oauth2.0/authorize
+            tokenUri: https://nid.naver.com/oauth2.0/token
+            userInfoUri: https://openapi.naver.com/v1/nid/me
+            userNameAttribute: response
+
+application:
+  security:
+    jwt:
+      secret: 5867a8374e7c0f6284b177b48faf89e1c79d72d8aefsefasfaefaseagasegrdgdgdskgsdrg21321321r23r32r21t43g43gt43g34g3423421r23r32f324g43g43g
+      token-validity-in-seconds: 5000000
+      refresh-token-validity-in-seconds: 500000
+      token-validity-in-seconds-for-remember-me: 2592000
+    # OAuth2 ???? ????? ?? ? ? ???? ?? ?? ??? ???? ???
+    # ??? ?? ?????? /oauth2/authorize ???? ??? redirectUri ???.
+    # ??? ??? ??????? ? ???? ?? ??? ???? ????
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000
+#Authorized redirect URIs
+#Resource Server? ?? ???, client? ??? ???? ???? ??? Authorized code? ???? ?? ???.
+#??? client <-> Resou
