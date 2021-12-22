@@ -24,7 +24,7 @@ public class BookMarkController {
     public ResponseEntity<?> addBookMark(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                          @PathVariable Long postId
     ) {
-        log.info("loginUser={}", customUserDetails.getUser().getNickname());
+        log.info("BookMarkAddPostUser={}", customUserDetails.getUser().getNickname());
         boolean result = false;
         result = bookMarkService.addBookMark(customUserDetails.getUser(), postId);
 
@@ -36,13 +36,14 @@ public class BookMarkController {
     public Long cancelBookMark(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                @PathVariable Long postId
     ) {
-        log.info("cancel={}", customUserDetails.getUser().getNickname());
+        log.info("BookMarkCancelUser={}", customUserDetails.getUser().getNickname());
         return bookMarkService.cancelBookMark(customUserDetails.getUser(), postId);
     }
 
     @GetMapping("/api/bookmark")
     public Result<?> lookupBookMark(@AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
+        log.info("MyBookMarkAllLookUp={}",customUserDetails.getUser().getNickname());
         return new Result<>(bookMarkService.findMyBookMark(customUserDetails.getUser()));
     }
 
