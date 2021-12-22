@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -36,19 +35,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private JwtAuthFilter jwtAuthFilter;
     private JwtUtil jwtUtil;
-    private CustomOAuth2UserService customOauth2Userervice;
+    private CustomOAuth2UserService customOauth2UserService;
     private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
     @Autowired
     @Lazy
-    public SecurityConfig(CustomOAuth2UserService customOauth2Userervice,
+    public SecurityConfig(CustomOAuth2UserService customOauth2UserService,
                           OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler,
                           OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler,
                           JwtAuthFilter jwtAuthFilter,
                           JwtUtil jwtUtil
                          ){
-        this.customOauth2Userervice = customOauth2Userervice;
+        this.customOauth2UserService = customOauth2UserService;
         this.oAuth2AuthenticationFailureHandler = oAuth2AuthenticationFailureHandler;
         this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
         this.jwtUtil = jwtUtil;
@@ -68,6 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 
         http.
+                headers()
+                .frameOptions()
+                .sameOrigin();
+        http.
                 cors()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//세션정책을 설정한다는것은 인증 처리 관점에서 스프링 시큐리티가 더 이상 세션쿠키 방식의 인증 메카니즘으로 인증처리를 하지 않겠다는 의미
@@ -84,6 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/",
                         "/h2-console/**",
                         "/user/signup",
+                        "/user/login",
                         "/error",
                         "/favicon.ico",
                         "/**/*.png",
@@ -105,22 +109,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .baseUri("/oauth2/callback/*")
                 .and()
                 .userInfoEndpoint()
-                .userService(customOauth2Userervice)
+                .userService(customOauth2UserService)
                 .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler)
                 .failureHandler(oAuth2AuthenticationFailureHandler);
 
     }
 
+
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
     }
-
-/*    @Bean
-    public FormLoginAuthProvider formLoginAuthProvider() {
-        return new FormLoginAuthProvider();
-    }*/
 
     @Bean
     public FormLoginFilter formLoginFilter() throws Exception {

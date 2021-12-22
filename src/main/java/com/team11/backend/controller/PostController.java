@@ -16,7 +16,6 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    private final FileUploadService fileUploadService;
 
     @PostMapping("/api/posts")
     public void createPost(
