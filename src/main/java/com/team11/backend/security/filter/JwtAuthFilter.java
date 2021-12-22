@@ -1,6 +1,7 @@
-package com.team11.backend.security.jwt;
+package com.team11.backend.security.filter;
 
 import com.team11.backend.exception.authexception.JwtTokenException;
+import com.team11.backend.security.jwtutil.JwtUtil;
 import com.team11.backend.security.oauth2.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +29,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
 
     private final CustomUserDetailsService userDetailsService;
-
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

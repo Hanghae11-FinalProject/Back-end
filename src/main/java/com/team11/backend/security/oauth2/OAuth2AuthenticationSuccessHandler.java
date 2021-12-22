@@ -2,7 +2,7 @@ package com.team11.backend.security.oauth2;
 
 import com.team11.backend.config.ApplicationProperties;
 import com.team11.backend.exception.authexception.OAuth2AuthenticationEx;
-import com.team11.backend.security.jwt.JwtUtil;
+import com.team11.backend.security.jwtutil.JwtUtil;
 import com.team11.backend.utils.CookieUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

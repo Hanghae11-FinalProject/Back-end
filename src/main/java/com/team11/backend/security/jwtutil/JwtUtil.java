@@ -1,4 +1,4 @@
-package com.team11.backend.security.jwt;
+package com.team11.backend.security.jwtutil;
 
 import com.team11.backend.config.ApplicationProperties;
 import com.team11.backend.exception.authexception.JwtTokenException;
@@ -39,9 +39,6 @@ public class JwtUtil {
     }
 
     public String createToken(Authentication authentication, Boolean rememberMe) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
         Date validity;
@@ -52,7 +49,6 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(customUserDetails.getUsername())
                 .setIssuedAt(new Date())
-                .claim(AUTHORITIES_KEY, authorities)
                 .claim("id", customUserDetails.getUsername())
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .setExpiration(validity)
