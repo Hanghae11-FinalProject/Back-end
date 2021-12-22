@@ -1,17 +1,18 @@
 package com.team11.backend.config;
 
 import com.team11.backend.exception.authexception.Http401ErrorEntryPoint;
-import com.team11.backend.security.jwt.JwtAuthFilter;
-import com.team11.backend.security.oauth2.CustomOAuth2UserService;
-import com.team11.backend.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.team11.backend.security.oauth2.OAuth2AuthenticationFailureHandler;
-import com.team11.backend.security.oauth2.OAuth2AuthenticationSuccessHandler;
+import com.team11.backend.security.FormLoginSuccessHandler;
+import com.team11.backend.security.filter.FormLoginFilter;
+import com.team11.backend.security.filter.JwtAuthFilter;
+import com.team11.backend.security.jwtutil.JwtUtil;
+import com.team11.backend.security.oauth2.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,6 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -32,20 +34,35 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private JwtAuthFilter jwtAuthFilter;
+    private JwtUtil jwtUtil;
     private CustomOAuth2UserService customOauth2Userervice;
     private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
     @Autowired
     @Lazy
-    public SecurityConfig(CustomOAuth2UserService customOauth2Userervice, OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler, OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler,JwtAuthFilter jwtAuthFilter){
+    public SecurityConfig(CustomOAuth2UserService customOauth2Userervice,
+                          OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler,
+                          OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler,
+                          JwtAuthFilter jwtAuthFilter,
+                          JwtUtil jwtUtil
+                         ){
         this.customOauth2Userervice = customOauth2Userervice;
         this.oAuth2AuthenticationFailureHandler = oAuth2AuthenticationFailureHandler;
         this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
+        this.jwtUtil = jwtUtil;
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) {
+        // CustomAuthenticationProvider()를 호출하기 위해서 Overriding
+        auth
+                .authenticationProvider(formLoginAuthProvider());
+    }
+
     public void configure(HttpSecurity http) throws Exception {
+
         http.
                 cors()
                 .and()
@@ -54,12 +71,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new Http401ErrorEntryPoint())
                 .and()
                 .authorizeRequests()
                 .antMatchers("/",
+                        "/user/signup",
+                        "/user/login",
                         "/error",
                         "/favicon.ico",
                         "/**/*.png",
@@ -87,14 +107,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(oAuth2AuthenticationFailureHandler);
 
     }
+
     @Bean
-    public Http401ErrorEntryPoint http401ErrorEntryPoint() {
-        return new Http401ErrorEntryPoint();
+    public BCryptPasswordEncoder encodePassword() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
-        return new BCryptPasswordEncoder();
+    public FormLoginAuthProvider formLoginAuthProvider() {
+        return new FormLoginAuthProvider(encodePassword());
+    }
+
+    @Bean
+    public FormLoginFilter formLoginFilter() throws Exception {
+        FormLoginFilter formLoginFilter = new FormLoginFilter(authenticationManager());
+        formLoginFilter.setFilterProcessesUrl("/user/login");
+        formLoginFilter.setAuthenticationSuccessHandler(formLoginSuccessHandler());
+        formLoginFilter.afterPropertiesSet();
+        return formLoginFilter;
+    }
+
+    private AuthenticationSuccessHandler formLoginSuccessHandler() {
+        return new FormLoginSuccessHandler(jwtUtil);
+    }
+
+    @Bean
+    public Http401ErrorEntryPoint http401ErrorEntryPoint() {
+        return new Http401ErrorEntryPoint();
     }
 
     @Bean
