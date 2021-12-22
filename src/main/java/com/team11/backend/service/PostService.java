@@ -16,6 +16,7 @@ import com.team11.backend.model.Post;
 import com.team11.backend.repository.ImageRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.TagRepository;
+import com.team11.backend.security.oauth2.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class PostService {
     private final TagRepository tagRepository;
 
     @Transactional
-    public void createPostService(List<MultipartFile> images, String jsonString) throws IOException {
+    public void createPostService(List<MultipartFile> images, String jsonString, CustomUserDetails userDetails) throws IOException {
         List<Tag> tagList = new ArrayList<>();
         List<Image> imageList = new ArrayList<>();
         //파일 업로드를 성공하고 이미지 리스트를 반환하는 함수.
@@ -52,15 +53,9 @@ public class PostService {
         ObjectMapper objectMapper = new ObjectMapper();
         PostDto.RequestDto requestDto = objectMapper.readValue(jsonString,PostDto.RequestDto.class);
 
-        //아직 회원가입 로그인 기능을 만들지 않았기때문에 유저를 만들어준다.
-        User user = User.builder()
-                .address("asdasd")
-                .nickname("asdasdasd")
-                .password("asdasdasd")
-                .username("asdasdasd")
-                .profileImg("asdasdasd")
-                .build();
-        ///////////////////////////////////////////////////////
+
+
+        User user = userDetails.getUser();
         dtoParser(tagList, imageList, imageDtoList, requestDto);
 
         Post post = Post.builder()
