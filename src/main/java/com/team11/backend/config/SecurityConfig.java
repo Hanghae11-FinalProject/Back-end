@@ -55,7 +55,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
-
     @Override
     public void configure(WebSecurity web) {
         // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
@@ -64,13 +63,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**")
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "**/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
     }
-
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) {
-//        // CustomAuthenticationProvider()를 호출하기 위해서 Overriding
-//        auth
-//                .authenticationProvider(formLoginAuthProvider());
-//    }
 
 
     public void configure(HttpSecurity http) throws Exception {

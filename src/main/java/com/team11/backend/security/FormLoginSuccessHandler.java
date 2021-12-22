@@ -15,7 +15,7 @@ import java.io.IOException;
 public class FormLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
     public static final String AUTH_HEADER = "Authorization";
-    public static final String TOKEN_TYPE = "BEARER";
+    public static final String TOKEN_TYPE = "Bearer";
 
     // ** 5. FormLogin 성공 및 JWT 토큰 생성 **
     @Override

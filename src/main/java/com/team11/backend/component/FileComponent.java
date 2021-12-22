@@ -18,7 +18,8 @@ public class FileComponent {
     public List<ImageDto> fileUploadAndGetImageList(List<MultipartFile> images) throws IOException {
         List<ImageDto> imageDtos = new ArrayList<>();
         // 이미지 파일을 저장할 경로
-        String saveLocation = "/Users/jeong-yeongbin/Desktop/image/";
+       // String saveLocation = "/Users/jeong-yeongbin/Desktop/image/";
+        String saveLocation = "/C://woojin/";
 
         for (MultipartFile image: images) {
             String fileName = createRandomFileNameAndGetFilePath(image);

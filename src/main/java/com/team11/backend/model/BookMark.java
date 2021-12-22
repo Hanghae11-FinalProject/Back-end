@@ -23,6 +23,7 @@ public class BookMark {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "postId",nullable = false)
+    @JoinColumn(name = "postId", nullable = false)
     private Post post;
+
 }

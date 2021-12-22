@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -41,5 +45,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     @NotNull
     private AuthProvider provider;
+
+    @OneToMany(mappedBy = "user")
+    private Set<BookMark> bookMarks = new HashSet<>();
 
 }
