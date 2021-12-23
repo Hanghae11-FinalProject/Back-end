@@ -1,7 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.1'
+    id 'org.springframework.boot' version '2.5.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.team11'
@@ -19,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.querydsl:querydsl-jpa'
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.5.2'
     //jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
@@ -38,7 +40,7 @@ dependencies {
     //aws
     implementation('org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE')
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
+    //implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
@@ -46,4 +48,24 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+//QueryDSL 설정 추가
+
+//Q파일 생성 위치 설정
+def querydslDir = "$buildDir/generated/querydsl"
+
+//기본 설정들
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
 }
