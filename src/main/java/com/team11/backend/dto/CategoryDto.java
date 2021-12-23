@@ -16,7 +16,7 @@ public class CategoryDto {
     @NoArgsConstructor
     public static class RequestDto {
         private List<String> categoryName;
-        private String address;
+        private List<String> address;
     }
 
     @Getter

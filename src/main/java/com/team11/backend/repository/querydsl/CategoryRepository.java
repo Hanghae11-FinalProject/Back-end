@@ -1,9 +1,11 @@
 package com.team11.backend.repository.querydsl;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.team11.backend.dto.CategoryDto;
@@ -43,9 +45,8 @@ public class CategoryRepository {
                 .from(post)
                 .leftJoin(post.user, user)
                 .where(
-                        AllCategoryEq(categoryRequestDto.getCategoryName()),
-                        AllCategoryCityGuEq(categoryRequestDto.getAddress())
-
+                        CategoryEq(categoryRequestDto.getCategoryName()),
+                        CategoryCityFilter(categoryRequestDto.getAddress())
                 ).offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -59,7 +60,7 @@ public class CategoryRepository {
 
     }
 
-    private BooleanExpression AllCategoryEq(List<String> categoryName) {
+    private BooleanExpression CategoryEq(List<String> categoryName) {
         return categoryName != null ? Expressions.allOf(categoryName.stream().map(this::isFilterCategory).toArray(BooleanExpression[]::new)) : null;
     }
 
@@ -67,7 +68,14 @@ public class CategoryRepository {
         return post.category.contains(kinds);
     }
 
-    private BooleanExpression AllCategoryCityGuEq(String cityGu){
-        return Optional.ofNullable(cityGu).map(user.address::contains).orElse(null);
+    private BooleanExpression CategoryCityFilter(List<String> address){
+        return address != null ? Expressions.allOf(address.stream().map(this::isFilterAddress).toArray(BooleanExpression[]::new)) : null;
     }
+
+    private BooleanExpression isFilterAddress(String address){
+        return post.user.address.contains(address);
+    }
+ /*   private BooleanExpression AllCategoryCityGuEq(String cityGu){
+        return Optional.ofNullable(cityGu).map(user.address::contains).orElse(null);
+    }*/
 }
