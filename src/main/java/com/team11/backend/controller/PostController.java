@@ -1,6 +1,8 @@
 package com.team11.backend.controller;
 
 import com.team11.backend.component.FileUploadService;
+import com.team11.backend.dto.MyPostDto;
+import com.team11.backend.model.User;
 import com.team11.backend.security.oauth2.service.CustomUserDetails;
 import com.team11.backend.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +32,11 @@ public class PostController {
     @PutMapping("/api/posts/{postId}")
     public void editPost(@RequestParam(name = "image",required = false) List<MultipartFile> images, @RequestParam(name = "data") String jsonString,@PathVariable Long postId) throws IOException {
         postService.editPostService(images,jsonString,postId);
+    }
+
+    @GetMapping("/api/myposts")
+    public List<MyPostDto.ResponseDto> showMyPost(@AuthenticationPrincipal CustomUserDetails userDetails){
+        User user = userDetails.getUser();
+        return postService.showMyPostService(user);
     }
 }
