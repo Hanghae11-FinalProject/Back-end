@@ -77,8 +77,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
-                .httpBasic().disable()
-                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .httpBasic().disable();
+        http.
+                 addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new Http401ErrorEntryPoint())
@@ -115,7 +116,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(oAuth2AuthenticationFailureHandler);
 
     }
-
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
