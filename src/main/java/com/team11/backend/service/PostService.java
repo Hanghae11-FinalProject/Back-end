@@ -6,6 +6,7 @@ import com.team11.backend.component.AwsS3UploadService;
 import com.team11.backend.component.FileComponent;
 import com.team11.backend.component.FileUploadService;
 import com.team11.backend.dto.ImageDto;
+import com.team11.backend.dto.MyPostDto;
 import com.team11.backend.dto.TagDto;
 import com.team11.backend.model.Tag;
 import com.team11.backend.model.User;
@@ -128,5 +129,21 @@ public class PostService {
                     .build();
             tagList.add(tag);
         }
+    }
+
+    public List<MyPostDto.ResponseDto> showMyPostService(User user) {
+        List<Post> postList = postRepository.findAllByUser(user);
+        List<MyPostDto.ResponseDto> responseDtos = new ArrayList<>();
+        for (Post post : postList){
+            MyPostDto.ResponseDto responseDto = MyPostDto.ResponseDto.builder()
+                    .postId(post.getId())
+                    .title(post.getTitle())
+                    .currentState(post.getCurrentState())
+                    .build();
+
+            responseDtos.add(responseDto);
+        }
+
+        return responseDtos;
     }
 }
