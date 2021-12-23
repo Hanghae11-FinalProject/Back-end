@@ -75,7 +75,4 @@ public class CategoryRepository {
     private BooleanExpression isFilterAddress(String address){
         return post.user.address.contains(address);
     }
- /*   private BooleanExpression AllCategoryCityGuEq(String cityGu){
-        return Optional.ofNullable(cityGu).map(user.address::contains).orElse(null);
-    }*/
 }
