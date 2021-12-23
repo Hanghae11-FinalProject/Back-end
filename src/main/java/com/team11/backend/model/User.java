@@ -1,16 +1,13 @@
 package com.team11.backend.model;
 
 import com.sun.istack.NotNull;
-import com.team11.backend.model.AuthProvider;
+import com.team11.backend.dto.MyPageDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,7 +38,7 @@ public class User {
 
     private String providerId;
 
-    @Column(name = "ROLE_TYPE", length = 20)
+    @Column(name = "PROVIDER", length = 20)
     @Enumerated(EnumType.STRING)
     @NotNull
     private AuthProvider provider;
@@ -49,4 +46,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<BookMark> bookMarks = new HashSet<>();
 
+
+    public void update(MyPageDto.RequestDto requestDto) {
+        this.nickname = requestDto.getNickname();
+        this.profileImg = requestDto.getProfileImg();
+    }
 }
