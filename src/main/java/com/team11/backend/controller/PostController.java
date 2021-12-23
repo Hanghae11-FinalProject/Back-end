@@ -27,9 +27,16 @@ public class PostController {
         postService.createPostService(images,jsonString,userDetails);
     }
 
-
     @PutMapping("/api/posts/{postId}")
     public void editPost(@RequestParam(name = "image",required = false) List<MultipartFile> images, @RequestParam(name = "data") String jsonString,@PathVariable Long postId) throws IOException {
         postService.editPostService(images,jsonString,postId);
+    }
+
+    @DeleteMapping("/api/posts/{postId}")
+    public void boardDelete(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long postId
+    ) {
+        postService.deletePost(userDetails.getUser(), postId);
     }
 }

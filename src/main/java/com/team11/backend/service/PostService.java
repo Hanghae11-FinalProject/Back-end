@@ -1,6 +1,5 @@
 package com.team11.backend.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team11.backend.component.AwsS3UploadService;
 import com.team11.backend.component.FileComponent;
@@ -128,5 +127,23 @@ public class PostService {
                     .build();
             tagList.add(tag);
         }
+    }
+
+    //삭제
+    @Transactional
+    public void deletePost(User user, Long postId) {
+
+        // 포스트 조회
+        Post findPost = postRepository.findById(postId).orElseThrow(
+                () ->  new IllegalArgumentException("해당되는 포스트가 존재하지 않습니다.")
+        );
+
+        // 사용자 조회 (작성자와 같은지 확인)
+        if (!findPost.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("해당되는 사용자가 아닙니다");
+        }
+
+        // post 삭제
+        postRepository.deleteById(postId);
     }
 }

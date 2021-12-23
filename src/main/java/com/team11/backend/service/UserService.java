@@ -1,6 +1,5 @@
 package com.team11.backend.service;
 
-
 import com.team11.backend.dto.SignupDto;
 import com.team11.backend.model.AuthProvider;
 import com.team11.backend.model.User;
@@ -10,7 +9,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +37,18 @@ public class UserService {
             throw new DuplicateKeyException("이미 존재하는 이메일 입니다");
 
         if (userRepository.existsByNickname(requestDto.getNickname()))
+            throw new DuplicateKeyException("이미 존재하는 닉네임 입니다.");
+    }
+
+    // 아이디 중복검사, 반환값 없음
+    public void usernameCheck(String username) {
+        if (userRepository.existsByUsername(username))
+            throw new DuplicateKeyException("이미 존재하는 이메일 입니다");
+    }
+
+    // 닉네임 중복검사, 반환값 없음
+    public void nicknameCheck(String nickname) {
+        if (userRepository.existsByNickname(nickname))
             throw new DuplicateKeyException("이미 존재하는 닉네임 입니다.");
     }
 }
