@@ -4,22 +4,22 @@ import com.team11.backend.model.CurrentState;
 import com.team11.backend.model.Image;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class CategoryDto {
+
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class RequestDto {
-        private String categoryName;
-       /* private String regionSi;*/
-        private String regionGu;
-
+        private List<String> categoryName;
+        private String address;
     }
 
     @Getter
-    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ResponseDto {
@@ -35,6 +35,8 @@ public class CategoryDto {
         private String createdAt;
 
     }
+
+
 
 
 }
