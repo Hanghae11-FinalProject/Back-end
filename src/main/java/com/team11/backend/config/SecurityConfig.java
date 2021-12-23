@@ -24,6 +24,9 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @RequiredArgsConstructor
 @Configuration
@@ -67,14 +70,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public void configure(HttpSecurity http) throws Exception {
 
+        http
+                .cors()
+                .configurationSource(corsConfigurationSource());
         http.
                 headers()
                 .frameOptions()
                 .sameOrigin();
         http.
-                cors()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//세션정책을 설정한다는것은 인증 처리 관점에서 스프링 시큐리티가 더 이상 세션쿠키 방식의 인증 메카니즘으로 인증처리를 하지 않겠다는 의미
+                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//세션정책을 설정한다는것은 인증 처리 관점에서 스프링 시큐리티가 더 이상 세션쿠키 방식의 인증 메카니즘으로 인증처리를 하지 않겠다는 의미
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
@@ -140,6 +144,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public Http401ErrorEntryPoint http401ErrorEntryPoint() {
         return new Http401ErrorEntryPoint();
+    }
+    // Cors설정
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        //configuration.addAllowedOrigin("http://localhost:3000"); // local 테스트 시
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("Authorization");
+        configuration.addAllowedOriginPattern("*"); // 배포 전 모두 허용
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
