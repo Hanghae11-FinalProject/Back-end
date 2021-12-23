@@ -59,7 +59,7 @@ public class CategoryService {
         Post category6 = postRepository.findByCategory("의류");
         Post category7 = postRepository.findByCategory("기타");
 
-        Page<Post> categoryList = postRepository.findAllByCategoryAndAddress(category1, category2, category3, category4, category5, category6, category7,
+        List<Post> categoryList = postRepository.findAllByCategoryAndAddress(category1, category2, category3, category4, category5, category6, category7,
                 isSeongbuk_gu,isJung_gu);
 
         return (categoryList);

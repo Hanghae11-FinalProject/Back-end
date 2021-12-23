@@ -20,9 +20,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllPostBySameAddress(@Param("address") String address);
 
 
-    Post<post> findByCategory(String category);
+    Post findByCategory(String category);
 
-    Page<Post> findAllByCategoryAndAddress(@Param("category1") Post category1, @Param("category2")Post category2,
+    List<Post> findAllByCategoryAndAddress(@Param("category1") Post category1, @Param("category2")Post category2,
                                            @Param("category3")Post category3, @Param("category4")Post category4,
                                            @Param("category5")Post category5, @Param("category6")Post category6,
                                            @Param("category7")Post category7,
