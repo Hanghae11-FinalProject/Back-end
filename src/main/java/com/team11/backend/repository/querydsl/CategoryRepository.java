@@ -1,13 +1,9 @@
 package com.team11.backend.repository.querydsl;
 
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.model.Post;
 import org.springframework.data.domain.PageImpl;
