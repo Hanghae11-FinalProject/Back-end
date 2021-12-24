@@ -10,16 +10,13 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.model.Post;
-import com.team11.backend.model.QPost;
-import com.team11.backend.model.QUser;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
+
 
 
 import static com.team11.backend.model.QPost.post;
@@ -61,7 +58,7 @@ public class CategoryRepository {
     }
 
     private BooleanExpression CategoryEq(List<String> categoryName) {
-        return categoryName != null ? Expressions.allOf(categoryName.stream().map(this::isFilterCategory).toArray(BooleanExpression[]::new)) : null;
+        return categoryName != null ? Expressions.anyOf(categoryName.stream().map(this::isFilterCategory).toArray(BooleanExpression[]::new)) : null; //anyOf = ~~중 하나
     }
 
     private BooleanExpression isFilterCategory(String kinds) {
@@ -69,7 +66,7 @@ public class CategoryRepository {
     }
 
     private BooleanExpression CategoryCityFilter(List<String> address){
-        return address != null ? Expressions.allOf(address.stream().map(this::isFilterAddress).toArray(BooleanExpression[]::new)) : null;
+        return address != null ? Expressions.allOf(address.stream().map(this::isFilterAddress).toArray(BooleanExpression[]::new)) : null; //allOf = 모든조건
     }
 
     private BooleanExpression isFilterAddress(String address){
