@@ -6,7 +6,6 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team11.backend.dto.SearchDto;
 import com.team11.backend.model.Post;
-import com.team11.backend.model.QTimestamped;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -42,7 +41,7 @@ public class SearchRepository {
                         SearchKeywordFilter(searchRequestDto.getKeyword())
 //                        .and(tag.in(post.tags))
                 )
-//                .orderBy(post.currentState.asc(), QTimestamped.timestamped.createAt.desc()) // 최신순 정렬
+                .orderBy(post.currentState.asc(), post.createAt.desc()) // 최신순 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();

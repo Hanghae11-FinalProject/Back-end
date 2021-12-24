@@ -30,7 +30,6 @@ public class CategoryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-
     public PageImpl<Post> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 
         QueryResults<Post> postQueryResults = queryFactory
@@ -47,7 +46,6 @@ public class CategoryRepository {
 
         List<Post> content = postQueryResults.getResults();
         long total = postQueryResults.getTotal();
-
 
         return new PageImpl<>(content, pageable, total);
 
