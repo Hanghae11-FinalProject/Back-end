@@ -33,7 +33,7 @@ public class SearchRepository {
     public PageImpl<Post> keywordFilter(SearchDto.RequestDto searchRequestDto, Pageable pageable) {
 
         QueryResults<Post> postQueryResults = queryFactory
-                .select(post)
+                .select(post).distinct()
                 .from(post)
                 .leftJoin(post.tags, tag)
 
