@@ -20,6 +20,10 @@ repositories {
 }
 
 dependencies {
+    //security test
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    //queryDsl
     implementation 'com.querydsl:querydsl-jpa'
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.5.2'
     //jwt
@@ -32,11 +36,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    annotationProcessor("org.projectlombok:lombok")
+    compile('org.projectlombok:lombok')
     //aws
     implementation('org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE')
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
@@ -44,7 +47,14 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
+    // 테스트 코드를 위한 Lombok 라이브러리
+    testCompileOnly 'org.projectlombok:lombok:1.18.12'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
+
+
 
 test {
     useJUnitPlatform()

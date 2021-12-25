@@ -4,17 +4,16 @@ import com.team11.backend.config.ApplicationProperties;
 import com.team11.backend.exception.authexception.JwtTokenException;
 import com.team11.backend.security.oauth2.service.CustomUserDetails;
 import io.jsonwebtoken.*;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
-import java.util.stream.Collectors;
 
 @Service
+@NoArgsConstructor
 @Slf4j
 public class JwtUtil {
 
@@ -35,10 +34,6 @@ public class JwtUtil {
 
 
     public String createToken(Authentication authentication) {
-        return createToken(authentication, false);
-    }
-
-    public String createToken(Authentication authentication, Boolean rememberMe) {
 
         long now = (new Date()).getTime();
         Date validity;
