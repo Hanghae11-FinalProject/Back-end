@@ -1,19 +1,14 @@
 package com.team11.backend.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team11.backend.dto.MyPageDto;
 import com.team11.backend.dto.SignupDto;
-
 import com.team11.backend.repository.UserRepository;
 import com.team11.backend.service.UserService;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.context.WebApplicationContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.ArrayList;
@@ -23,6 +18,8 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @EnableAutoConfiguration
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserTest {
 
     @Autowired
@@ -34,6 +31,14 @@ class UserTest {
     @Autowired
     private Validator validator;
 
+    //given
+    private SignupDto.RequestDto requestDto = SignupDto.RequestDto.builder()
+            .nickname("woojin126@naver.com")
+            .username("woojin")
+            .password("47429468bB")
+            .build();
+
+    private User user;
 
     @DisplayName("회원")
     @Nested
@@ -41,25 +46,33 @@ class UserTest {
         @DisplayName("회원 가입 성공케이스")
         @Nested
         class Success {
+
+
             @DisplayName("1.회원가입")
+            @Order(1)
             @Test
             void test_1() throws Exception {
-               String username = "woojin126@naver.com";
-               String nickname = "woojin";
-               String password = "47429468bB";
-                //given
-                SignupDto.RequestDto requestDto = SignupDto.RequestDto.builder()
-                        .nickname(nickname)
-                        .username(username)
-                        .password(password)
-                        .build();
                 //when
                 Long userId = userService.signUp(requestDto);
-                User user = userRepository.findById(userId).get();
+                user = userRepository.findById(userId).get();
                 //then
                 assertEquals(user.getId(), userId);
             }
+
+            @DisplayName("마이 페이지")
+            @Order(2)
+            @Test
+            void test_3(){
+
+                MyPageDto.ResponseDto myPage = userService.findMyPage(user);
+
+                assertEquals(user.getNickname(), myPage.getNickname());
+                assertEquals(user.getProfileImg(), myPage.getProfileImg());
+            }
         }
+
+
+
         
         @DisplayName("회원가입 실패 케이스")
         @Nested
