@@ -59,6 +59,7 @@ class UserTest {
                 assertEquals(user.getId(), userId);
             }
 
+
             @DisplayName("마이 페이지")
             @Order(2)
             @Test
@@ -69,6 +70,25 @@ class UserTest {
                 assertEquals(user.getNickname(), myPage.getNickname());
                 assertEquals(user.getProfileImg(), myPage.getProfileImg());
             }
+
+
+            @DisplayName("마이 페이지에서 회원정보 수정")
+            @Order(3)
+            @Test
+            void test_4(){
+                MyPageDto.RequestDto modifiedUserInfo = MyPageDto.RequestDto.builder()
+                        .nickname("변경된닉네임")
+                        .profileImg("변경된이미지")
+                        .build();
+                Long users = userService.MyPageModify(user, modifiedUserInfo);
+
+                User user = userRepository.findById(users).get();
+
+                assertEquals("변경된닉네임", user.getNickname());
+                assertEquals("변경된이미지", user.getProfileImg());
+
+            }
+
         }
 
 
