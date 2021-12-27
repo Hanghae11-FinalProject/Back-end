@@ -77,7 +77,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .nickname("no")
                 .profileImg("no")
                 .username(oAuth2UserInfo.getEmail())
-                .providerId(oAuth2UserInfo.getId())
                 .build();
 
 
