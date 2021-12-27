@@ -43,6 +43,18 @@ public class UserService {
             throw new DuplicateKeyException("이미 존재하는 닉네임 입니다.");
     }
 
+    // 아이디 중복검사, 반환값 없음
+    public void usernameCheck(String username) {
+        if (userRepository.existsByUsername(username))
+            throw new DuplicateKeyException("이미 존재하는 이메일 입니다");
+    }
+
+    // 닉네임 중복검사, 반환값 없음
+    public void nicknameCheck(String nickname) {
+        if (userRepository.existsByNickname(nickname))
+            throw new DuplicateKeyException("이미 존재하는 닉네임 입니다.");
+    }
+
     public MyPageDto.ResponseDto findMyPage(User user) {
         return MyPageDto.ResponseDto.builder()
                 .nickname(user.getNickname())

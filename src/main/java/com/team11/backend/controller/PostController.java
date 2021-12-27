@@ -39,4 +39,12 @@ public class PostController {
         User user = userDetails.getUser();
         return postService.showMyPostService(user);
     }
+
+    @DeleteMapping("/api/posts/{postId}")
+    public void boardDelete(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long postId
+    ) {
+        postService.deletePost(userDetails.getUser(), postId);
+    }
 }
