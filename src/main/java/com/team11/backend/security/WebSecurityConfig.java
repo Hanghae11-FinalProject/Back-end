@@ -1,6 +1,5 @@
 package com.team11.backend.security;
 
-
 import com.team11.backend.security.filter.FormLoginFilter;
 import com.team11.backend.security.filter.JwtAuthFilter;
 import com.team11.backend.security.jwt.HeaderTokenExtractor;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 @EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -39,6 +37,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
     }
+
+
+    public WebSecurityConfig(
+            JWTAuthProvider jwtAuthProvider,
+            HeaderTokenExtractor headerTokenExtractor
+    ) {
+        this.jwtAuthProvider = jwtAuthProvider;
+        this.headerTokenExtractor = headerTokenExtractor;
+    }
+    //JWT부분 종료
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) {
@@ -83,8 +91,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "**/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**").permitAll()
-                .anyRequest()
-                .permitAll()
+                .antMatchers("/oauth/callback/kakao").permitAll()
+                .anyRequest().permitAll()
                 .and()
                 // [로그아웃 기능]
                 .logout()
@@ -93,6 +101,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .exceptionHandling();
+                //.and()
+                //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean
@@ -117,15 +128,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();
 
+        skipPathList.add("GET,/oauth2/callback/kakao");
         skipPathList.add("GET,/api/search/rank");
 
         // h2-console 허용
         skipPathList.add("GET,/h2-console/**");
         skipPathList.add("POST,/h2-console/**");
 
+        // board detail
+        skipPathList.add("GET,/api/posts/**");
+
         // 회원 관리 API 허용
         skipPathList.add("GET,/user/**");
         skipPathList.add("POST,/user/signup");
+
+        // search api
+        skipPathList.add("POST,/api/search");
 
         // Image View 허용
         skipPathList.add("GET,/images/**");
