@@ -1,10 +1,9 @@
 package com.team11.backend.controller;
 
-import com.team11.backend.component.FileUploadService;
 import com.team11.backend.dto.MyPostDto;
 import com.team11.backend.dto.PostDto;
 import com.team11.backend.model.User;
-import com.team11.backend.security.oauth2.service.CustomUserDetails;
+import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,7 +23,7 @@ public class PostController {
     public void createPost(
             @RequestParam(name = "image",required = false) List<MultipartFile> images,
             @RequestParam(name = "data") String jsonString,
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) throws IOException {
         postService.createPostService(images,jsonString,userDetails);
     }
@@ -42,14 +41,14 @@ public class PostController {
 
     @DeleteMapping("/api/posts/{postId}")
     public void boardDelete(
-            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable Long postId
     ) {
         postService.deletePost(userDetails.getUser(), postId);
     }
 
     @GetMapping("/api/myposts")
-    public List<MyPostDto.ResponseDto> showMyPost(@AuthenticationPrincipal CustomUserDetails userDetails){
+    public List<MyPostDto.ResponseDto> showMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
         return postService.showMyPostService(user);
     }

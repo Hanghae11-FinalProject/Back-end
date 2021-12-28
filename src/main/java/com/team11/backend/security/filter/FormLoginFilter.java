@@ -25,19 +25,19 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         UsernamePasswordAuthenticationToken authRequest;
         try {
-            // ** 1. 클라이언트 JSON -> 자바 객체 형태로 변경 **
             JsonNode requestBody = objectMapper.readTree(request.getInputStream());
             String username = requestBody.get("username").asText();
             String password = requestBody.get("password").asText();
-
-            // ** 2. username, password 요청 변수 생성 **
-            authRequest = new UsernamePasswordAuthenticationToken(username, password);
+            authRequest = new UsernamePasswordAuthenticationToken(username, password); // 인증 객체 생성
         } catch (Exception e) {
             throw new RuntimeException("username, password 입력이 필요합니다. (JSON)");
         }
 
-        // ** 3. 인증 요청 **
         setDetails(request, authRequest);
+        /* AuthenticationManager에 처리 위임
+         * AuthenticationManager는 AuthenticationProvider로 인증 객체 인증 후 인증된 객체반환
+         * 인증 성공하면, Authentication 객체를 SecurityContext에 저장 후 AuthenticationSuccessHandler 실행
+         */
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 }
