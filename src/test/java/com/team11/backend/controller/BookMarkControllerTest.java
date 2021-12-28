@@ -119,7 +119,7 @@ class BookMarkControllerTest {
             @Order(2)
             @DisplayName("유저가 가지고있는 즐겨찾기 목록 조회")
             void test2(){
-                List<BookMarkDto> myBookMark = bookMarkService.findMyBookMark(user);
+                List<BookMarkDto.ResponseDto> myBookMark = bookMarkService.findMyBookMark(user);
 
                 assertEquals(1 , myBookMark.size());
                 assertEquals(post2.getTitle(), myBookMark.get(0).getTitle());
