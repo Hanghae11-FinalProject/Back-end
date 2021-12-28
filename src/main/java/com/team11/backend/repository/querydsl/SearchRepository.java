@@ -30,6 +30,7 @@ public class SearchRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+
     public PageImpl<Post> keywordFilter(SearchDto.RequestDto searchRequestDto, Pageable pageable) {
 
         QueryResults<Post> postQueryResults = queryFactory
