@@ -1,6 +1,6 @@
 package com.team11.backend.controller;
 
-import com.team11.backend.dto.BookMarkDto;
+import com.team11.backend.dto.BookMarkDto.ResponseDto;
 import com.team11.backend.model.CurrentState;
 import com.team11.backend.model.Post;
 import com.team11.backend.model.User;
@@ -115,16 +115,16 @@ class BookMarkControllerTest {
 
             }
 
-//            @Test
-//            @Order(2)
-//            @DisplayName("유저가 가지고있는 즐겨찾기 목록 조회")
-//            void test2(){
-//                List<BookMarkDto> myBookMark = bookMarkService.findMyBookMark(user);
-//
-//                assertEquals(1 , myBookMark.size());
-//                assertEquals(post2.getTitle(), myBookMark.get(0).getTitle());
-//                assertEquals(post2.getId(), myBookMark.get(0).getPostId());
-//            }
+            @Test
+            @Order(2)
+            @DisplayName("유저가 가지고있는 즐겨찾기 목록 조회")
+            void test2(){
+                List<ResponseDto> myBookMark = bookMarkService.findMyBookMark(user);
+
+                assertEquals(1 , myBookMark.size());
+                assertEquals(post2.getTitle(), myBookMark.get(0).getTitle());
+                assertEquals(post2.getId(), myBookMark.get(0).getPostId());
+            }
 
 
             @Test
