@@ -26,10 +26,12 @@ public class BookMarkService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("해당 게시글이 존재하지 않습니다."));
         impossibleMyPostBookMark(user,post);
         if (!isNotAlreadyBookMark(user,post)) {
-            bookMarkRepository.save(BookMark.builder()
+            BookMark bookMark = BookMark.builder()
                     .user(user)
                     .post(post)
-                    .build());
+                    .build();
+            post.updateBookMark(bookMark);
+            bookMarkRepository.save(bookMark);
             return true;
         }
         return false;
@@ -44,11 +46,11 @@ public class BookMarkService {
         return bookMark.getId();
     }
 
-    public List<BookMarkDto> findMyBookMark(User user) {
+    public List<BookMarkDto.ResponseDto> findMyBookMark(User user) {
         if (user == null) throw new NullPointerException("로그인이 필요합니다");
         List<BookMark> bookMarkList =
                 bookMarkRepository.findByUserUsername(user.getUsername());
-        return bookMarkList.stream().map(s -> new BookMarkDto(s.getPost().getId(), s.getPost().getTitle(), s.getPost().getCurrentState().name())).collect(Collectors.toList());
+        return bookMarkList.stream().map(s -> new BookMarkDto.ResponseDto(s.getPost().getId(), s.getPost().getTitle(), s.getPost().getCurrentState().name())).collect(Collectors.toList());
     }
 
     private void impossibleMyPostBookMark(User user, Post post) {

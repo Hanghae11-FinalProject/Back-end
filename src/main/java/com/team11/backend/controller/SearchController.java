@@ -20,7 +20,7 @@ public class SearchController {
     private final SearchService searchService;
 
     @PostMapping("/api/search")
-    public SearchController.Result<?> searchList(@RequestBody SearchDto.RequestDto searchRequestDto, @PageableDefault(size = 10, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable) {
+    public SearchController.Result<?> searchList(@RequestBody SearchDto.RequestDto searchRequestDto, @PageableDefault(size = 6, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return new SearchController.Result<>(searchService.keywordSearch(searchRequestDto, pageable));
     }
 
