@@ -18,6 +18,8 @@ public class PostDto {
         private String title;
         private String content;
         private String category;
+        private String myItem;
+        private String exchangeItem;
         private CurrentState currentState;
         private List<TagDto.RequestDto> tagRequsetDtos;
 
@@ -27,6 +29,8 @@ public class PostDto {
                 @JsonProperty("content") String content,
                 @JsonProperty("category") String category,
                 @JsonProperty("currentState") String currentState,
+                @JsonProperty("myItem") String myItem,
+                @JsonProperty("exchangeItem") String exchangeItem,
                 @JsonProperty("tag") List<TagDto.RequestDto> tagReqeustDtos
         ){
             this.title = title;
@@ -34,6 +38,8 @@ public class PostDto {
             this.category = category;
             this.currentState = CurrentState.valueOf(currentState);
             this.tagRequsetDtos = tagReqeustDtos;
+            this.myItem = myItem;
+            this.exchangeItem =exchangeItem;
         }
     }
   
@@ -48,6 +54,8 @@ public class PostDto {
         private String title;
         private String content;
         private String address;
+        private String myItem;
+        private String exchangeItem;
         private List<Tag> tags;
         private List<Image> images;
         private CurrentState currentState;
@@ -66,6 +74,8 @@ public class PostDto {
         private String title;
         private String content;
         private String address;
+        private String myItem;
+        private String exchangeItem;
         private List<Tag> tags;
         private List<Image> images;
         private CurrentState currentState;

@@ -45,6 +45,8 @@ public class HomeService {
                     .address(post.getUser().getAddress())
                     .tags(post.getTags())
                     .images(post.getImages())
+                    .myItem(post.getMyItem())
+                    .exchangeItem(post.getExchangeItem())
                     .currentState(post.getCurrentState())
                     .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
                     .build();
