@@ -36,8 +36,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String providerId;
-
     @Column(name = "PROVIDER", length = 20)
     @Enumerated(EnumType.STRING)
     @NotNull

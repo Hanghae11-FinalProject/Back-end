@@ -69,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     public void configure(HttpSecurity http) throws Exception {
-
         http
                 .cors()
                 .configurationSource(corsConfigurationSource());
@@ -91,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/",
+                        "/h2",
                         "/h2-console/**",
                         "/user/signup",
                         "/user/login",
@@ -105,6 +105,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js")
                 .permitAll()
                 .antMatchers(HttpMethod.POST,"/api/category").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/search").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/user/idCheck").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/nicknameCheck").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

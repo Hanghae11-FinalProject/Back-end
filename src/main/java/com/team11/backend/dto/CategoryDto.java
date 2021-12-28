@@ -12,6 +12,7 @@ public class CategoryDto {
 
 
     @Data
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class RequestDto {
@@ -19,7 +20,8 @@ public class CategoryDto {
         private List<String> address;
     }
 
-    @Getter
+    @Data
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ResponseDto {
