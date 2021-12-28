@@ -1,17 +1,24 @@
 package com.team11.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class BookMarkDto {
-    private Long postId;
-    private String title;
-    private String currentState;
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ResponseDto {
+        private Long postId;
+        private String title;
+        private String currentState;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DetailResponseDto {
+        private Long userId;
+    }
 }

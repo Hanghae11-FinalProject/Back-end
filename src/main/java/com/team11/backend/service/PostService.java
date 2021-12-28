@@ -1,25 +1,18 @@
 package com.team11.backend.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team11.backend.component.AwsS3UploadService;
 import com.team11.backend.component.FileComponent;
 import com.team11.backend.component.FileUploadService;
-import com.team11.backend.dto.ImageDto;
-import com.team11.backend.dto.MyPostDto;
-import com.team11.backend.dto.TagDto;
-import com.team11.backend.model.Tag;
-import com.team11.backend.model.User;
-import com.team11.backend.dto.PostDto;
-import com.team11.backend.model.Image;
-import com.team11.backend.model.Post;
-
+import com.team11.backend.dto.*;
+import com.team11.backend.model.*;
 import com.team11.backend.repository.ImageRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.TagRepository;
 import com.team11.backend.security.oauth2.service.CustomUserDetails;
+import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +20,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +65,42 @@ public class PostService {
 
         //Post저장
         postRepository.save(post);
+    }
+
+    // 상세페이지
+    @Transactional
+    public PostDto.DetailResponseDto getDetail(Long postId) {
+
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
+
+        List<BookMarkDto.DetailResponseDto> bookMarkResponseDtoList = post.getBookMarks().stream()
+                .map(e -> toBookmarkResponseDto(e))
+                .collect(Collectors.toList());
+
+        PostDto.DetailResponseDto postResponseDto = PostDto.DetailResponseDto.builder()
+                .postId(postId)
+                .nickname(post.getUser().getNickname())
+                .profileImg(post.getUser().getProfileImg())
+                .bookMarks(bookMarkResponseDtoList)
+                .title(post.getTitle())
+                .content(post.getContent())
+                .address(post.getUser().getAddress())
+                .tags(post.getTags())
+                .images(post.getImages())
+                .currentState(post.getCurrentState())
+                .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
+                .build();
+
+        return postResponseDto;
+    }
+
+    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
+
+        System.out.println(bookMark.getUser().getUsername());
+        return BookMarkDto.DetailResponseDto.builder()
+                .userId(bookMark.getUser().getId())
+                .build();
     }
 
     //수정
