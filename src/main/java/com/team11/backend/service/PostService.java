@@ -10,7 +10,7 @@ import com.team11.backend.model.*;
 import com.team11.backend.repository.ImageRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.TagRepository;
-import com.team11.backend.security.oauth2.service.CustomUserDetails;
+import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class PostService {
     private final TagRepository tagRepository;
 
     @Transactional
-    public void createPostService(List<MultipartFile> images, String jsonString, CustomUserDetails userDetails) throws IOException {
+    public void createPostService(List<MultipartFile> images, String jsonString, UserDetailsImpl userDetails) throws IOException {
         List<Tag> tagList = new ArrayList<>();
         List<Image> imageList = new ArrayList<>();
         //파일 업로드를 성공하고 이미지 리스트를 반환하는 함수.

@@ -1,6 +1,6 @@
 package com.team11.backend.controller;
 
-import com.team11.backend.security.oauth2.service.CustomUserDetails;
+import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.service.BookMarkService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class BookMarkController {
     private final BookMarkService bookMarkService;
 
     @PostMapping("/api/bookmark/{postId}")
-    public ResponseEntity<?> addBookMark(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    public ResponseEntity<?> addBookMark(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
                                          @PathVariable Long postId
     ) {
         log.info("BookMarkAddPostUser={}", customUserDetails.getUser().getNickname());
@@ -33,7 +33,7 @@ public class BookMarkController {
     }
 
     @DeleteMapping("/api/bookmark/{postId}")
-    public Long cancelBookMark(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    public Long cancelBookMark(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
                                @PathVariable Long postId
     ) {
         log.info("BookMarkCancelUser={}", customUserDetails.getUser().getNickname());
@@ -41,7 +41,7 @@ public class BookMarkController {
     }
 
     @GetMapping("/api/bookmark")
-    public Result<?> lookupBookMark(@AuthenticationPrincipal CustomUserDetails customUserDetails
+    public Result<?> lookupBookMark(@AuthenticationPrincipal UserDetailsImpl customUserDetails
     ) {
         log.info("MyBookMarkAllLookUp={}",customUserDetails.getUser().getNickname());
         return new Result<>(bookMarkService.findMyBookMark(customUserDetails.getUser()));

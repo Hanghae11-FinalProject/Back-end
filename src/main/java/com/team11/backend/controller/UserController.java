@@ -1,7 +1,7 @@
 package com.team11.backend.controller;
 import com.team11.backend.dto.MyPageDto;
 import com.team11.backend.dto.SignupDto;
-import com.team11.backend.security.oauth2.service.CustomUserDetails;
+import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,12 +32,12 @@ public class UserController {
     }
 
     @GetMapping("/api/userInfos")
-    public MyPageDto.ResponseDto MyPage(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+    public MyPageDto.ResponseDto MyPage(@AuthenticationPrincipal UserDetailsImpl customUserDetails){
         return userService.findMyPage(customUserDetails.getUser());
     }
 
     @PutMapping("/api/userInfos")
-    public Long MyPageModify(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    public Long MyPageModify(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
                              @RequestBody MyPageDto.RequestDto requestDto)
     {
         return userService.MyPageModify(customUserDetails.getUser(),requestDto);
