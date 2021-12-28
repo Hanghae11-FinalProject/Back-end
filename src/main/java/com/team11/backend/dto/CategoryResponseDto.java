@@ -19,6 +19,8 @@ public class CategoryResponseDto {
     private String title;
     private String content;
     private String address;
+    private String myItem;
+    private String exchangeItem;
     private List<Image> images;
     private CurrentState currentState;
     private String createdAt;

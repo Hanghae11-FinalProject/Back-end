@@ -27,6 +27,12 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private String myItem;
+
+    @Column(nullable = false)
+    private String exchangeItem;
+
     @Enumerated(EnumType.STRING)
     private CurrentState currentState;
 
@@ -57,6 +63,8 @@ public class Post extends Timestamped{
         this.currentState = requestDto.getCurrentState();
         this.images = images;
         this.tags = tags;
+        this.myItem = requestDto.getMyItem();
+        this.exchangeItem = requestDto.getExchangeItem();
         this.category = requestDto.getCategory();
     }
 

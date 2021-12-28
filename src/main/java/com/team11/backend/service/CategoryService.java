@@ -23,7 +23,7 @@ public class CategoryService {
     public List<CategoryResponseDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 
         PageImpl<Post> posts = categoryRepository.categoryFilter(categoryRequestDto, pageable);
-        return posts.stream().map(s -> new CategoryResponseDto(s.getCategory(), s.getId(), s.getUser().getUsername(), s.getUser().getNickname(), s.getTitle(), s.getContent(), s.getUser().getAddress(), s.getImages(), s.getCurrentState(), s.getCreateAt().toString()))
+        return posts.stream().map(s -> new CategoryResponseDto(s.getCategory(), s.getId(), s.getUser().getUsername(), s.getUser().getNickname(), s.getTitle(), s.getContent(), s.getUser().getAddress(), s.getMyItem(), s.getExchangeItem(),s.getImages(), s.getCurrentState(), s.getCreateAt().toString()))
                 .collect(Collectors.toList());
 
     }
