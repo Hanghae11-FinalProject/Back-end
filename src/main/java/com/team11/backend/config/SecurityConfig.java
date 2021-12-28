@@ -69,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     public void configure(HttpSecurity http) throws Exception {
-
         http
                 .cors()
                 .configurationSource(corsConfigurationSource());
@@ -91,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/",
+                        "/h2",
                         "/h2-console/**",
                         "/user/signup",
                         "/user/login",
