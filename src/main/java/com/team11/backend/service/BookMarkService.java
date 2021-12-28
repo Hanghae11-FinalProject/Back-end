@@ -28,9 +28,8 @@ public class BookMarkService {
         if (!isNotAlreadyBookMark(user,post)) {
             BookMark bookMark = BookMark.builder()
                     .user(user)
-                    .post(post)
                     .build();
-            post.updateBookMark(bookMark);
+            bookMark.setPostBookMark(post);
             bookMarkRepository.save(bookMark);
             return true;
         }
