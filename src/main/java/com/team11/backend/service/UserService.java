@@ -26,12 +26,13 @@ public class UserService {
         DuplicateUsernameAndNickname(requestDto);
         User user = userRepository.save(
                 User.builder()
-                .username(requestDto.getUsername())
-                .nickname(requestDto.getNickname())
-                .password(encodePassword.encode(requestDto.getPassword()))
-                .address(requestDto.getAddress())
-                .provider(AuthProvider.pingpong)
-                .build());
+                        .username(requestDto.getUsername())
+                        .nickname(requestDto.getNickname())
+                        .password(encodePassword.encode(requestDto.getPassword()))
+                        .address(requestDto.getAddress())
+                        .profileImg("http://www.city.kr/files/attach/images/161/701/416/022/a2c34aa75756074e20552ccbac6894e8.jpg")
+                        .provider(AuthProvider.pingpong)
+                        .build());
         return user.getId();
     }
 
