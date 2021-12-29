@@ -16,10 +16,6 @@ public class Search {
     @Id
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
-
     private String keyword;
 
 }
