@@ -48,5 +48,7 @@ public class SignupDto {
     @NoArgsConstructor
     public static class ResponseDto{
         private Long userId;
+        private String profileImg;
+        private String nickName;
     }
 }
