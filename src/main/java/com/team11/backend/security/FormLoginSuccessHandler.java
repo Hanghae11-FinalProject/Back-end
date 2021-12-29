@@ -30,9 +30,12 @@ public class FormLoginSuccessHandler extends SavedRequestAwareAuthenticationSucc
         response.setContentType("application/json");
         SignupDto.ResponseDto userId = SignupDto.ResponseDto.builder()
                 .userId(userDetails.getUser().getId())
+                .profileImg(userDetails.getUser().getProfileImg())
+                .nickName(userDetails.getUser().getNickname())
                 .build();
 
         String result = mapper.writeValueAsString(userId);
+        response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(result);
     }
 }

@@ -22,7 +22,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/api/category")
-    public Result<?> categoryList(@RequestBody CategoryDto.RequestDto categoryRequestDto, @PageableDefault(size = 6, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Result<?> categoryList(@RequestBody CategoryDto.RequestDto categoryRequestDto, @PageableDefault(page = 0,size = 6, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return new Result<>(categoryService.categoryFilter(categoryRequestDto, pageable));
     }
 
