@@ -1,7 +1,6 @@
 package com.team11.backend.controller;
 
 import com.team11.backend.dto.CategoryDto;
-import com.team11.backend.dto.CategoryResponseDto;
 import com.team11.backend.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
