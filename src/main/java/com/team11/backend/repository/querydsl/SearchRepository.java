@@ -58,6 +58,10 @@ public class SearchRepository {
     }
 
     private BooleanExpression isFilterSearch(String keyword) {
-        return post.title.containsIgnoreCase(keyword).or(post.content.containsIgnoreCase(keyword)).or(tag.tagName.contains(keyword));
+        return post.title.containsIgnoreCase(keyword)
+                .or(post.content.containsIgnoreCase(keyword))
+                .or(tag.tagName.contains(keyword))
+                .or(post.myItem.containsIgnoreCase(keyword))
+                .or(post.exchangeItem.containsIgnoreCase(keyword));
     }
 }
