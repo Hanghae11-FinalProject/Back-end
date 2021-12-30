@@ -85,8 +85,6 @@ class BookMarkServiceTest {
                 .exchangeItem("난이거")
                 .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
-                .exchangeItem("exchangeItem")
-                .myItem("myItem")
                 .bookMarks(new ArrayList<BookMark>(Arrays.asList(new BookMark[3])))
                 .build();
 
@@ -101,8 +99,6 @@ class BookMarkServiceTest {
                 .exchangeItem("난이거")
                 .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
-                .exchangeItem("exchangeItem")
-                .myItem("myItem")
                 .bookMarks(new ArrayList<BookMark>(Arrays.asList(new BookMark[3])))
                 .build();
 

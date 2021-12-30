@@ -79,8 +79,6 @@ class CategoryServiceTest {
                 .exchangeItem("난이거")
                 .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
-                .exchangeItem("exchangeItem")
-                .myItem("myItem")
                 .build();
 
         postRepository.save(post);
@@ -93,8 +91,6 @@ class CategoryServiceTest {
                 .exchangeItem("난이거")
                 .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
-                .exchangeItem("exchangeItem")
-                .myItem("myItem")
                 .build();
 
         postRepository.save(post1);
@@ -108,8 +104,6 @@ class CategoryServiceTest {
                 .exchangeItem("난이거")
                 .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
-                .exchangeItem("exchangeItem")
-                .myItem("myItem")
                 .build();
 
         postRepository.save(post2);
