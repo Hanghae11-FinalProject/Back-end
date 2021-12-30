@@ -40,7 +40,7 @@ public class User {
     @NotNull
     private AuthProvider provider;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<BookMark> bookMarks = new HashSet<>();
 
 

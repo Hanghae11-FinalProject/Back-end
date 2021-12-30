@@ -1,7 +1,6 @@
 package com.team11.backend.controller;
 
 import com.team11.backend.dto.CategoryDto;
-import com.team11.backend.dto.CategoryResponseDto;
 import com.team11.backend.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +21,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/api/category")
-    public Result<?> categoryList(@RequestBody CategoryDto.RequestDto categoryRequestDto, @PageableDefault(page = 0,size = 6, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Result<?> categoryList(@RequestBody CategoryDto.RequestDto categoryRequestDto, @PageableDefault(size = 6, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return new Result<>(categoryService.categoryFilter(categoryRequestDto, pageable));
     }
 

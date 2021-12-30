@@ -1,7 +1,6 @@
 package com.team11.backend.controller;
 
 import com.team11.backend.dto.CategoryDto;
-import com.team11.backend.dto.CategoryResponseDto;
 import com.team11.backend.model.CurrentState;
 import com.team11.backend.model.Post;
 import com.team11.backend.model.User;
@@ -126,15 +125,15 @@ class CategoryControllerTest {
 
                 //when
                 PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
-                List<CategoryResponseDto> categoryResponseDtos = categoryService.categoryFilter(categoryFilter, pageRequest);
-                CategoryResponseDto categoryResponseDto = categoryResponseDtos.get(0);
+                List<CategoryDto.ResponseDto> categoryResponseDtos = categoryService.categoryFilter(categoryFilter, pageRequest);
+                CategoryDto.ResponseDto responseDto = categoryResponseDtos.get(0);
 
                 //then
                 Assertions.assertEquals(1, categoryResponseDtos.size());
-                Assertions.assertEquals(user.getAddress(), categoryResponseDto.getAddress());
-                Assertions.assertEquals(user.getUsername(), categoryResponseDto.getUsername());
-                Assertions.assertEquals(post.getCategory(), categoryResponseDto.getCategoryName());
-                Assertions.assertEquals(post.getTitle(), categoryResponseDto.getTitle());
+                Assertions.assertEquals(user.getAddress(), responseDto.getAddress());
+                Assertions.assertEquals(user.getUsername(), responseDto.getUsername());
+                Assertions.assertEquals(post.getCategory(), responseDto.getCategoryName());
+                Assertions.assertEquals(post.getTitle(), responseDto.getTitle());
             }
 
             @Test
@@ -158,7 +157,7 @@ class CategoryControllerTest {
 
                 //when
                 Pageable pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
-                List<CategoryResponseDto> categoryResponseDtos = categoryService.categoryFilter(categoryFilter, pageRequest);
+                List<CategoryDto.ResponseDto> categoryResponseDtos = categoryService.categoryFilter(categoryFilter, pageRequest);
 
 
                 //then
@@ -187,7 +186,7 @@ class CategoryControllerTest {
 
                 //when
                 Pageable pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
-                List<CategoryResponseDto> categoryResponseDtos = categoryService.categoryFilter(categoryFilter, pageRequest);
+                List<CategoryDto.ResponseDto> categoryResponseDtos = categoryService.categoryFilter(categoryFilter, pageRequest);
 
 
                 //then

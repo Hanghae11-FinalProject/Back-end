@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -39,14 +37,14 @@ public class Post extends Timestamped{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId",nullable = false)
     private User user;
-    
+
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Image> images;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Tag> tags;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<BookMark> bookMarks;
 
     @Column(nullable = false)
