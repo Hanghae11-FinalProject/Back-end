@@ -35,7 +35,8 @@ public class CategoryRepository {
                 .from(post)
                 .leftJoin(post.user, user)
                 .where(
-                        CategoryEq(categoryRequestDto.getCategoryName()).and(CategoryCityFilter(categoryRequestDto.getAddress()))
+                        CategoryEq(categoryRequestDto.getCategoryName()),
+                        (CategoryCityFilter(categoryRequestDto.getAddress()))
 
                 ).offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
