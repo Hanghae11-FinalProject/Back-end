@@ -34,6 +34,8 @@ public class CategoryDto {
         private String address;
         private List<Image> images;
         private CurrentState currentState;
+        private String myItem;
+        private String exchangeItem;
         private String createdAt;
 
     }
