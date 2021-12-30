@@ -2,7 +2,6 @@ package com.team11.backend.service;
 
 import com.team11.backend.dto.CommentDto;
 import com.team11.backend.model.Comment;
-import com.team11.backend.model.Post;
 import com.team11.backend.model.User;
 import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.PostRepository;
@@ -20,12 +19,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-
-    public List<CommentDto.ResponseDto> readAll(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
-        return convertNestedStructure(commentRepository.findCommentByPost(post));
-    }
-
 
     @Transactional
     public CommentDto.ResponseDto create(CommentDto.RequestDto requestDto, Long userId) {
@@ -48,21 +41,8 @@ public class CommentService {
         return commentId;
     }
 
-    public static CommentDto.ResponseDto convertCommentToDto(Comment comment){ //댓글삭제
-        return new CommentDto.ResponseDto(comment.getId(),comment.getContent(),comment.getUser().getId(), comment.getUser().getNickname());
-    }
-
-
-    private List<CommentDto.ResponseDto> convertNestedStructure(List<Comment> comments) { //계층형 구조 만들기
-        List<CommentDto.ResponseDto> result = new ArrayList<>();
-        Map<Long, CommentDto.ResponseDto> map = new HashMap<>();
-        comments.forEach(c -> {
-            CommentDto.ResponseDto dto = convertCommentToDto(c);
-            map.put(dto.getId(), dto);
-            if(c.getParent() != null) map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록
-            result.add(dto);
-        });
-        return result;
+    public static CommentDto.ResponseDto convertCommentToDto(Comment comment) { //댓글삭제
+        return new CommentDto.ResponseDto(comment.getId(), comment.getContent(), comment.getUser().getId(), comment.getUser().getNickname());
     }
 
 }
