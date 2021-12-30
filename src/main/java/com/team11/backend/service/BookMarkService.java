@@ -28,13 +28,13 @@ public class BookMarkService {
         if (!isNotAlreadyBookMark(user,post)) {
             BookMark bookMark = BookMark.builder()
                     .user(user)
+                    .post(post)
                     .build();
-            bookMark.setPostBookMark(post);
             bookMarkRepository.save(bookMark);
+
             return true;
         }
         return false;
-
     }
 
     @Transactional
@@ -45,6 +45,7 @@ public class BookMarkService {
         return bookMark.getId();
     }
 
+    @Transactional
     public List<BookMarkDto.ResponseDto> findMyBookMark(User user) {
         if (user == null) throw new NullPointerException("로그인이 필요합니다");
         List<BookMark> bookMarkList =
