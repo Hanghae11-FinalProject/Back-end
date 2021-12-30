@@ -27,9 +27,21 @@ public class SearchDto {
         private String title;
         private String content;
         private String address;
+        private String myItem;
+        private String exchangeItem;
         private List<Image> images;
         private CurrentState currentState;
         private String createdAt;
+
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TotalResponseDto {
+        private Long postCnt;
+        private List<SearchDto.ResponseDto> posts;
 
     }
 }
