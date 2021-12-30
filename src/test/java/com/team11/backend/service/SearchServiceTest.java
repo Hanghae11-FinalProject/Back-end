@@ -91,10 +91,15 @@ class SearchServiceTest {
                 .tagName("치즈피자")
                 .build();
         tagRepository.save(cheeze);
+        Tag mandu = Tag.builder()
+                .tagName("만두")
+                .build();
+        tagRepository.save(mandu);
 
         List<Tag> tagList1 = new ArrayList<>();
         tagList1.add(bulgogi);
         tagList1.add(cheeze);
+        tagList1.add(mandu);
 
         post1 = Post.builder()
                 .myItem("아이템")
@@ -124,13 +129,18 @@ class SearchServiceTest {
             @Test
             @DisplayName("태그로 너구리 검색 ")
             void test_1() {
+                //given
                 PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
                 SearchDto.RequestDto searchRequest = SearchDto.RequestDto
                         .builder()
                         .keyword(Collections.singletonList("너구리"))
                         .build();
+
+                //when
                 List<SearchDto.ResponseDto> responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
 
+
+                //then
                 Assertions.assertEquals(1, responseDtos.size());
                 Assertions.assertEquals(post.getTitle(), responseDtos.get(0).getTitle());
                 Assertions.assertEquals(post.getContent(), responseDtos.get(0).getContent());
@@ -138,24 +148,48 @@ class SearchServiceTest {
             }
 
             @Test
-            @DisplayName("피자 검색 : 예상 결과값 2개")
+            @DisplayName("만두 검색 : 예상 결과값 2개")
             void test_2(){
+
+                //given
                 PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
                 SearchDto.RequestDto searchRequest = SearchDto.RequestDto
                         .builder()
                         .keyword(Collections.singletonList("만두"))
                         .build();
-
+                //when
                 List<SearchDto.ResponseDto> responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
 
-                Assertions.assertEquals(2, responseDtos.size());
-                Assertions.assertEquals(post.getTitle(), responseDtos.get(0).getTitle());
-                Assertions.assertEquals(post.getContent(), responseDtos.get(0).getContent());
-                Assertions.assertEquals(post.getCurrentState(), responseDtos.get(0).getCurrentState());
-                Assertions.assertEquals(post1.getTitle(), responseDtos.get(1).getTitle());
-                Assertions.assertEquals(post1.getContent(), responseDtos.get(1).getContent());
-                Assertions.assertEquals(post1.getCurrentState(), responseDtos.get(1).getCurrentState());
+                //then
+                Assertions.assertEquals(post.getTitle(), responseDtos.get(1).getTitle());
+                Assertions.assertEquals(post.getContent(), responseDtos.get(1).getContent());
+                Assertions.assertEquals(post.getCurrentState(), responseDtos.get(1).getCurrentState());
+                Assertions.assertEquals(post1.getTitle(), responseDtos.get(0).getTitle());
+                Assertions.assertEquals(post1.getContent(), responseDtos.get(0).getContent());
+                Assertions.assertEquals(post1.getCurrentState(), responseDtos.get(0).getCurrentState());
             }
+
+            @Test
+            @DisplayName("myItem, exchangeItem 으로 조건 검색")
+            void test_3(){
+
+                //given
+                PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
+                SearchDto.RequestDto searchRequest = SearchDto.RequestDto
+                        .builder()
+                        .keyword(Collections.singletonList("선풍기"))
+                        .build();
+                //when
+                List<SearchDto.ResponseDto> responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
+                for (SearchDto.ResponseDto responseDto : responseDtos) {
+                    System.out.println(responseDto + "값");
+                }
+                //then
+                Assertions.assertEquals(post1.getTitle(), responseDtos.get(9).getTitle());
+                Assertions.assertEquals(post1.getContent(), responseDtos.get(9).getContent());
+                Assertions.assertEquals(post1.getCurrentState(), responseDtos.get(9).getCurrentState());
+            }
+
         }
 
 
