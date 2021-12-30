@@ -58,6 +58,8 @@ public class PostService {
                 .content(requestDto.getContent())
                 .category(requestDto.getCategory())
                 .currentState(requestDto.getCurrentState())
+                .myItem(requestDto.getMyItem())
+                .exchangeItem(requestDto.getExchangeItem())
                 .images(imageList)
                 .user(user)
                 .tags(tagList)
@@ -88,6 +90,8 @@ public class PostService {
                 .address(post.getUser().getAddress())
                 .tags(post.getTags())
                 .images(post.getImages())
+                .myItem(post.getMyItem())
+                .exchangeItem(post.getExchangeItem())
                 .currentState(post.getCurrentState())
                 .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
                 .build();
