@@ -52,8 +52,8 @@ dependencies {
     // 테스트 코드를 위한 Lombok 라이브러리
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+    testimplementation 'org.springframework.boot:spring-boot-starter-test'
+    testimplementation 'io.findify:s3mock_2.13:0.2.6'
 }
 
 

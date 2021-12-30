@@ -1,5 +1,6 @@
 package com.team11.backend.controller;
 
+import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.dto.CategoryResponseDto;
 import com.team11.backend.model.CurrentState;
@@ -9,9 +10,11 @@ import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.UserRepository;
 import com.team11.backend.repository.querydsl.CategoryRepository;
 import com.team11.backend.service.CategoryService;
+import io.findify.s3mock.S3Mock;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,7 +28,11 @@ import java.util.List;
 @SpringBootTest
 @Transactional
 @Rollback
+@Import(S3MockConfig.class)
 class CategoryControllerTest {
+
+    @Autowired
+    S3Mock s3Mock;
 
     @Autowired
     CategoryService categoryService;

@@ -1,5 +1,6 @@
 package com.team11.backend.controller;
 
+import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.BookMarkDto;
 import com.team11.backend.model.CurrentState;
 import com.team11.backend.model.Post;
@@ -8,9 +9,11 @@ import com.team11.backend.repository.BookMarkRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.UserRepository;
 import com.team11.backend.service.BookMarkService;
+import io.findify.s3mock.S3Mock;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +27,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
 @Rollback
+@Import(S3MockConfig.class)
 class BookMarkControllerTest {
+
+    @Autowired
+    S3Mock s3Mock;
 
     @Autowired
     BookMarkService bookMarkService;
