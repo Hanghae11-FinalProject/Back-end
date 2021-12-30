@@ -137,7 +137,10 @@ class UserControllerTest {
         private String password;
     }
 
-
+    @AfterAll
+    public void shutdownMockS3(){
+        s3Mock.stop();
+    }
 }
 
 

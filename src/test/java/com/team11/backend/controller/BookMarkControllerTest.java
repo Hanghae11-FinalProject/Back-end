@@ -2,6 +2,7 @@ package com.team11.backend.controller;
 
 import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.BookMarkDto;
+import com.team11.backend.model.BookMark;
 import com.team11.backend.model.CurrentState;
 import com.team11.backend.model.Post;
 import com.team11.backend.model.User;
@@ -17,7 +18,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,6 +80,9 @@ class BookMarkControllerTest {
                 .content("나이키?")
                 .title("나이키")
                 .currentState(CurrentState.Proceeding)
+                .exchangeItem("exchangeItem")
+                .myItem("myItem")
+                .bookMarks(new ArrayList<BookMark>(Arrays.asList(new BookMark[3])))
                 .build();
 
         postRepository.save(post);
@@ -88,6 +93,9 @@ class BookMarkControllerTest {
                 .content("수박")
                 .title("수박")
                 .currentState(CurrentState.Proceeding)
+                .exchangeItem("exchangeItem")
+                .myItem("myItem")
+                .bookMarks(new ArrayList<BookMark>(Arrays.asList(new BookMark[3])))
                 .build();
 
         postRepository.save(post1);
@@ -99,6 +107,9 @@ class BookMarkControllerTest {
                 .content("수박")
                 .title("수박")
                 .currentState(CurrentState.Proceeding)
+                .exchangeItem("exchangeItem")
+                .myItem("myItem")
+                .bookMarks(new ArrayList<BookMark>(Arrays.asList(new BookMark[3])))
                 .build();
 
         postRepository.save(post2);
@@ -152,5 +163,10 @@ class BookMarkControllerTest {
         class Fail{
 
         }
+    }
+
+    @AfterAll
+    public void shutdownMockS3(){
+        s3Mock.stop();
     }
 }

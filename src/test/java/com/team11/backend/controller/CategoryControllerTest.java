@@ -29,6 +29,7 @@ import java.util.List;
 @Transactional
 @Rollback
 @Import(S3MockConfig.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CategoryControllerTest {
 
     @Autowired
@@ -79,6 +80,8 @@ class CategoryControllerTest {
                 .content("나이키?")
                 .title("나이키")
                 .currentState(CurrentState.Proceeding)
+                .exchangeItem("exchangeItem")
+                .myItem("myItem")
                 .build();
 
         postRepository.save(post);
@@ -89,6 +92,8 @@ class CategoryControllerTest {
                 .content("수박")
                 .title("수박")
                 .currentState(CurrentState.Proceeding)
+                .exchangeItem("exchangeItem")
+                .myItem("myItem")
                 .build();
 
         postRepository.save(post1);
@@ -100,6 +105,8 @@ class CategoryControllerTest {
                 .content("수박")
                 .title("수박")
                 .currentState(CurrentState.Proceeding)
+                .exchangeItem("exchangeItem")
+                .myItem("myItem")
                 .build();
 
         postRepository.save(post2);
@@ -169,7 +176,7 @@ class CategoryControllerTest {
 
 
                 //then
-                Assertions.assertEquals(2, categoryResponseDtos.size());
+                Assertions.assertEquals(3, categoryResponseDtos.size());
             }
 
             @Test
@@ -204,6 +211,10 @@ class CategoryControllerTest {
             }
         }
 
+    }
 
+    @AfterAll
+    public void shutdownMockS3(){
+        s3Mock.stop();
     }
 }
