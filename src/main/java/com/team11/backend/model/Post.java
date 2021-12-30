@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 @AllArgsConstructor
 @Builder
@@ -45,7 +46,10 @@ public class Post extends Timestamped{
     private List<Tag> tags;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<BookMark> bookMarks;
+    private List<BookMark> bookMarks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     @Column(nullable = false)
     private String category;
