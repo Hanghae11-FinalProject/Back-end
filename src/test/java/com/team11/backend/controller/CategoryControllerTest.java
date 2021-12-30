@@ -107,7 +107,7 @@ class CategoryControllerTest {
         @DisplayName("성공케이스")
         class Success {
             @Test
-            @DisplayName("검색조건1 : cloth  or 검색조건2 : 서울특별시")
+            @DisplayName("검색조건1 : (cloth)  and (검색조건2 : 서울특별시)")
             void test1() {
                 //given
                 List<String> categoryName = new ArrayList<>();
@@ -138,7 +138,7 @@ class CategoryControllerTest {
             }
 
             @Test
-            @DisplayName("검색조건1 : cloth,food  or 검색조건2 : 서울특별시")
+            @DisplayName("검색조건1 : (cloth or food)  and (검색조건2 : 서울특별시)")
             void test2() {
                 //given
                 List<String> categoryName = new ArrayList<>();
@@ -162,11 +162,11 @@ class CategoryControllerTest {
 
 
                 //then
-                Assertions.assertEquals(2, categoryResponseDtos.size());
+                Assertions.assertEquals(3, categoryResponseDtos.size());
             }
 
             @Test
-            @DisplayName("검색조건1 : cloth,food  or 검색조건2 : 서울특별시 강서구")
+            @DisplayName("검색조건1 : (cloth or food)  and (검색조건2 : 서울특별시 강서구)")
             void test3() {
                 //given
                 List<String> categoryName = new ArrayList<>();

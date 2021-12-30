@@ -52,11 +52,6 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String category;
 
-    public void updateBookMark(BookMark bookMark) {
-        List<BookMark> bookMarkList = this.bookMarks;
-        bookMarkList.add(bookMark);
-    }
-
     public void updatePost(PostDto.RequestDto requestDto, List<Image> images, List<Tag> tags){
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
