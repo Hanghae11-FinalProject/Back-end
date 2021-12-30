@@ -2,10 +2,7 @@ package com.team11.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.team11.backend.model.BookMark;
-import com.team11.backend.model.CurrentState;
-import com.team11.backend.model.Image;
-import com.team11.backend.model.Tag;
+import com.team11.backend.model.*;
 import lombok.*;
 
 import java.util.List;
@@ -78,6 +75,7 @@ public class PostDto {
         private String exchangeItem;
         private List<Tag> tags;
         private List<Image> images;
+        private List<CommentDto.ResponseDto> comments;
         private CurrentState currentState;
         private String createdAt;
     }
