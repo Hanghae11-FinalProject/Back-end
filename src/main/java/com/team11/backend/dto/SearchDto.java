@@ -9,14 +9,16 @@ import java.util.List;
 
 public class SearchDto {
 
+
     @Data
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class RequestDto {
         private List<String> keyword;
     }
 
-    @Getter
+    @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
