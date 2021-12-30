@@ -1,7 +1,10 @@
 package com.team11.backend.controller;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.team11.backend.dto.HeaderDto;
 import com.team11.backend.dto.MyPageDto;
 import com.team11.backend.dto.SignupDto;
 import com.team11.backend.security.UserDetailsImpl;
+import com.team11.backend.service.KakaoUserService;
 import com.team11.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,6 +16,7 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
     private final UserService userService;
+    private final KakaoUserService kakaoUserService;
 
     @PostMapping("/user/signup")
     public Long Signup(@RequestBody @Valid SignupDto.RequestDto requestDto){
@@ -41,6 +45,14 @@ public class UserController {
                              @RequestBody MyPageDto.RequestDto requestDto)
     {
         return userService.MyPageModify(customUserDetails.getUser(),requestDto);
+    }
+
+
+    @GetMapping("/oauth/callback/kakao")
+    public HeaderDto kakaoLogin(
+            @RequestParam String code
+    ) throws JsonProcessingException {
+        return kakaoUserService.kakaoLogin(code);
     }
 
 

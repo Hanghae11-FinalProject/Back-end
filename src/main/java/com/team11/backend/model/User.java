@@ -2,16 +2,15 @@ package com.team11.backend.model;
 
 import com.sun.istack.NotNull;
 import com.team11.backend.dto.MyPageDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -41,7 +40,7 @@ public class User {
     @NotNull
     private AuthProvider provider;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<BookMark> bookMarks = new HashSet<>();
 
 

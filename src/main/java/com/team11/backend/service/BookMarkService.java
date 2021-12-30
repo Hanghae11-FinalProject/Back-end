@@ -30,12 +30,11 @@ public class BookMarkService {
                     .user(user)
                     .post(post)
                     .build();
-            post.updateBookMark(bookMark);
             bookMarkRepository.save(bookMark);
+
             return true;
         }
         return false;
-
     }
 
     @Transactional
@@ -46,6 +45,7 @@ public class BookMarkService {
         return bookMark.getId();
     }
 
+    @Transactional
     public List<BookMarkDto.ResponseDto> findMyBookMark(User user) {
         if (user == null) throw new NullPointerException("로그인이 필요합니다");
         List<BookMark> bookMarkList =

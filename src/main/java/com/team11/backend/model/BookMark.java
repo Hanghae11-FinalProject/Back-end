@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-
 import javax.persistence.*;
 
 @AllArgsConstructor
@@ -25,5 +23,6 @@ public class BookMark {
     @ManyToOne
     @JoinColumn(name = "postId", nullable = false)
     private Post post;
+
 
 }

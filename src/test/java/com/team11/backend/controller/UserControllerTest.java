@@ -30,16 +30,15 @@ class UserControllerTest {
 
     private String token = "";
 
-    private UserDto user = UserDto.builder()
+    private final UserDto user = UserDto.builder()
             .username("xxx@naver.com")
             .password("1234aa@@")
             .passwordCheck("1234aa@@")
             .nickname("diddl")
             .address("서울특별시 강남구")
-
             .build();
 
-    private LoginDto login = LoginDto.builder()
+    private final LoginDto login = LoginDto.builder()
             .username("xxx@naver.com")
             .password("1234aa@@")
             .build();
@@ -100,6 +99,7 @@ class UserControllerTest {
                     .nickname("woojins")
                     .address("서울특별시")
                     .password("1234aa@@")
+                    .passwordCheck("1234aa@@")
                     .build();
 
             String requestBody = objectMapper.writeValueAsString(userUpdate);
@@ -117,8 +117,9 @@ class UserControllerTest {
         }
     }
 
-    @Getter
-    @Setter
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     static class UserDto {
         private String username;
@@ -129,8 +130,9 @@ class UserControllerTest {
 
     }
 
-    @Getter
-    @Setter
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     static class LoginDto {
         private String username;

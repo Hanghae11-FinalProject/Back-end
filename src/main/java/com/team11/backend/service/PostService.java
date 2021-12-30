@@ -77,10 +77,10 @@ public class PostService {
                 () -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
 
         List<BookMarkDto.DetailResponseDto> bookMarkResponseDtoList = post.getBookMarks().stream()
-                .map(e -> toBookmarkResponseDto(e))
+                .map(this::toBookmarkResponseDto)
                 .collect(Collectors.toList());
 
-        PostDto.DetailResponseDto postResponseDto = PostDto.DetailResponseDto.builder()
+        return PostDto.DetailResponseDto.builder()
                 .postId(postId)
                 .nickname(post.getUser().getNickname())
                 .profileImg(post.getUser().getProfileImg())
@@ -95,8 +95,6 @@ public class PostService {
                 .currentState(post.getCurrentState())
                 .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
                 .build();
-
-        return postResponseDto;
     }
 
     private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {

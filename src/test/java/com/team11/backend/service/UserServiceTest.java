@@ -1,10 +1,10 @@
-package com.team11.backend.model;
+package com.team11.backend.service;
 
 import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.MyPageDto;
 import com.team11.backend.dto.SignupDto;
+import com.team11.backend.model.User;
 import com.team11.backend.repository.UserRepository;
-import com.team11.backend.service.UserService;
 import io.findify.s3mock.S3Mock;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -19,13 +19,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @EnableAutoConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import(S3MockConfig.class)
-class UserTest {
+class UserServiceTest {
 
     @Autowired
     private S3Mock s3Mock;
@@ -101,7 +103,7 @@ class UserTest {
 
 
 
-        
+
         @DisplayName("회원가입 실패 케이스")
         @Nested
         class Fail{
@@ -130,9 +132,9 @@ class UserTest {
                 Assertions.assertThat(messages).contains("닉네임은 한글,영숫자, 2자이상 10자이하");
                 Assertions.assertThat(messages).contains("비밀번호는 대소문자,숫자,특수문자 하나이상 필수, 8자이상 16자이하");
             }
-            
+
         }
-        
+
     }
 
     @AfterEach
@@ -140,3 +142,6 @@ class UserTest {
         s3Mock.stop();
     }
 }
+
+
+

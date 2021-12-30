@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -39,23 +37,18 @@ public class Post extends Timestamped{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId",nullable = false)
     private User user;
-    
+
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Image> images;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Tag> tags;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<BookMark> bookMarks;
 
     @Column(nullable = false)
     private String category;
-
-    public void updateBookMark(BookMark bookMark) {
-        List<BookMark> bookMarkList = this.bookMarks;
-        bookMarkList.add(bookMark);
-    }
 
     public void updatePost(PostDto.RequestDto requestDto, List<Image> images, List<Tag> tags){
         this.title = requestDto.getTitle();
