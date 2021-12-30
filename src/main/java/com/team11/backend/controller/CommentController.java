@@ -17,10 +17,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/api/comments/{postId}")
-    public Result<?> readAll(@PathVariable Long postId){
-        return new Result<>(commentService.readAll(postId));
-    }
 
     @PostMapping("/api/comments")
     public CommentDto.ResponseDto addComment(@Valid @RequestBody CommentDto.RequestDto requestDto,

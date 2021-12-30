@@ -7,6 +7,7 @@ import com.team11.backend.component.FileComponent;
 import com.team11.backend.component.FileUploadService;
 import com.team11.backend.dto.*;
 import com.team11.backend.model.*;
+import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.ImageRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.TagRepository;
@@ -19,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +34,7 @@ public class PostService {
     private final FileUploadService fileUploadService;
     private final AwsS3UploadService awsS3UploadService;
     private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public void createPostService(List<MultipartFile> images, String jsonString, UserDetailsImpl userDetails) throws IOException {
@@ -52,7 +56,6 @@ public class PostService {
 
         User user = userDetails.getUser();
         dtoParser(tagList, imageList, imageDtoList, requestDto);
-
         Post post = Post.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
@@ -93,6 +96,7 @@ public class PostService {
                 .myItem(post.getMyItem())
                 .exchangeItem(post.getExchangeItem())
                 .currentState(post.getCurrentState())
+                .comments(convertNestedStructure(commentRepository.findCommentByPost(post)))
                 .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
                 .build();
     }
@@ -195,5 +199,19 @@ public class PostService {
 
         // post 삭제
         postRepository.deleteById(postId);
+    }
+
+
+    private List<CommentDto.ResponseDto> convertNestedStructure(List<Comment> comments) { //조회시 계층형 구조 만들기
+        List<CommentDto.ResponseDto> result = new ArrayList<>();
+        Map<Long, CommentDto.ResponseDto> map = new HashMap<>();
+        comments.forEach(c -> {
+            CommentDto.ResponseDto dto = new CommentDto.ResponseDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname());
+            map.put(dto.getId(), dto);
+            if (c.getParent() != null)
+                map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록
+            result.add(dto);
+        });
+        return result;
     }
 }
