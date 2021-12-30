@@ -1,4 +1,4 @@
-package com.team11.backend.controller;
+package com.team11.backend.service;
 
 import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.model.CurrentState;
@@ -7,7 +7,6 @@ import com.team11.backend.model.User;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.UserRepository;
 import com.team11.backend.repository.querydsl.CategoryRepository;
-import com.team11.backend.service.CategoryService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,16 +14,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 @Rollback
-class CategoryControllerTest {
+class CategoryServiceTest {
 
     @Autowired
     CategoryService categoryService;
@@ -70,6 +70,8 @@ class CategoryControllerTest {
                 .user(user)
                 .content("나이키?")
                 .title("나이키")
+                .exchangeItem("난이거")
+                .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
                 .build();
 
@@ -80,6 +82,8 @@ class CategoryControllerTest {
                 .user(user)
                 .content("수박")
                 .title("수박")
+                .exchangeItem("난이거")
+                .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
                 .build();
 
@@ -91,6 +95,8 @@ class CategoryControllerTest {
                 .user(user1)
                 .content("수박")
                 .title("수박")
+                .exchangeItem("난이거")
+                .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
                 .build();
 
@@ -193,6 +199,26 @@ class CategoryControllerTest {
                 Assertions.assertEquals(1, categoryResponseDtos.size());
                 Assertions.assertEquals(post2.getContent(), categoryResponseDtos.get(0).getContent());
                 Assertions.assertEquals(post2.getUser().getNickname(), categoryResponseDtos.get(0).getNickname());
+            }
+            
+            @Test
+            @DisplayName("검색조건 : NULL or 빈칸 ,  기대값 : 전체조회")
+            void test4(){
+                List<String> categoryName = new ArrayList<>();
+                List<String> city = new ArrayList<>();
+
+                CategoryDto.RequestDto categoryFilter = CategoryDto.RequestDto.builder()
+                        .categoryName(categoryName)
+                        .address(city)
+                        .build();
+
+                //when
+                Pageable pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
+                List<CategoryDto.ResponseDto> categoryResponseDtos = categoryService.categoryFilter(categoryFilter, pageRequest);
+
+
+                //then
+                Assertions.assertEquals(3, categoryResponseDtos.size());
             }
         }
 

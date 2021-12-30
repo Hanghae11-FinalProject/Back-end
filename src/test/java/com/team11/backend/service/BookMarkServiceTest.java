@@ -1,13 +1,12 @@
-package com.team11.backend.controller;
+package com.team11.backend.service;
 
-import com.team11.backend.dto.BookMarkDto.ResponseDto;
+import com.team11.backend.dto.BookMarkDto;
 import com.team11.backend.model.CurrentState;
 import com.team11.backend.model.Post;
 import com.team11.backend.model.User;
 import com.team11.backend.repository.BookMarkRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.UserRepository;
-import com.team11.backend.service.BookMarkService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
-class BookMarkControllerTest {
+class BookMarkServiceTest {
 
     @Autowired
     BookMarkService bookMarkService;
@@ -71,6 +70,8 @@ class BookMarkControllerTest {
                 .user(user)
                 .content("수박")
                 .title("수박")
+                .exchangeItem("난이거")
+                .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
                 .build();
 
@@ -82,6 +83,8 @@ class BookMarkControllerTest {
                 .user(user1)
                 .content("ddda")
                 .title("aas")
+                .exchangeItem("난이거")
+                .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
                 .build();
 
@@ -111,7 +114,7 @@ class BookMarkControllerTest {
             @DisplayName("유저가 가지고있는 즐겨찾기 목록 조회")
             void test2(){
                 bookMarkService.addBookMark(user, post2.getId());
-                List<ResponseDto> myBookMark = bookMarkService.findMyBookMark(user);
+                List<BookMarkDto.ResponseDto> myBookMark = bookMarkService.findMyBookMark(user);
 
 
                 assertEquals(1 , myBookMark.size());
