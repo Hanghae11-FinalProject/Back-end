@@ -64,6 +64,7 @@ public class PostDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class DetailResponseDto{
+        private String createdAt;
         private Long postId;
         private String nickname;
         private String profileImg;
@@ -75,9 +76,8 @@ public class PostDto {
         private String exchangeItem;
         private List<Tag> tags;
         private List<Image> images;
-        private List<CommentDto.ResponseDto> comments;
         private String categoryName;
         private CurrentState currentState;
-        private String createdAt;
+        private List<CommentDto.ResponseDto> comments;
     }
 }
