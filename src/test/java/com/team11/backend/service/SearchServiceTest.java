@@ -71,11 +71,11 @@ class SearchServiceTest {
                 .myItem("아이템")
                 .exchangeItem("아이템")
                 .currentState(CurrentState.Proceeding)
-                .title("냉동만두")
+                .title("팝니다")
                 .content("냉동만두랑 피자랑 바꾸실분")
                 .user(user)
-                .myItem("냉동만두")
-                .exchangeItem("피자")
+                .myItem("에어컨")
+                .exchangeItem("난로")
                 .category("food")
                 .tags(tagList)
                 .build();
@@ -105,10 +105,10 @@ class SearchServiceTest {
                 .myItem("아이템")
                 .exchangeItem("아이템")
                 .currentState(CurrentState.Proceeding)
-                .title("피자")
-                .content("불고기피자 치즈피자")
-                .myItem("피자")
-                .exchangeItem("만두")
+                .title("삽니다")
+                .content("만두랑 떢볶이")
+                .myItem("선풍기")
+                .exchangeItem("리모컨")
                 .user(user)
                 .category("food")
                 .tags(tagList1)
@@ -137,14 +137,12 @@ class SearchServiceTest {
                         .build();
 
                 //when
-                List<SearchDto.ResponseDto> responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
-
+                SearchDto.TotalResponseDto responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
 
                 //then
-                Assertions.assertEquals(1, responseDtos.size());
-                Assertions.assertEquals(post.getTitle(), responseDtos.get(0).getTitle());
-                Assertions.assertEquals(post.getContent(), responseDtos.get(0).getContent());
-                Assertions.assertEquals(post.getCurrentState(), responseDtos.get(0).getCurrentState());
+                Assertions.assertEquals(1, responseDtos.getPosts().size());
+                Assertions.assertEquals(post.getTitle(), responseDtos.getPosts().get(0).getTitle());
+                Assertions.assertEquals(post.getContent(), responseDtos.getPosts().get(0).getContent());
             }
 
             @Test
@@ -158,15 +156,14 @@ class SearchServiceTest {
                         .keyword(Collections.singletonList("만두"))
                         .build();
                 //when
-                List<SearchDto.ResponseDto> responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
+                SearchDto.TotalResponseDto responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
 
                 //then
-                Assertions.assertEquals(post.getTitle(), responseDtos.get(1).getTitle());
-                Assertions.assertEquals(post.getContent(), responseDtos.get(1).getContent());
-                Assertions.assertEquals(post.getCurrentState(), responseDtos.get(1).getCurrentState());
-                Assertions.assertEquals(post1.getTitle(), responseDtos.get(0).getTitle());
-                Assertions.assertEquals(post1.getContent(), responseDtos.get(0).getContent());
-                Assertions.assertEquals(post1.getCurrentState(), responseDtos.get(0).getCurrentState());
+                Assertions.assertEquals(2, responseDtos.getPosts().size());
+                Assertions.assertEquals(post.getTitle(), responseDtos.getPosts().get(1).getTitle());
+                Assertions.assertEquals(post.getContent(), responseDtos.getPosts().get(1).getContent());
+                Assertions.assertEquals(post1.getTitle(), responseDtos.getPosts().get(0).getTitle());
+                Assertions.assertEquals(post1.getContent(), responseDtos.getPosts().get(0).getContent());
             }
 
             @Test
@@ -180,14 +177,53 @@ class SearchServiceTest {
                         .keyword(Collections.singletonList("선풍기"))
                         .build();
                 //when
-                List<SearchDto.ResponseDto> responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
-                for (SearchDto.ResponseDto responseDto : responseDtos) {
-                    System.out.println(responseDto + "값");
-                }
+                SearchDto.TotalResponseDto responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
+
                 //then
-                Assertions.assertEquals(post1.getTitle(), responseDtos.get(9).getTitle());
-                Assertions.assertEquals(post1.getContent(), responseDtos.get(9).getContent());
-                Assertions.assertEquals(post1.getCurrentState(), responseDtos.get(9).getCurrentState());
+                Assertions.assertEquals(1, responseDtos.getPosts().size());
+                Assertions.assertEquals(post1.getTitle(), responseDtos.getPosts().get(0).getTitle());
+                Assertions.assertEquals(post1.getContent(), responseDtos.getPosts().get(0).getContent());
+            }
+
+            @Test
+            @DisplayName("content로 조건 검색")
+            void test_4(){
+
+                //given
+                PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
+                SearchDto.RequestDto searchRequest = SearchDto.RequestDto
+                        .builder()
+                        .keyword(Collections.singletonList("만두"))
+                        .build();
+                //when
+                SearchDto.TotalResponseDto responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
+
+                //then
+                Assertions.assertEquals(2, responseDtos.getPosts().size());
+                Assertions.assertEquals(post1.getTitle(), responseDtos.getPosts().get(0).getTitle());
+                Assertions.assertEquals(post1.getContent(), responseDtos.getPosts().get(0).getContent());
+                Assertions.assertEquals(post.getTitle(), responseDtos.getPosts().get(1).getTitle());
+                Assertions.assertEquals(post.getContent(), responseDtos.getPosts().get(1).getContent());
+            }
+
+
+            @Test
+            @DisplayName("title 조건 검색")
+            void test_5(){
+
+                //given
+                PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").descending());
+                SearchDto.RequestDto searchRequest = SearchDto.RequestDto
+                        .builder()
+                        .keyword(Collections.singletonList("팝니다"))
+                        .build();
+                //when
+                SearchDto.TotalResponseDto responseDtos = searchService.keywordSearch(searchRequest, pageRequest);
+
+                //then
+                Assertions.assertEquals(1, responseDtos.getPosts().size());
+                Assertions.assertEquals(post.getTitle(), responseDtos.getPosts().get(0).getTitle());
+                Assertions.assertEquals(post.getContent(), responseDtos.getPosts().get(0).getContent());
             }
 
         }
