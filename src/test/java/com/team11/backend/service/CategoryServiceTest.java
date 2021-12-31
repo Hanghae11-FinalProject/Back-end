@@ -1,5 +1,6 @@
 package com.team11.backend.service;
 
+import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.model.CurrentState;
 import com.team11.backend.model.Post;
@@ -7,9 +8,11 @@ import com.team11.backend.model.User;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.UserRepository;
 import com.team11.backend.repository.querydsl.CategoryRepository;
+import io.findify.s3mock.S3Mock;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,12 +22,15 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 @Rollback
+@Import(S3MockConfig.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CategoryServiceTest {
+
+    @Autowired
+    S3Mock s3Mock;
 
     @Autowired
     CategoryService categoryService;
@@ -222,6 +228,10 @@ class CategoryServiceTest {
             }
         }
 
+    }
 
+    @AfterAll
+    public void shutdownMockS3(){
+        s3Mock.stop();
     }
 }

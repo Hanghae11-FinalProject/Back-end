@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ develope ]
+  pull_request:
+    branches: [ develope ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Merge
+        uses: devmasx/merge-branch@master
+        with:
+          from_branch: uat
+          target_branch: develope
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      - name: Run a test
+        run: |
+          chmod +x ./gradlew
+          ./gradlew test

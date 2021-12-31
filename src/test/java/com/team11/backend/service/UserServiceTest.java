@@ -1,14 +1,17 @@
 package com.team11.backend.service;
 
+import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.MyPageDto;
 import com.team11.backend.dto.SignupDto;
 import com.team11.backend.model.User;
 import com.team11.backend.repository.UserRepository;
+import io.findify.s3mock.S3Mock;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -23,7 +26,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @EnableAutoConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import(S3MockConfig.class)
 class UserServiceTest {
+
+    @Autowired
+    private S3Mock s3Mock;
 
     @Autowired
     private UserService userService;
@@ -130,6 +137,10 @@ class UserServiceTest {
 
     }
 
+    @AfterEach
+    public void shutdownMockS3(){
+        s3Mock.stop();
+    }
 }
 
 
