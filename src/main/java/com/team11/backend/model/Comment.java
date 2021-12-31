@@ -44,11 +44,14 @@ public class Comment extends Timestamped {
     private List<Comment> children = new ArrayList<>();
 
 
-    public Comment(String content, User user, Post post, Comment parent) {
-        this.content = content;
-        this.user = user;
-        this.post = post;
-        this.parent = parent;
+    public static Comment createComment(String content, User user, Post post, Comment parent) {
+        Comment comment = new Comment();
+        comment.content = content;
+        comment.user = user;
+        comment.post = post;
+        comment.parent = parent;
+
+        return comment;
     }
 
 

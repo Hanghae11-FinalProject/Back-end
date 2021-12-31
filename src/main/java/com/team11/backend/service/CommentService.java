@@ -23,7 +23,7 @@ public class CommentService {
     @Transactional
     public CommentDto.ResponseDto create(CommentDto.RequestDto requestDto, Long userId) {
         return convertCommentToDto(commentRepository.save(
-                new Comment(
+                Comment.createComment(
                         requestDto.getContent(),
                         userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 정보 입니다")),
                         postRepository.findById(requestDto.getPostId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다.")),
