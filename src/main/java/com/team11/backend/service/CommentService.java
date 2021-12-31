@@ -6,6 +6,7 @@ import com.team11.backend.model.User;
 import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.UserRepository;
+import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,6 @@ public class CommentService {
     }
 
     public static CommentDto.ResponseDto convertCommentToDto(Comment comment) { //댓글삭제
-        return new CommentDto.ResponseDto(comment.getId(), comment.getContent(), comment.getUser().getId(), comment.getUser().getNickname());
+        return new CommentDto.ResponseDto(comment.getId(), comment.getContent(), comment.getUser().getId(), comment.getUser().getNickname(), TimeConversion.timeConversion(comment.getCreateAt()));
     }
-
 }
