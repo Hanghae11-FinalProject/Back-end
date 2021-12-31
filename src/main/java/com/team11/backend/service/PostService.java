@@ -77,7 +77,8 @@ public class PostService {
                 .map(this::toBookmarkResponseDto)
                 .collect(Collectors.toList());
 
-        return PostDto.DetailResponseDto.builder()
+        List<CommentDto.ResponseDto> responseDtos = convertNestedStructure(commentRepository.findCommentByPost(post));
+         return PostDto.DetailResponseDto.builder()
                 .postId(postId)
                 .nickname(post.getUser().getNickname())
                 .profileImg(post.getUser().getProfileImg())
@@ -90,7 +91,8 @@ public class PostService {
                 .myItem(post.getMyItem())
                 .exchangeItem(post.getExchangeItem())
                 .currentState(post.getCurrentState())
-                .comments(convertNestedStructure(commentRepository.findCommentByPost(post)))
+                .categoryName(post.getCategory())
+                .comments(responseDtos)
                 .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
                 .build();
     }
@@ -210,8 +212,8 @@ public class PostService {
             CommentDto.ResponseDto dto = new CommentDto.ResponseDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname());
             map.put(dto.getId(), dto);
             if (c.getParent() != null)
-                map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록
-            result.add(dto);
+                 map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록
+            else result.add(dto);
         });
         return result;
     }
