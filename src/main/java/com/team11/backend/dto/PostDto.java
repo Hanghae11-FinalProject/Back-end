@@ -76,6 +76,7 @@ public class PostDto {
         private List<Tag> tags;
         private List<Image> images;
         private List<CommentDto.ResponseDto> comments;
+        private String categoryName;
         private CurrentState currentState;
         private String createdAt;
     }
