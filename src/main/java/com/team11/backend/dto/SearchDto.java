@@ -34,6 +34,8 @@ public class SearchDto {
         private List<Image> images;
         private CurrentState currentState;
         private String createdAt;
+        private int bookmarkCnt;
+        private int commentCnt;
 
     }
 

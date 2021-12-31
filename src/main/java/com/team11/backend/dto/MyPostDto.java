@@ -11,6 +11,10 @@ public class MyPostDto {
     public static class ResponseDto{
         private Long postId;
         private String title;
+        private String content;
+        private String createdAt;
         private CurrentState currentState;
+        private int bookmarkCnt;
+        private int commentCnt;
     }
 }

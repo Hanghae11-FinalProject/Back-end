@@ -7,10 +7,7 @@ import com.team11.backend.component.FileComponent;
 import com.team11.backend.component.FileUploadService;
 import com.team11.backend.dto.*;
 import com.team11.backend.model.*;
-import com.team11.backend.repository.CommentRepository;
-import com.team11.backend.repository.ImageRepository;
-import com.team11.backend.repository.PostRepository;
-import com.team11.backend.repository.TagRepository;
+import com.team11.backend.repository.*;
 import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +16,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
-    private final FileComponent fileComponent;
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
     private final FileUploadService fileUploadService;
     private final AwsS3UploadService awsS3UploadService;
     private final TagRepository tagRepository;
     private final CommentRepository commentRepository;
+    private final BookMarkRepository bookMarkRepository;
 
     @Transactional
     public void createPostService(List<MultipartFile> images, String jsonString, UserDetailsImpl userDetails) throws IOException {
@@ -171,10 +165,17 @@ public class PostService {
         List<Post> postList = postRepository.findAllByUser(user);
         List<MyPostDto.ResponseDto> responseDtos = new ArrayList<>();
         for (Post post : postList){
+            Integer bookmarkCnt = bookMarkRepository.countByPost(post).orElse(0);
+            Integer commentCnt = commentRepository.countByPost(post).orElse(0);
+
             MyPostDto.ResponseDto responseDto = MyPostDto.ResponseDto.builder()
                     .postId(post.getId())
                     .title(post.getTitle())
+                    .content(post.getContent())
+                    .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
                     .currentState(post.getCurrentState())
+                    .bookmarkCnt(bookmarkCnt)
+                    .commentCnt(commentCnt)
                     .build();
 
             responseDtos.add(responseDto);

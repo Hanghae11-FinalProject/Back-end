@@ -37,6 +37,9 @@ public class CategoryDto {
         private String myItem;
         private String exchangeItem;
         private String createdAt;
+        private int bookmarkCnt;
+        private int commentCnt;
+
 
     }
 

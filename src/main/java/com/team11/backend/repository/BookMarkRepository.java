@@ -14,4 +14,5 @@ public interface BookMarkRepository extends JpaRepository<BookMark,Long> {
     Optional<BookMark> findByUserAndPost(User user, Post post);
     List<BookMark> findByUserUsername(String username);
 
+    Optional<Integer> countByPost(Post post);
 }

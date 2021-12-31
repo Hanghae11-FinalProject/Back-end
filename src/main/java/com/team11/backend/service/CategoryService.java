@@ -3,6 +3,8 @@ package com.team11.backend.service;
 
 import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.model.Post;
+import com.team11.backend.repository.BookMarkRepository;
+import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.querydsl.CategoryRepository;
 import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +20,14 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CommentRepository commentRepository;
+    private final BookMarkRepository bookMarkRepository;
 
     @Transactional
     public List<CategoryDto.ResponseDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 
         PageImpl<Post> posts = categoryRepository.categoryFilter(categoryRequestDto, pageable);
-        return posts.stream().map(s -> new CategoryDto.ResponseDto(s.getCategory(), s.getId(), s.getUser().getUsername(), s.getUser().getNickname(), s.getTitle(), s.getContent(), s.getUser().getAddress(), s.getImages(), s.getCurrentState(),s.getMyItem(),s.getExchangeItem() , TimeConversion.timeConversion(s.getCreateAt())))
+        return posts.stream().map(s -> new CategoryDto.ResponseDto(s.getCategory(), s.getId(), s.getUser().getUsername(), s.getUser().getNickname(), s.getTitle(), s.getContent(), s.getUser().getAddress(), s.getImages(), s.getCurrentState(),s.getMyItem(),s.getExchangeItem() , TimeConversion.timeConversion(s.getCreateAt()), bookMarkRepository.countByPost(s).orElse(0), commentRepository.countByPost(s).orElse(0)))
                 .collect(Collectors.toList());
 
     }
