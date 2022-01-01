@@ -1,14 +1,17 @@
 package com.team11.backend.service;
 
+import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.SearchDto;
 import com.team11.backend.model.*;
 import com.team11.backend.model.Tag;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.TagRepository;
 import com.team11.backend.repository.UserRepository;
+import io.findify.s3mock.S3Mock;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
@@ -22,7 +25,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Rollback
+@Import(S3MockConfig.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SearchServiceTest {
+
+    @Autowired
+    S3Mock s3Mock;
 
     @Autowired
     SearchService searchService;
@@ -234,5 +242,10 @@ class SearchServiceTest {
         class fail {
 
         }
+    }
+
+    @AfterAll
+    public void shutdownMockS3(){
+        s3Mock.stop();
     }
 }
