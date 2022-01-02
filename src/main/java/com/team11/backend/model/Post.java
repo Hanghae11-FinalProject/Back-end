@@ -10,11 +10,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-@AllArgsConstructor
+
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Getter
+@Entity
 public class Post extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -45,9 +46,11 @@ public class Post extends Timestamped{
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Tag> tags;
 
+    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<BookMark> bookMarks = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 

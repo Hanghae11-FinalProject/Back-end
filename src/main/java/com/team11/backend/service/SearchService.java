@@ -52,6 +52,7 @@ public class SearchService {
     }
 
     public SearchRankResponseDto SearchRankList() {
-        return new SearchRankResponseDto(searchRepositoryInterface.findKeywordRank().subList(0, 10));
+        List<String> strings = searchRepositoryInterface.findKeywordRank();
+        return new SearchRankResponseDto(strings.subList(0, Math.min(10, strings.size())));
     }
 }
