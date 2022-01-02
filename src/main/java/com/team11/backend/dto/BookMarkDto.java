@@ -11,6 +11,7 @@ public class BookMarkDto {
     public static class ResponseDto {
         private Long postId;
         private String title;
+        private String image;
         private String currentState;
     }
 
