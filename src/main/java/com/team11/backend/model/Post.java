@@ -66,4 +66,8 @@ public class Post extends Timestamped{
         this.category = requestDto.getCategory();
     }
 
+    public void updateCurrentState(String currentState){
+        this.currentState = CurrentState.valueOf(currentState);
+    }
+
 }

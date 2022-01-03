@@ -30,6 +30,8 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final BookMarkRepository bookMarkRepository;
 
+
+
     @Transactional
     public void createPostService(List<MultipartFile> images, String jsonString, UserDetailsImpl userDetails) throws IOException {
         List<Tag> tagList = new ArrayList<>();
@@ -215,5 +217,14 @@ public class PostService {
             else result.add(dto);
         });
         return result;
+    }
+
+    @Transactional
+    public void editCurrentState(CurrentStateDto currentStateDto, Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                ()-> new IllegalArgumentException("no post")
+        );
+
+        post.updateCurrentState(currentStateDto.getCurrentState());
     }
 }
