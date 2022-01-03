@@ -130,7 +130,7 @@ public class KakaoUserService {
         if (sameUser == null) {
             return registerKakaoUserIfNeeded(snsUserInfoDto);
         } else {
-            return updateKakaoUser(sameUser, snsUserInfoDto);
+            return updateKakaoUser(sameUser);
         }
     }
 
@@ -166,13 +166,12 @@ public class KakaoUserService {
     }
 
     private User updateKakaoUser(
-            User sameUser,
-            SnsUserInfoDto snsUserInfoDto
+            User sameUser
     ) {
         if (sameUser.getUsername() == null) {
             System.out.println("중복");
-            sameUser.setUsername(snsUserInfoDto.getEmail());
-            sameUser.setNickname(snsUserInfoDto.getNickname());
+            sameUser.setUsername(sameUser.getUsername());
+            sameUser.setNickname(sameUser.getNickname());
             userRepository.save(sameUser);
         }
         return sameUser;
