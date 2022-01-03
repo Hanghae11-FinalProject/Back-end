@@ -14,5 +14,5 @@ public class SnsUserInfoDto {
 
     private String email;
 
-    private String profile;
+    private String profileImg;
 }
