@@ -1,5 +1,6 @@
 package com.team11.backend.controller;
 
+import com.team11.backend.dto.CurrentStateDto;
 import com.team11.backend.dto.MyPostDto;
 import com.team11.backend.dto.PostDto;
 import com.team11.backend.model.User;
@@ -45,6 +46,11 @@ public class PostController {
             @PathVariable Long postId
     ) {
         postService.deletePost(userDetails.getUser(), postId);
+    }
+
+    @PutMapping("/api/currentstate/{postId}")
+    public void updateCurrentState(@RequestBody CurrentStateDto currentStateDto ,@PathVariable Long postId){
+        postService.editCurrentState(currentStateDto,postId);
     }
 
     @GetMapping("/api/myposts")
