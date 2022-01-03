@@ -36,8 +36,6 @@ public class CommentDto {
     }
 
     @Data
-    @Builder
-    @AllArgsConstructor
     @NoArgsConstructor
     public static class ResponseDto {
 
@@ -46,10 +44,9 @@ public class CommentDto {
         private Long userId;
         private String nickname;
         private String createAt;
-        @Builder.Default
-        private List<CommentDto.ResponseDto> children = new ArrayList<>();
+        private final List<CommentDto.ResponseDto> children = new ArrayList<>();
 
-
+        @Builder
         public ResponseDto(Long id, String content, Long userId, String nickname, String createAt) {
             this.id = id;
             this.content = content;
