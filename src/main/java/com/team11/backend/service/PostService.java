@@ -158,7 +158,7 @@ public class PostService {
             imageList.add(image);
         }
 
-        for (TagDto.RequestDto tagRequestDto: requestDto.getTagRequsetDtos()) {
+        for (TagDto.RequestDto tagRequestDto: requestDto.getTagRequestDtos()) {
             Tag tag = Tag.builder()
                     .tagName(tagRequestDto.getTagName())
                     .build();

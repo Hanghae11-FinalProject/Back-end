@@ -1,5 +1,6 @@
 package com.team11.backend.dto;
 
+import com.team11.backend.model.CurrentState;
 import lombok.*;
 
 public class BookMarkDto {
@@ -12,6 +13,8 @@ public class BookMarkDto {
         private Long postId;
         private String title;
         private String image;
+        private String address;
+        private String createdAt;
         private String currentState;
     }
 

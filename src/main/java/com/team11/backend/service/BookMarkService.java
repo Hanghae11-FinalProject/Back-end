@@ -6,6 +6,7 @@ import com.team11.backend.model.Post;
 import com.team11.backend.model.User;
 import com.team11.backend.repository.BookMarkRepository;
 import com.team11.backend.repository.PostRepository;
+import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +56,8 @@ public class BookMarkService {
                         s.getPost().getId(),
                         s.getPost().getTitle(),
                         s.getPost().getImages().get(0).getImageUrl(),
+                        s.getUser().getAddress(),
+                        TimeConversion.timeConversion(s.getPost().getCreateAt()),
                         s.getPost().getCurrentState().name())
         ).collect(Collectors.toList());
     }
