@@ -39,6 +39,9 @@ public class SignupDto {
 
         @NotBlank
         private String address;
+
+        @NotBlank
+        private String profileImg;
     }
 
 
