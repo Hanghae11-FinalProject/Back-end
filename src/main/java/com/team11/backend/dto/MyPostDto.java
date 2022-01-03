@@ -13,6 +13,7 @@ public class MyPostDto {
         private String title;
         private String content;
         private String createdAt;
+        private String address;
         private CurrentState currentState;
         private int bookmarkCnt;
         private int commentCnt;
