@@ -80,7 +80,7 @@ public class PostService {
                 .collect(Collectors.toList());
 
         List<CommentDto.ResponseDto> responseDtos = convertNestedStructure(commentRepository.findCommentByPost(post));
-         return PostDto.DetailResponseDto.builder()
+        return PostDto.DetailResponseDto.builder()
                 .postId(postId)
                 .nickname(post.getUser().getNickname())
                 .profileImg(post.getUser().getProfileImg())
@@ -94,6 +94,8 @@ public class PostService {
                 .exchangeItem(post.getExchangeItem())
                 .currentState(post.getCurrentState())
                 .categoryName(post.getCategory())
+                .bookMarkCount(bookMarkRepository.countByPost(post).orElse(0))
+                .commentCount(commentRepository.countByPost(post).orElse(0))
                 .comments(responseDtos)
                 .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
                 .build();

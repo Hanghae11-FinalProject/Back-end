@@ -144,7 +144,7 @@ public class KakaoUserService {
         if (kakaoUser == null) {
 // 회원가입
 // username: kakao nickname
-            String nickname = snsUserInfoDto.getNickname();
+            String nickname = snsUserInfoDto.getNickName();
 
 // password: random UUID
             String password = UUID.randomUUID().toString();
@@ -172,7 +172,7 @@ public class KakaoUserService {
         if (sameUser.getUsername() == null) {
             System.out.println("중복");
             sameUser.setUsername(snsUserInfoDto.getEmail());
-            sameUser.setNickname(snsUserInfoDto.getNickname());
+            sameUser.setNickname(snsUserInfoDto.getNickName());
             userRepository.save(sameUser);
         }
         return sameUser;
