@@ -1,5 +1,7 @@
 package com.team11.backend.security;
 
+import com.team11.backend.jwt.JwtAuthenticationFilter;
+import com.team11.backend.jwt.JwtTokenProvider;
 import com.team11.backend.security.filter.FormLoginFilter;
 import com.team11.backend.security.filter.JwtAuthFilter;
 import com.team11.backend.security.jwt.HeaderTokenExtractor;
@@ -26,11 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 @EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTAuthProvider jwtAuthProvider;
+    private final JwtTokenProvider jwtTokenProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
 
     @Bean
@@ -38,14 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
-    public WebSecurityConfig(
-            JWTAuthProvider jwtAuthProvider,
-            HeaderTokenExtractor headerTokenExtractor
-    ) {
-        this.jwtAuthProvider = jwtAuthProvider;
-        this.headerTokenExtractor = headerTokenExtractor;
-    }
     //JWT부분 종료
 
     @Override
@@ -85,24 +81,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          * FormLoginFilter : 로그인 인증을 실시합니다.
          * JwtFilter       : 서버에 접근시 JWT 확인 후 인증을 실시합니다.
          */
-        http
-                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+
 
         http.authorizeRequests()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "**/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**").permitAll()
                 .antMatchers("/oauth/callback/kakao").permitAll()
                 .anyRequest().permitAll()
                 .and()
-                // [로그아웃 기능]
-                .logout()
-                // 로그아웃 요청 처리 URL
-                .logoutUrl("/user/logout")
-                .permitAll()
-                .and()
-                .exceptionHandling();
-                //.and()
-                //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 
@@ -128,7 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();
 
-        skipPathList.add("GET,/oauth2/callback/kakao");
+        skipPathList.add("GET,/oauth/callback/kakao");
         skipPathList.add("GET,/api/search/rank");
 
         // h2-console 허용

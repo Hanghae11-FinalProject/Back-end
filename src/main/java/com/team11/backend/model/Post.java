@@ -46,13 +46,11 @@ public class Post extends Timestamped{
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Tag> tags;
 
-    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<BookMark> bookMarks = new ArrayList<>();
+    private final List<BookMark> bookMarks = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
 
     @Column(nullable = false)
     private String category;
