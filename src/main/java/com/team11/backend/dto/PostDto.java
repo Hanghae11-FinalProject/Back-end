@@ -18,7 +18,7 @@ public class PostDto {
         private String myItem;
         private String exchangeItem;
         private CurrentState currentState;
-        private List<TagDto.RequestDto> tagRequsetDtos;
+        private List<TagDto.RequestDto> tagRequestDtos;
 
         @JsonCreator
         public RequestDto(
@@ -34,7 +34,7 @@ public class PostDto {
             this.content = content;
             this.category = category;
             this.currentState = CurrentState.valueOf(currentState);
-            this.tagRequsetDtos = tagReqeustDtos;
+            this.tagRequestDtos = tagReqeustDtos;
             this.myItem = myItem;
             this.exchangeItem =exchangeItem;
         }
