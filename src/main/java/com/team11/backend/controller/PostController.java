@@ -49,7 +49,7 @@ public class PostController {
     }
 
     @PutMapping("/api/currentstate/{postId}")
-    public void editCurrentState(@RequestBody CurrentStateDto currentStateDto ,@PathVariable Long postId){
+    public void updateCurrentState(@RequestBody CurrentStateDto currentStateDto ,@PathVariable Long postId){
         postService.editCurrentState(currentStateDto,postId);
     }
 
