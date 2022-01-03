@@ -24,7 +24,11 @@ public class BookMarkController {
     public ResponseEntity<?> addBookMark(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
                                          @PathVariable Long postId
     ) {
+        if(customUserDetails == null){
+            throw new IllegalArgumentException("token not");
+        }
         log.info("BookMarkAddPostUser={}", customUserDetails.getUser().getNickname());
+        System.out.println("user info : " + customUserDetails.getUser().getNickname());
         boolean result = false;
         result = bookMarkService.addBookMark(customUserDetails.getUser(), postId);
 

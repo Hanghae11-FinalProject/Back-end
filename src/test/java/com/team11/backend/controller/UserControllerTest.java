@@ -144,5 +144,3 @@ class UserControllerTest {
         s3Mock.stop();
     }
 }
-
-

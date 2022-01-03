@@ -176,6 +176,7 @@ public class PostService {
                     .title(post.getTitle())
                     .content(post.getContent())
                     .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
+                    .address(user.getAddress())
                     .currentState(post.getCurrentState())
                     .bookmarkCnt(bookmarkCnt)
                     .commentCnt(commentCnt)
