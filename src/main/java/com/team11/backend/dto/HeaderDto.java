@@ -7,4 +7,7 @@ import lombok.Setter;
 @Setter
 public class HeaderDto {
     private String TOKEN;
+    private Long userId;
+    private String nickName;
+    private String profileImg;
 }

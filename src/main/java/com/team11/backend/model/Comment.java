@@ -41,7 +41,7 @@ public class Comment extends Timestamped {
 
     @OneToMany(mappedBy = "parent",orphanRemoval = true ,cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Comment> children = new ArrayList<>();
+    private final List<Comment> children = new ArrayList<>();
 
 
     public static Comment createComment(String content, User user, Post post, Comment parent) {

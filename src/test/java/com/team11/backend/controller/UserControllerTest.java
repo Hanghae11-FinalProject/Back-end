@@ -26,7 +26,7 @@ class UserControllerTest {
 
     private HttpHeaders headers;
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private String token = "";
 

@@ -48,9 +48,8 @@ public class KakaoUserService {
         User kakaoUser = registerKakaoOrUpdateKakao(snsUserInfoDto);
 
 // 4. 강제 로그인 처리
-        HeaderDto token = forceLogin(kakaoUser);
 
-        return token;
+        return forceLogin(kakaoUser);
     }
 
     private String getAccessToken(
@@ -63,8 +62,8 @@ public class KakaoUserService {
 // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "07c9a89123e46ae5f72c72e9e0423d02");
-        body.add("redirect_uri", "http://localhost:8080/oauth/callback/kakao");
+        body.add("client_id", "397c0abcfdf1e8bb72359a99d7784e74");
+        body.add("redirect_uri", "http://localhost:3000/oauth/callback/kakao");
         // body.add("redirect_uri","http://localhost:3000/oauth/callback/kakao");
         // https://kauth.kakao.com/oauth/authorize?client_id=dcd2dc8ef9a91776b876f76145451b0f&redirect_uri=http://52.78.31.61:3000/oauth/kakao/callback&response_type=code
         body.add("code", code);
@@ -117,11 +116,8 @@ public class KakaoUserService {
         else
             email = jsonNode.get("kakao_account")
                     .get("email").asText();
-        JsonNode profile = jsonNode.get("properties")
-                .get("profile_image");
-        String profileStr = "";
-        if(profile != null)
-            profileStr = profile.asText();
+
+        String profileStr = "http://www.city.kr/files/attach/images/161/701/416/022/a2c34aa75756074e20552ccbac6894e8.jpg";
 
         return new SnsUserInfoDto(id, nickname, email,profileStr);
     }
@@ -191,6 +187,9 @@ public class KakaoUserService {
 
         HeaderDto headerDto = new HeaderDto();
         headerDto.setTOKEN(jwtTokenProvider.createToken(kakaoUser.getNickname(),Long.toString(kakaoUser.getId())));
+        headerDto.setUserId(kakaoUser.getId());
+        headerDto.setNickName(kakaoUser.getNickname());
+        headerDto.setProfileImg(kakaoUser.getProfileImg());
         return headerDto;
     }
 }
