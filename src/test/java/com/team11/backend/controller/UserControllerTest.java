@@ -65,7 +65,7 @@ class UserControllerTest {
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(1, response.getBody());
+
     }
 
     @Test
