@@ -2,11 +2,9 @@ package com.team11.backend.service;
 
 import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.BookMarkDto;
-import com.team11.backend.model.BookMark;
-import com.team11.backend.model.CurrentState;
-import com.team11.backend.model.Post;
-import com.team11.backend.model.User;
+import com.team11.backend.model.*;
 import com.team11.backend.repository.BookMarkRepository;
+import com.team11.backend.repository.ImageRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.UserRepository;
 import io.findify.s3mock.S3Mock;
@@ -22,7 +20,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,6 +48,8 @@ class BookMarkServiceTest {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    ImageRepository imageRepository;
 
     User user;
     User user1;
@@ -59,6 +58,7 @@ class BookMarkServiceTest {
 
     @BeforeEach
     public void setup() {
+        //유저
         user = User.builder()
                 .username("1234@naver.com")
                 .nickname("woojin")
@@ -77,7 +77,16 @@ class BookMarkServiceTest {
 
         userRepository.save(user1);
 
+        Image image = Image.builder()
+                .imageUrl("sfsefsef")
+                .imageName("sefsef")
+                .build();
+        List<Image> list = new ArrayList<>();
+        list.add(image);
+
+        //게시물
         post1 = Post.builder()
+                .images(list)
                 .category("food")
                 .user(user)
                 .content("수박")
@@ -85,13 +94,19 @@ class BookMarkServiceTest {
                 .exchangeItem("난이거")
                 .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
-                .bookMarks(new ArrayList<BookMark>(Arrays.asList(new BookMark[3])))
                 .build();
 
         postRepository.save(post1);
 
+        Image image1 = Image.builder()
+                .imageUrl("sfsefsef")
+                .imageName("sefsef")
+                .build();
+        List<Image> list1 = new ArrayList<>();
+        list1.add(image1);
 
         post2 = Post.builder()
+                .images(list1)
                 .category("cloth")
                 .user(user1)
                 .content("ddda")
@@ -99,7 +114,6 @@ class BookMarkServiceTest {
                 .exchangeItem("난이거")
                 .myItem("내아이템")
                 .currentState(CurrentState.Proceeding)
-                .bookMarks(new ArrayList<BookMark>(Arrays.asList(new BookMark[3])))
                 .build();
 
         postRepository.save(post2);
@@ -129,7 +143,6 @@ class BookMarkServiceTest {
             void test2() {
                 bookMarkService.addBookMark(user, post2.getId());
                 List<BookMarkDto.ResponseDto> myBookMark = bookMarkService.findMyBookMark(user);
-
 
                 assertEquals(1, myBookMark.size());
                 assertEquals(post2.getTitle(), myBookMark.get(0).getTitle());

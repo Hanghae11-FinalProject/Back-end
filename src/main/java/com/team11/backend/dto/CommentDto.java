@@ -46,6 +46,7 @@ public class CommentDto {
         private Long userId;
         private String nickname;
         private String createAt;
+        @Builder.Default
         private List<CommentDto.ResponseDto> children = new ArrayList<>();
 
 
