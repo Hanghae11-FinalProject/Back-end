@@ -68,16 +68,18 @@ public class PostDto {
         private Long postId;
         private String nickname;
         private String profileImg;
-        private List<BookMarkDto.DetailResponseDto> bookMarks;
         private String title;
         private String content;
         private String address;
         private String myItem;
         private String exchangeItem;
-        private List<Tag> tags;
-        private List<Image> images;
         private String categoryName;
         private CurrentState currentState;
+        private Integer commentCount;
+        private Integer bookMarkCount;
+        private List<BookMarkDto.DetailResponseDto> bookMarks;
+        private List<Tag> tags;
+        private List<Image> images;
         private List<CommentDto.ResponseDto> comments;
     }
 }
