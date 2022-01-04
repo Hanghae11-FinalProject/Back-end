@@ -42,6 +42,10 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor("org.projectlombok:lombok")
     compile('org.projectlombok:lombok')
+    //socket
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'io.lettuce:lettuce-core:6.1.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     //aws
     implementation('org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE')
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
