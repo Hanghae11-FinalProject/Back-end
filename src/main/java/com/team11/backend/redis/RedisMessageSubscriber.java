@@ -22,16 +22,10 @@ public class RedisMessageSubscriber implements MessageListener {
     public void onMessage(Message message, byte[] pattern) {
         try {
         String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-        System.out.println(publishMessage+"111111");
-            com.team11.backend.model.Message message1 = objectMapper.readValue(publishMessage, com.team11.backend.model.Message.class);
-            MessageDto messageDto = MessageDto.builder()
-                    .message(message1.getContent())
-                    .sender(message1.getUser().getUsername())
-                    .roomName(message1.getRoom().getRoomName())
-                    .type(message1.getMessageType())
-                    .build();
+            MessageDto message1 = objectMapper.readValue(publishMessage, MessageDto.class);
 
-            messagingTemplate.convertAndSend("/sub/"+messageDto.getRoomName(), messageDto);
+
+            messagingTemplate.convertAndSend("/sub/"+message1.getRoomName(), message1);
         } catch (Exception e) {
             e.printStackTrace();
         }
