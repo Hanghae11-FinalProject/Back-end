@@ -1,14 +1,14 @@
 package com.team11.backend.service;
 
-import com.team11.backend.dto.PostDto;
+import com.team11.backend.dto.BookMarkDto;
 import com.team11.backend.dto.SearchDto;
 import com.team11.backend.dto.SearchRankResponseDto;
+import com.team11.backend.model.BookMark;
 import com.team11.backend.model.Post;
 
 import com.team11.backend.model.Search;
 import com.team11.backend.repository.BookMarkRepository;
 import com.team11.backend.repository.CommentRepository;
-import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.SearchRepositoryInterface;
 import com.team11.backend.repository.querydsl.SearchRepository;
 import com.team11.backend.timeConversion.TimeConversion;
@@ -41,13 +41,35 @@ public class SearchService {
 
 
         List<SearchDto.ResponseDto> responseDtoList = posts.stream()
-                .map(s -> new SearchDto.ResponseDto(s.getId(), s.getUser().getNickname(), s.getTitle(), s.getContent(), s.getUser().getAddress(), s.getMyItem(), s.getExchangeItem(), s.getImages(), s.getCurrentState(), TimeConversion.timeConversion(s.getCreateAt()), bookMarkRepository.countByPost(s).orElse(0), commentRepository.countByPost(s).orElse(0)))
+                .map(s -> new SearchDto.ResponseDto(
+                        s.getId(),
+                        s.getUser().getNickname(),
+                        s.getTitle(),
+                        s.getContent(),
+                        s.getUser().getAddress(),
+                        s.getMyItem(),
+                        s.getExchangeItem(),
+                        s.getImages(),
+                        s.getBookMarks().stream()
+                                .map(this::toBookmarkResponseDto)
+                                .collect(Collectors.toList()),
+                        s.getCurrentState(),
+                        TimeConversion.timeConversion(s.getCreateAt()),
+                        bookMarkRepository.countByPost(s).orElse(0),
+                        commentRepository.countByPost(s).orElse(0)))
                 .collect(Collectors.toList());
         Long postCnt = (long) responseDtoList.size();
 
         return SearchDto.TotalResponseDto.builder()
                 .postCnt(postCnt)
                 .posts(responseDtoList)
+                .build();
+    }
+
+    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
+
+        return BookMarkDto.DetailResponseDto.builder()
+                .userId(bookMark.getUser().getId())
                 .build();
     }
 

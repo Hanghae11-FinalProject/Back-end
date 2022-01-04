@@ -33,13 +33,13 @@ public class CategoryDto {
         private String content;
         private String address;
         private List<Image> images;
+        private List<BookMarkDto.DetailResponseDto> bookMarks;
         private CurrentState currentState;
         private String myItem;
         private String exchangeItem;
         private String createdAt;
         private int bookmarkCnt;
         private int commentCnt;
-
 
     }
 

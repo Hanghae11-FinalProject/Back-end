@@ -1,7 +1,9 @@
 package com.team11.backend.service;
 
 
+import com.team11.backend.dto.BookMarkDto;
 import com.team11.backend.dto.CategoryDto;
+import com.team11.backend.model.BookMark;
 import com.team11.backend.model.Post;
 import com.team11.backend.repository.BookMarkRepository;
 import com.team11.backend.repository.CommentRepository;
@@ -15,6 +17,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.team11.backend.model.QBookMark.bookMark;
+import static com.team11.backend.model.QPost.post;
+
 @RequiredArgsConstructor
 @Service
 public class CategoryService {
@@ -26,9 +31,37 @@ public class CategoryService {
     @Transactional
     public List<CategoryDto.ResponseDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 
+//        List<BookMarkDto.DetailResponseDto> bookMarkResponseDtoList = post.getBookMarks().stream()
+//                .map(this::toBookmarkResponseDto)
+//                .collect(Collectors.toList());
+
         PageImpl<Post> posts = categoryRepository.categoryFilter(categoryRequestDto, pageable);
-        return posts.stream().map(s -> new CategoryDto.ResponseDto(s.getCategory(), s.getId(), s.getUser().getUsername(), s.getUser().getNickname(), s.getTitle(), s.getContent(), s.getUser().getAddress(), s.getImages(), s.getCurrentState(),s.getMyItem(),s.getExchangeItem() , TimeConversion.timeConversion(s.getCreateAt()), bookMarkRepository.countByPost(s).orElse(0), commentRepository.countByPost(s).orElse(0)))
+        return posts.stream()
+                .map(s -> new CategoryDto.ResponseDto(
+                        s.getCategory(),
+                        s.getId(),
+                        s.getUser().getUsername(),
+                        s.getUser().getNickname(),
+                        s.getTitle(), s.getContent(),
+                        s.getUser().getAddress(),
+                        s.getImages(),
+                        s.getBookMarks().stream()
+                                .map(this::toBookmarkResponseDto)
+                                .collect(Collectors.toList()),
+                        s.getCurrentState(),
+                        s.getMyItem(),
+                        s.getExchangeItem(),
+                        TimeConversion.timeConversion(s.getCreateAt()),
+                        bookMarkRepository.countByPost(s).orElse(0),
+                        commentRepository.countByPost(s).orElse(0)))
                 .collect(Collectors.toList());
 
+    }
+
+    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
+
+        return BookMarkDto.DetailResponseDto.builder()
+                .userId(bookMark.getUser().getId())
+                .build();
     }
 }
