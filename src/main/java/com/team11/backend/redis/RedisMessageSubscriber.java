@@ -2,7 +2,7 @@ package com.team11.backend.redis;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team11.backend.dto.NewMessage;
+import com.team11.backend.dto.chat.MessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
@@ -23,8 +23,15 @@ public class RedisMessageSubscriber implements MessageListener {
         try {
         String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
         System.out.println(publishMessage+"111111");
-        NewMessage newMessage = objectMapper.readValue(publishMessage,NewMessage.class);
-        messagingTemplate.convertAndSend("/sub/"+newMessage.getRoomId(), newMessage);
+            com.team11.backend.model.Message message1 = objectMapper.readValue(publishMessage, com.team11.backend.model.Message.class);
+            MessageDto mssages = MessageDto.builder()
+                    .message(message1.getContent())
+                    .sender(message1.getUser().getUsername())
+                    .roomName(message1.getRoom().getRoomName())
+                    .type(message1.getMessageType())
+                    .build();
+
+            messagingTemplate.convertAndSend("/sub/"+mssages.getRoomName(), mssages);
         } catch (Exception e) {
             e.printStackTrace();
         }
