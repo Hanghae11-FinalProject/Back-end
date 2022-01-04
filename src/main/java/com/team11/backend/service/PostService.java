@@ -110,17 +110,30 @@ public class PostService {
     @Transactional
     public void editPostService(List<MultipartFile> images, String jsonString, Long postId) throws IOException {
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        PostDto.PutRequestDto requestDto = objectMapper.readValue(jsonString,PostDto.PutRequestDto.class);
+
         List<ImageDto> imageDtoList = new ArrayList<>();
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new IllegalArgumentException("해당되는 포스트가 존재하지 않습니다.")
         );
         List<Image> imageList = post.getImages();
+        List<Image> removeList = new ArrayList<>();
         List<Tag> tagList = post.getTags();
 
         //지금 가지고있는 이미지 파일 S3에서 삭제 and 이미지 디비 삭제
         for (Image image : imageList){
-            awsS3UploadService.deleteFile(image.getImageName());
-            imageRepository.deleteById(image.getId());
+            for(ImageUrlDto imageUrlDto:requestDto.getImageUrlDtos()){
+                if(image.getImageUrl().equals(imageUrlDto.getImageUrl())){
+                    awsS3UploadService.deleteFile(image.getImageName());
+                    imageRepository.deleteById(image.getId());
+                    removeList.add(image);
+                }
+            }
+        }
+
+        for(Image image : removeList){
+            imageList.remove(image);
         }
         //지금 가지고있는 테그 삭제
         for (Tag tag : tagList){
@@ -133,14 +146,12 @@ public class PostService {
         }
 
         // 이미지 리스트, 테그 리스트 다시 초기화
-        imageList = new ArrayList<>();
         tagList = new ArrayList<>();
 
         //String 형태의 jsonString을 Dto로 변환부분
-        ObjectMapper objectMapper = new ObjectMapper();
-        PostDto.RequestDto requestDto = objectMapper.readValue(jsonString,PostDto.RequestDto.class);
 
-        dtoParser(tagList, imageList, imageDtoList, requestDto);
+
+        putDtoParser(tagList, imageList, imageDtoList, requestDto);
 
 
         post.updatePost(requestDto,imageList,tagList);
@@ -148,6 +159,23 @@ public class PostService {
     }
 
     private void dtoParser(List<Tag> tagList, List<Image> imageList, List<ImageDto> imageDtoList, PostDto.RequestDto requestDto) {
+        for (ImageDto imagedto:imageDtoList) {
+            Image image = Image.builder()
+                    .imageName(imagedto.getImageName())
+                    .imageUrl(imagedto.getImageUrl())
+                    .build();
+            imageList.add(image);
+        }
+
+        for (TagDto.RequestDto tagRequestDto: requestDto.getTagRequsetDtos()) {
+            Tag tag = Tag.builder()
+                    .tagName(tagRequestDto.getTagName())
+                    .build();
+            tagList.add(tag);
+        }
+    }
+
+    private void putDtoParser(List<Tag> tagList, List<Image> imageList, List<ImageDto> imageDtoList, PostDto.PutRequestDto requestDto) {
         for (ImageDto imagedto:imageDtoList) {
             Image image = Image.builder()
                     .imageName(imagedto.getImageName())

@@ -55,7 +55,7 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String category;
 
-    public void updatePost(PostDto.RequestDto requestDto, List<Image> images, List<Tag> tags){
+    public void updatePost(PostDto.PutRequestDto requestDto, List<Image> images, List<Tag> tags){
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
         this.currentState = requestDto.getCurrentState();

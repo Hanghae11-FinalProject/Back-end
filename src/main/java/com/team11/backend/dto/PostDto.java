@@ -39,6 +39,41 @@ public class PostDto {
             this.exchangeItem =exchangeItem;
         }
     }
+
+    @Setter
+    @Getter
+    public static class PutRequestDto{
+        private String title;
+        private String content;
+        private String category;
+        private String myItem;
+        private String exchangeItem;
+        private CurrentState currentState;
+        private List<TagDto.RequestDto> tagRequsetDtos;
+        private List<ImageUrlDto> imageUrlDtos;
+
+        @JsonCreator
+        public PutRequestDto(
+                @JsonProperty("title") String title,
+                @JsonProperty("content") String content,
+                @JsonProperty("category") String category,
+                @JsonProperty("currentState") String currentState,
+                @JsonProperty("myItem") String myItem,
+                @JsonProperty("images") List<ImageUrlDto> imageUrlDtos,
+                @JsonProperty("exchangeItem") String exchangeItem,
+                @JsonProperty("tag") List<TagDto.RequestDto> tagReqeustDtos
+        ){
+            this.title = title;
+            this.content = content;
+            this.category = category;
+            this.currentState = CurrentState.valueOf(currentState);
+            this.tagRequsetDtos = tagReqeustDtos;
+            this.imageUrlDtos =imageUrlDtos;
+            this.myItem = myItem;
+            this.exchangeItem =exchangeItem;
+        }
+    }
+
   
     @Getter
     @Builder
