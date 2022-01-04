@@ -58,6 +58,10 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.findify:s3mock_2.13:0.2.6'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'io.lettuce:lettuce-core:6.1.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 

@@ -25,10 +25,7 @@ public class UserRoom {
     @JoinColumn(name = "roomId",nullable = false)
     private Room room;
 
-
-    @ManyToOne
-    @JoinColumn(name = "roomId",nullable = false)
-    Message lastMessge;
+    Long lastMessage;
 
     @Column(nullable = false)
     private int count;
