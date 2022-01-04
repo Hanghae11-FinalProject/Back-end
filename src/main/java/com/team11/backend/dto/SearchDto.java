@@ -32,6 +32,7 @@ public class SearchDto {
         private String myItem;
         private String exchangeItem;
         private List<Image> images;
+        private List<BookMarkDto.DetailResponseDto> bookMarks;
         private CurrentState currentState;
         private String createdAt;
         private int bookmarkCnt;
