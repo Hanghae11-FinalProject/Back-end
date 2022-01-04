@@ -24,14 +24,14 @@ public class RedisMessageSubscriber implements MessageListener {
         String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
         System.out.println(publishMessage+"111111");
             com.team11.backend.model.Message message1 = objectMapper.readValue(publishMessage, com.team11.backend.model.Message.class);
-            MessageDto mssages = MessageDto.builder()
+            MessageDto messageDto = MessageDto.builder()
                     .message(message1.getContent())
                     .sender(message1.getUser().getUsername())
                     .roomName(message1.getRoom().getRoomName())
                     .type(message1.getMessageType())
                     .build();
 
-            messagingTemplate.convertAndSend("/sub/"+mssages.getRoomName(), mssages);
+            messagingTemplate.convertAndSend("/sub/"+messageDto.getRoomName(), messageDto);
         } catch (Exception e) {
             e.printStackTrace();
         }

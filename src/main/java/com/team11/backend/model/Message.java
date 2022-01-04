@@ -10,15 +10,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
-public class Message extends Timestamped{
+public class Message extends Timestamped {
 
-    public enum MessageType{
-        Talk,Exit,Start
+    public enum MessageType {
+        Talk, Exit, Start
     }
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +24,7 @@ public class Message extends Timestamped{
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "userId",nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -40,18 +38,20 @@ public class Message extends Timestamped{
     private Room room;
 
     @Builder
-    public Message(Long id, User user, String content, MessageType messageType) {
+    public Message(Long id, User user, String content, MessageType messageType, Room room) {
         this.id = id;
         this.user = user;
         this.content = content;
         this.messageType = messageType;
+        this.room = room;
     }
 
     @Builder
-    public Message(MessageDto messageDto , UserRepository userRepository , RoomRepository roomRepository) {
+    public Message(MessageDto messageDto, UserRepository userRepository, RoomRepository roomRepository) {
         this.messageType = messageDto.getType();
         this.user = userRepository.findByNickname(messageDto.getSender()).orElseThrow(() -> new IllegalArgumentException("유저정보가 존재하지 않습니다."));
         this.content = messageDto.getMessage();
         this.room = roomRepository.findByRoomName(messageDto.getRoomName()).orElseThrow(() -> new IllegalArgumentException("방 정보가 존재하지 않습니다."));
     }
+
 }
