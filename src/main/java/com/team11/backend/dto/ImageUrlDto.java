@@ -1,2 +1,14 @@
-package com.team11.backend.dto;public class ImageUrlDto {
+package com.team11.backend.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ImageUrlDto {
+    private String imageUrl;
 }
