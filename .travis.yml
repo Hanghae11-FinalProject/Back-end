@@ -26,6 +26,7 @@ before_deploy:
 
 deploy:
   - provider: s3
+    edge: true
     access_key_id: "$AWS_ACCESS_KEY" # Travis repo settings에 설정된 값
     secret_access_key: "$AWS_SECRET_KEY" # Travis repo settings에 설정된 값
     bucket: woojinbucket # 생성한 S3 버킷
@@ -39,6 +40,7 @@ deploy:
     local_dir: deploy #before_deploy에서 생성한 디렉토리
 
   - provider: codedeploy
+    edge: true
     access_key_id: "$AWS_ACCESS_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
     secret_access_key: "$AWS_SECRET_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
     bucket: woojinbucket # 생성한 S3 버킷
