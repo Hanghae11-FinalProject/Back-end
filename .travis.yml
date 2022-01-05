@@ -5,17 +5,16 @@ jdk:
 # Git Push할 Branch
 branches:
   only:
-#    - travis-deploy # 여기 바꿔도 됨!
-     - develope
+    - travis-deploy # 여기 바꿔도 됨!
 
-# Travis CI 서버의 Home
-cache:
-  directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.gradle'
 # gradlew 권한 추가
 before_install:
   - chmod +x gradlew
+# Travis CI 서버의 Home
+cache:
+  directories: # Travis CI 서버의 Home
+    - "$HOME/.m2/repository"
+    - "$HOME/.gradle"
 
 script: "./gradlew clean build"
 
@@ -36,12 +35,12 @@ deploy:
     wait-until-deployed: true
     on:
       repo: Hanghae11-FinalProject/Back-end #Github 주소
-      branch: develope
+      branch: travis-deploy
     local_dir: deploy #before_deploy에서 생성한 디렉토리
 
   - provider: codedeploy
-    access_key_id: "$AWS_ACCESS_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
-    secret_access_key: "$AWS_SECRET_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
+    access_key_id: $AWS_ACCESS_KEY # Travis-ci 웹 repo settings에서 설정해줘야 함.
+    secret_access_key: $AWS_SECRET_KEY # Travis-ci 웹 repo settings에서 설정해줘야 함.
     bucket: woojinbucket # 생성한 S3 버킷
     key: team8-deploy.zip
     bundle_type: zip
@@ -51,8 +50,8 @@ deploy:
     wait-until-deployed: true
     on:
       repo: Hanghae11-FinalProject/Back-end
-      branch: develope
- CI 실행 완료시 메일로 알람
+      branch: travis-deploy
+# CI 실행 완료시 메일로 알람
 notifications:
   email:
     recipients:
