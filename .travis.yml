@@ -36,7 +36,7 @@ deploy:
     on:
       repo: Hanghae11-FinalProject/Back-end #Github 주소
       branch: travis-deploy
-    local_dir: deploy #before_deploy에서 생성한 디렉토리
+    local_dir: deploy #before_deploy에서 생성한 디렉토리.
 
   - provider: codedeploy
     access_key_id: "$AWS_ACCESS_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
