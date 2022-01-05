@@ -23,4 +23,6 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "postId",nullable = false)
     private Post post;
+
+
 }

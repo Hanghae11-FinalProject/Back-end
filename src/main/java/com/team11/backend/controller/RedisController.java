@@ -46,6 +46,7 @@ public class RedisController {
             redisMessageListenerContainer.addMessageListener(redisMessageSubscriber,topic);
         }
     }
+
     @MessageMapping("/message")
     public void message(NewMessage message){
         messagePublisher.publish(message);
