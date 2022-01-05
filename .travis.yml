@@ -5,7 +5,7 @@ jdk:
 # Git Push할 Branch
 branches:
   only:
-    - develope # 여기 바꿔도 됨!
+    - travis-deploy # 여기 바꿔도 됨!
 
 # gradlew 권한 추가
 before_install:
