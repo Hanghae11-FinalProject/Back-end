@@ -24,18 +24,18 @@ script: "./gradlew clean build"
 #  - mkdir -p deploy
 #  - mv team8-deploy.zip deploy/team8-deploy.zip
 #
-#deploy:
-#  - provider: s3
-#    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
-#    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-#    bucket: team8-bucket # 생성한 S3 버킷
-#    region: ap-northeast-2
-#    skip_cleanup: true
-#    acl: public_read
-#    wait-until-deployed: true
-#    on:
-#      repo: Hanghae11-FinalProject/Back-end #Github 주소
-#      branch: travis-deploy
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: woojinbucket # 생성한 S3 버킷
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: public_read
+    wait-until-deployed: true
+    on:
+      repo: Hanghae11-FinalProject/Back-end #Github 주소
+      branch: travis-deploy
 #    local_dir: deploy #before_deploy에서 생성한 디렉토리
 #
 #  - provider: codedeploy
