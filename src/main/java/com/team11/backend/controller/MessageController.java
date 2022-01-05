@@ -15,7 +15,8 @@ public class MessageController {
     private final MessageService messageService;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
- 
+
+    //test
     //pub/api/message 클라이언트 요청으로 메세지 발행
     @MessageMapping("/message")
     public void message(MessageDto messageDto){
