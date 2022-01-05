@@ -117,4 +117,13 @@ public class PostDto {
         private List<BookMarkDto.DetailResponseDto> bookMarks;
         private List<CommentDto.ResponseDto> comments;
     }
+
+    @Getter
+    @Setter
+    @Builder
+    public static class ShowPostRoomDto{
+        private String myItem;
+        private String exchangeItem;
+    }
+
 }
