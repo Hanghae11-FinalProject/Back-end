@@ -5,7 +5,8 @@ jdk:
 # Git Push할 Branch
 branches:
   only:
-    - travis-deploy # 여기 바꿔도 됨!
+#    - travis-deploy # 여기 바꿔도 됨!
+     - develope
 
 # Travis CI 서버의 Home
 cache:
@@ -35,7 +36,7 @@ deploy:
     wait-until-deployed: true
     on:
       repo: Hanghae11-FinalProject/Back-end #Github 주소
-      branch: travis-deploy
+      branch: develope
     local_dir: deploy #before_deploy에서 생성한 디렉토리
 
   - provider: codedeploy
@@ -50,7 +51,7 @@ deploy:
     wait-until-deployed: true
     on:
       repo: Hanghae11-FinalProject/Back-end
-      branch: travis-deploy
+      branch: develope
  CI 실행 완료시 메일로 알람
 notifications:
   email:
