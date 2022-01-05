@@ -17,16 +17,18 @@ public class UserRoom {
     @Id
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId",nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roomId",nullable = false)
     private Room room;
 
+
     @Column(nullable = true)
     private Long lastMessgeId;
+
 
     @Column(nullable = false)
     private int count;

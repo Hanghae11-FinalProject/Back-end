@@ -1,0 +1,26 @@
+language: java
+jdk:
+  - openjdk8
+
+# Git Push할 Branch
+branches:
+  only:
+    - develope # 여기 바꿔도 됨!
+
+# gradlew 권한 추가
+before_install:
+  - chmod +x gradlew
+
+# Travis CI 서버의 Home
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "./gradlew clean build"
+
+# CI 실행 완료시 메일로 알람
+notifications:
+  email:
+    recipients:
+      - woojin126@naver.com # 여기 바꿔도 됨!
