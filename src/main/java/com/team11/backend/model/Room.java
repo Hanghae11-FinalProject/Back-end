@@ -22,10 +22,8 @@ public class Room {
     @Column(nullable = false)
     private String roomName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId",nullable = false)
     private Post post;
 
-    @OneToMany(mappedBy = "room")
-    private final List<Message> messages = new ArrayList<>();
 }

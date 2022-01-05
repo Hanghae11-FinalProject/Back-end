@@ -40,9 +40,8 @@ public class User {
     @NotNull
     private AuthProvider provider;
 
-    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<BookMark> bookMarks = new HashSet<>();
+    private final Set<BookMark> bookMarks = new HashSet<>();
 
 
     public void update(MyPageDto.RequestDto requestDto) {

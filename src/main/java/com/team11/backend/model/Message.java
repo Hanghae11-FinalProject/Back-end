@@ -3,7 +3,6 @@ package com.team11.backend.model;
 import com.team11.backend.dto.chat.MessageDto;
 import com.team11.backend.repository.RoomRepository;
 import com.team11.backend.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +22,7 @@ public class Message extends Timestamped {
     @Id
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
@@ -33,7 +32,7 @@ public class Message extends Timestamped {
     @Enumerated(EnumType.STRING)
     private MessageType messageType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roomId")
     private Room room;
 
