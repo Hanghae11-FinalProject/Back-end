@@ -45,7 +45,7 @@ deploy:
     key: team8-deploy.zip
     bundle_type: zip
     application: springboot-team8 # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
-    deployment_group: springboot-team8-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+    deployment_group: springboot-baepo-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
     region: ap-northeast-2
     wait-until-deployed: true
     on:
