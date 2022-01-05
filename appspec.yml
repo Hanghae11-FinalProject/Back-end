@@ -5,15 +5,15 @@ files:
     destination: /home/ec2-user/app/travis/build/
     overwrite: yes # 기존 파일들이 있으면 덮어 쓸지를 결정한다.
 
- 파일 권한 추가
-permission:
-  - object: /
-    pattern: "**"
-    owner: ubuntu
-    group: ubuntu
+# 파일 권한 추가
+#permission:
+#  - object: /
+#    pattern: "**"
+#    owner: ubuntu
+#    group: ubuntu
 
 hooks:
   AfterInstall: # 배포가 끝나면 아래 명령어를 실행
     - location: execute-deploy.sh
       timeout: 180
-      runas: ubuntu
+      runas: root
