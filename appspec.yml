@@ -1,0 +1,5 @@
+version: 0.0 #프로젝트 버전이 아니기 때문에 0.0 외에 다른 버전을 사용하시면 오류가 발생
+os: linux
+files:
+  - source:  /
+    destination: /home/ec2-user/app/travis/build/

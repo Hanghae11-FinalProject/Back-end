@@ -7,23 +7,23 @@ branches:
   only:
     - travis-deploy # 여기 바꿔도 됨!
 
-# gradlew 권한 추가
-before_install:
-  - chmod +x gradlew
-
 # Travis CI 서버의 Home
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
+    -
+# gradlew 권한 추가
+before_install:
+  - chmod +x gradlew
 
 script: "./gradlew clean build"
 
 #매번 Travis CI에서 파일을 하나하나 복사하는건 복사시간이 오래 걸리므로, 프로젝트 폴더 채로 압축해서 S3로 전달
 before_deploy:
-  - zip -r team8-bucket *
+  - zip -r team8-deploy *
   - mkdir -p deploy
-  - mv team8-bucket.zip deploy/team8-bucket.zip
+  - mv team8-deploy.zip deploy/team8-deploy.zip
 
 deploy:
   - provider: s3
@@ -38,6 +38,20 @@ deploy:
       repo: Hanghae11-FinalProject/Back-end #Github 주소
       branch: travis-deploy
     local_dir: deploy #before_deploy에서 생성한 디렉토리
+
+  - provider: codedeploy
+    access_key_id: "$AWS_ACCESS_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
+    secret_access_key: "$AWS_SECRET_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
+    bucket: team8-bucket # 생성한 S3 버킷
+    key: team8-deploy.zip
+    bundle_type: zip
+    application: springboot-team8 # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    deployment_group: springboot-team8-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      repo: Hanghae11-FinalProject/Back-end
+      branch: travis-deploy
 # CI 실행 완료시 메일로 알람
 notifications:
   email:
