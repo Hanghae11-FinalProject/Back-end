@@ -39,8 +39,8 @@ deploy:
     local_dir: deploy #before_deploy에서 생성한 디렉토리
 
   - provider: codedeploy
-    access_key_id: "$AWS_ACCESS_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
-    secret_access_key: "$AWS_SECRET_KEY" # Travis-ci 웹 repo settings에서 설정해줘야 함.
+    access_key_id: $AWS_ACCESS_KEY # Travis-ci 웹 repo settings에서 설정해줘야 함.
+    secret_access_key: $AWS_SECRET_KEY # Travis-ci 웹 repo settings에서 설정해줘야 함.
     bucket: woojinbucket # 생성한 S3 버킷
     key: team8-deploy.zip
     bundle_type: zip
