@@ -196,7 +196,7 @@ public class PostService {
     }
 
     public List<MyPostDto.ResponseDto> showMyPostService(User user) {
-        List<Post> postList = postRepository.findAllByUser(user);
+        List<Post> postList = postRepository.findAllByUserOrderByCreateAtDesc(user);
         List<MyPostDto.ResponseDto> responseDtos = new ArrayList<>();
         for (Post post : postList){
             Integer bookmarkCnt = bookMarkRepository.countByPost(post).orElse(0);

@@ -22,5 +22,4 @@ public class RoomDto {
         private ChatUserDto user;
         private String roomName;
     }
-
 }
