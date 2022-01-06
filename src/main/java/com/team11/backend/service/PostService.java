@@ -84,6 +84,7 @@ public class PostService {
                 .postId(postId)
                 .nickname(post.getUser().getNickname())
                 .profileImg(post.getUser().getProfileImg())
+                .userId(post.getUser().getId())
                 .bookMarks(bookMarkResponseDtoList)
                 .title(post.getTitle())
                 .content(post.getContent())
