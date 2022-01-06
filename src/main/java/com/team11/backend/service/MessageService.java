@@ -72,7 +72,7 @@ public class MessageService {
                 ()-> new IllegalArgumentException("no post")
         );
         Room room = roomRepository.findByPost(post);
-
+        System.out.println("room"+room);
         PostDto.ShowPostRoomDto showPostRoomDto = PostDto.ShowPostRoomDto.builder()
                 .myItem(room.getPost().getMyItem())
                 .exchangeItem(room.getPost().getExchangeItem())
