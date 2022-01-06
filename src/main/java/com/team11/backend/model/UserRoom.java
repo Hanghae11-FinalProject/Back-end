@@ -33,4 +33,16 @@ public class UserRoom {
     @Column(nullable = false)
     private int count;
 
+    public void lastMessageIdChange(Long Id){
+        this.lastMessgeId = Id;
+    }
+
+    public void countChange(){
+        this.count = this.count+1;
+    }
+
+    public void countInit(){
+        this.count = 0;
+    }
+
 }
