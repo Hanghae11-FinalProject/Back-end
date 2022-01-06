@@ -6,7 +6,7 @@ files:
     destination: /home/ec2-user/app/travis/build/
     overwrite: yes # 기존 파일들이 있으면 덮어 쓸지를 결정한다.
 
-# 파일 권한 추가.
+# 파일 권한 추가
 #permission:
 #  - object: /
 #    pattern: "**";
