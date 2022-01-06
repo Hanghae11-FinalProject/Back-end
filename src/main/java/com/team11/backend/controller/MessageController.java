@@ -32,7 +32,7 @@ public class MessageController {
 
     //pub/api/message 클라이언트 요청으로 메세지 발행
     @PostMapping("/api/message")
-    public ShowMessageDto.ResponseDto showMessageList(@RequestBody RoomDto roomDto,
+    public ShowMessageDto.ResponseDto showMessageList(@RequestBody RoomDto.Reqeust roomDto,
                                                       @AuthenticationPrincipal UserDetailsImpl userDetails,
                                                       @PageableDefault(size = 20, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
     ){

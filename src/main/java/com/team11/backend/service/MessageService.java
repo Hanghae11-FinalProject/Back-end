@@ -65,14 +65,13 @@ public class MessageService {
 
     }
 
-    public ShowMessageDto.ResponseDto showMessageList(RoomDto roomDto, UserDetailsImpl userDetails, Pageable pageable) {
+    public ShowMessageDto.ResponseDto showMessageList(RoomDto.Reqeust roomDto, UserDetailsImpl userDetails, Pageable pageable) {
         PageImpl<Message> messages = messageRepository.findByUser(userDetails.getUser(), pageable);
         List<MessageListDto> messageListDtos = new ArrayList<>();
         Post post = postRepository.findById(roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no post")
         );
         Room room = roomRepository.findByPost(post);
-        System.out.println("room"+room);
         PostDto.ShowPostRoomDto showPostRoomDto = PostDto.ShowPostRoomDto.builder()
                 .myItem(room.getPost().getMyItem())
                 .exchangeItem(room.getPost().getExchangeItem())

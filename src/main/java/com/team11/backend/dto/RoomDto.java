@@ -1,15 +1,25 @@
 package com.team11.backend.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class RoomDto {
-    private Long postId;
-    private Long toUserId;
 
-    public Long getPostId() {
-        return postId;
+    @Getter
+    @Setter
+    public static class Reqeust{
+        private Long postId;
+        private Long toUserId;
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    public static class Response{
+        private ChatUserDto user;
+        private String roomName;
     }
 }
