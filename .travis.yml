@@ -1,3 +1,4 @@
+
 language: java
 jdk:
   - openjdk8
@@ -43,5 +44,3 @@ notifications:
   email:
     recipients:
       - woojin126@naver.com # 여기 바꿔도 됨!
-
-
