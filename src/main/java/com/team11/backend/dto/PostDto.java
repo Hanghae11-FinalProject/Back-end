@@ -101,6 +101,7 @@ public class PostDto {
     public static class DetailResponseDto{
         private String createdAt;
         private Long postId;
+        private Long userId;
         private String nickname;
         private String profileImg;
         private String title;

@@ -14,7 +14,7 @@ public class MessageDto {
 
     private Message.MessageType type;
     private String roomName;
-    private String sender;
+    private Long senderId;
     private String message;
 
 }
