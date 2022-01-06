@@ -13,7 +13,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    PageImpl<Post> findAllByOrderByCreateAtDesc(Pageable pageable);
     List<Post> findAllByUserOrderByCreateAtDesc(User user);
     @Query(value = "select p from Post p where " +
             "((:isFood = true) and (p.category like 'food')) or " +

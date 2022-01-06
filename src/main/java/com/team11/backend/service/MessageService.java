@@ -30,7 +30,6 @@ public class MessageService {
     private final RedisMessagePublisher messagePublisher;
     private final MessageRepository messageRepository;
     private final RoomRepository roomRepository;
-    private final PostRepository postRepository;
     private final UserRoomRepository userRoomRepository;
 
 
@@ -84,45 +83,42 @@ public class MessageService {
         }
     }
 
-//    public ShowMessageDto.ResponseDto showMessageList(RoomDto.Reqeust roomDto, UserDetailsImpl userDetails, Pageable pageable) {
-//        PageImpl<Message> messages = messageRepository.findByUser(userDetails.getUser(), pageable);
-//        List<MessageListDto> messageListDtos = new ArrayList<>();
-//
-//        Post post = postRepository.findById(roomDto.getPostId()).orElseThrow(
-//                ()-> new IllegalArgumentException("no post")
-//        );
-//
-//        List<Room> room = roomRepository.findByPost(post);
-//        PostDto.ShowPostRoomDto showPostRoomDto = PostDto.ShowPostRoomDto.builder()
-//                .myItem(room.getPost().getMyItem())
-//                .exchangeItem(room.getPost().getExchangeItem())
-//                .build();
-//
-//        for (Message message : messages) {
-//            if(Objects.equals(message.getUser().getId(), userDetails.getUser().getId())) {
-//                ChatUserDto chatUserDto = ChatUserDto.builder()
-//                        .userId(message.getUser().getId())
-//                        .profileImg(message.getUser().getProfileImg())
-//                        .nickname(message.getUser().getNickname())
-//                        .build();
-//
-//                MessageContentDto messageContentDto = MessageContentDto.builder()
-//                        .content(message.getContent())
-//                        .createdAt(TimeConversion.timeConversion(message.getCreateAt()))
-//                        .build();
-//
-//                MessageListDto messageListDto = MessageListDto.builder()
-//                        .user(chatUserDto)
-//                        .message(messageContentDto)
-//                        .build();
-//
-//                messageListDtos.add(messageListDto);
-//            }
-//        }
-//
-//        return ShowMessageDto.ResponseDto.builder()
-//                .post(showPostRoomDto)
-//                .messages(messageListDtos)
-//                .build();
-//    }
+    public ShowMessageDto.ResponseDto showMessageList(RoomDto.findRoomDto roomDto, Pageable pageable) {
+        Room room = roomRepository.findByRoomNameAndPost_Id(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
+                ()-> new IllegalArgumentException("no roomName"));
+
+        PageImpl<Message> messages = messageRepository.findByRoom(room, pageable);
+        List<MessageListDto> messageListDtos = new ArrayList<>();
+
+        PostDto.ShowPostRoomDto showPostRoomDto = PostDto.ShowPostRoomDto.builder()
+                .myItem(room.getPost().getMyItem())
+                .exchangeItem(room.getPost().getExchangeItem())
+                .build();
+
+        for (Message message : messages) {
+            ChatUserDto chatUserDto = ChatUserDto.builder()
+                    .userId(message.getUser().getId())
+                    .profileImg(message.getUser().getProfileImg())
+                    .nickname(message.getUser().getNickname())
+                    .build();
+
+            MessageContentDto messageContentDto = MessageContentDto.builder()
+                    .content(message.getContent())
+                    .createdAt(TimeConversion.timeConversion(message.getCreateAt()))
+                    .build();
+
+            MessageListDto messageListDto = MessageListDto.builder()
+                    .user(chatUserDto)
+                    .message(messageContentDto)
+                    .build();
+
+            messageListDtos.add(messageListDto);
+        }
+
+
+        return ShowMessageDto.ResponseDto.builder()
+                .post(showPostRoomDto)
+                .messages(messageListDtos)
+                .build();
+    }
 }

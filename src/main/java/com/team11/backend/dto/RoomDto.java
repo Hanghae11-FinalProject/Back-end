@@ -17,6 +17,14 @@ public class RoomDto {
 
     @Getter
     @Setter
+    public static class findRoomDto{
+        private String roomName;
+        private Long postId;
+//        private Long toUserId;
+    }
+
+    @Getter
+    @Setter
     @Builder
     public static class Response{
         private ChatUserDto user;
