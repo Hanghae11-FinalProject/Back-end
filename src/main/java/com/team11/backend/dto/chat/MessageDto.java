@@ -17,5 +17,6 @@ public class MessageDto {
     private Long senderId;
     private String message;
     private Long receiverId;
+    private String createdAt;
 
 }

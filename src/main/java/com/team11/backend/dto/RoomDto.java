@@ -20,7 +20,7 @@ public class RoomDto {
     public static class findRoomDto{
         private String roomName;
         private Long postId;
-//        private Long toUserId;
+        private Long toUserId;
     }
 
     @Getter
