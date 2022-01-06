@@ -38,6 +38,7 @@ public class UserService {
 
     public MyPageDto.ResponseDto findMyPage(User user) {
         return MyPageDto.ResponseDto.builder()
+                .username(user.getUsername())
                 .nickname(user.getNickname())
                 .profileImg(user.getProfileImg())
                 .build();
