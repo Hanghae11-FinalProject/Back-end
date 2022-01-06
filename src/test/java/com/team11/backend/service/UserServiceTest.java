@@ -90,12 +90,10 @@ class UserServiceTest {
                         .nickname("변경된닉네임")
                         .profileImg("변경된이미지")
                         .build();
-                Long users = userService.MyPageModify(user, modifiedUserInfo);
+                MyPageDto.ResponseDto responseDto = userService.MyPageModify(user, modifiedUserInfo);
 
-                User user = userRepository.findById(users).get();
-
-                assertEquals("변경된닉네임", user.getNickname());
-                assertEquals("변경된이미지", user.getProfileImg());
+                assertEquals(responseDto.getNickname(), modifiedUserInfo.getNickname());
+                assertEquals(responseDto.getProfileImg(), modifiedUserInfo.getProfileImg());
 
             }
 

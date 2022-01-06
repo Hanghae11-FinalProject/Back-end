@@ -38,16 +38,22 @@ public class UserService {
 
     public MyPageDto.ResponseDto findMyPage(User user) {
         return MyPageDto.ResponseDto.builder()
+                .username(user.getUsername())
                 .nickname(user.getNickname())
                 .profileImg(user.getProfileImg())
                 .build();
     }
 
     @Transactional
-    public Long MyPageModify(User user, MyPageDto.RequestDto requestDto) {
+    public MyPageDto.ResponseDto MyPageModify(User user, MyPageDto.RequestDto requestDto) {
         User userInfo = userRepository.findById(user.getId()).orElseThrow(() -> new NullPointerException("유저 정보가 존재하지 않습니다."));
         userInfo.update(requestDto);
-        return userInfo.getId();
+        return MyPageDto.ResponseDto.builder()
+                .username(userInfo.getUsername())
+                .nickname(userInfo.getNickname())
+                .profileImg(userInfo.getProfileImg())
+                .build();
+
     }
 
     private void DuplicateUsernameAndNickname(SignupDto.RequestDto requestDto) {

@@ -39,9 +39,9 @@ public class UserController {
     public MyPageDto.ResponseDto MyPage(@AuthenticationPrincipal UserDetailsImpl customUserDetails){
         return userService.findMyPage(customUserDetails.getUser());
     }
-
+ //프로필이미지, 닉네임, 유저네임
     @PutMapping("/api/userInfos")
-    public Long MyPageModify(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
+    public MyPageDto.ResponseDto MyPageModify(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
                              @RequestBody MyPageDto.RequestDto requestDto)
     {
         return userService.MyPageModify(customUserDetails.getUser(),requestDto);
