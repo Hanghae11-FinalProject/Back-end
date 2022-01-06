@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class BookMarkController {
 
     private final BookMarkService bookMarkService;
-
+//asdasdasdasdasdasdasdasd
     @PostMapping("/api/bookmark/{postId}")
     public ResponseEntity<?> addBookMark(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
                                          @PathVariable Long postId
