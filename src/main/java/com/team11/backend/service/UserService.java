@@ -30,7 +30,7 @@ public class UserService {
                         .nickname(requestDto.getNickname())
                         .password(encodePassword.encode(requestDto.getPassword()))
                         .address(requestDto.getAddress())
-                        .profileImg("http://www.city.kr/files/attach/images/161/701/416/022/a2c34aa75756074e20552ccbac6894e8.jpg")
+                        .profileImg("https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc5sXof%2FbtrpQSjrN1i%2FK5lwGk9FVONRvTksAYvyJ1%2Fimg.png")
                         .provider(AuthProvider.pingpong)
                         .build());
         return user.getId();
@@ -38,6 +38,7 @@ public class UserService {
 
     public MyPageDto.ResponseDto findMyPage(User user) {
         return MyPageDto.ResponseDto.builder()
+                .username(user.getUsername())
                 .nickname(user.getNickname())
                 .profileImg(user.getProfileImg())
                 .build();

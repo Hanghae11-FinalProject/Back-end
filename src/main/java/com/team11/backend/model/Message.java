@@ -48,7 +48,7 @@ public class Message extends Timestamped {
     @Builder
     public Message(MessageDto messageDto, UserRepository userRepository, RoomRepository roomRepository) {
         this.messageType = messageDto.getType();
-        this.user = userRepository.findByNickname(messageDto.getSender()).orElseThrow(() -> new IllegalArgumentException("유저정보가 존재하지 않습니다."));
+        this.user = userRepository.findById(messageDto.getSenderId()).orElseThrow(() -> new IllegalArgumentException("유저정보가 존재하지 않습니다."));
         this.content = messageDto.getMessage();
         this.room = roomRepository.findByRoomName(messageDto.getRoomName()).orElseThrow(() -> new IllegalArgumentException("방 정보가 존재하지 않습니다."));
     }

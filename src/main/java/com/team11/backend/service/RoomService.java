@@ -27,7 +27,7 @@ public class RoomService {
     private final MessageRepository messageRepository;
 
     @Transactional
-    public void createRoomService(RoomDto roomDto, UserDetailsImpl userDetails){
+    public RoomDto.Response createRoomService(RoomDto.Reqeust roomDto, UserDetailsImpl userDetails){
 
         Post post = postRepository.findById(roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no post")
@@ -73,6 +73,18 @@ public class RoomService {
                 .build();
         userRoomRepository.save(toUserRoom);
 
+        ChatUserDto chatUserDto = ChatUserDto.builder()
+                .userId(toUser.getId())
+                .profileImg(toUser.getProfileImg())
+                .nickname(toUser.getNickname())
+                .build();
+
+        RoomDto.Response response = RoomDto.Response.builder()
+                .roomName(room.getRoomName())
+                .user(chatUserDto)
+                .build();
+
+        return response;
     }
 
     public List<ChatRoomDto> showRoomListService(UserDetailsImpl userDetails) {
