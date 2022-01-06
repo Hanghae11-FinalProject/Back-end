@@ -19,7 +19,7 @@ public class MessageService {
         if (Message.MessageType.Start.equals(message.getMessageType())) {
             MessageDto messages = MessageDto.builder()
                     .message(message.getUser().getUsername() + "님이 입장")
-                    .sender(message.getUser().getNickname())
+                    .senderId(message.getUser().getId())
                     .roomName(message.getRoom().getRoomName())
                     .type(message.getMessageType())
                     .build();
@@ -30,7 +30,7 @@ public class MessageService {
         } else if (Message.MessageType.Exit.equals(message.getMessageType())) {
             MessageDto exitMessage = MessageDto.builder()
                     .message(message.getUser().getUsername() + "님이 퇴장")
-                    .sender(message.getUser().getNickname())
+                    .senderId(message.getUser().getId())
                     .roomName(message.getRoom().getRoomName())
                     .type(message.getMessageType())
                     .build();
@@ -39,7 +39,7 @@ public class MessageService {
         } else if (Message.MessageType.Talk.equals(message.getMessageType())) {
             MessageDto talkMessage = MessageDto.builder()
                     .message(message.getContent())
-                    .sender(message.getUser().getNickname())
+                    .senderId(message.getUser().getId())
                     .roomName(message.getRoom().getRoomName())
                     .type(message.getMessageType())
                     .build();
