@@ -1,0 +1,20 @@
+
+version: 0.0 #프로젝트 버전이 아니기 때문에 0.0 외에 다른 버전을 사용하시면 오류가 발생
+os: linux
+files:
+  - source:  /
+    destination: /home/ec2-user/app/travis/build/
+    overwrite: yes # 기존 파일들이 있으면 덮어 쓸지를 결정한다.
+
+# 파일 권한 추가
+#permission:
+#  - object: /
+#    pattern: "**";
+#    owner: ubuntu
+#    group: ubuntu
+
+hooks:
+  AfterInstall: # 배포가 끝나면 아래 명령어를 실행.
+    - location: execute-deploy.sh
+      timeout: 180
+      runas: root
