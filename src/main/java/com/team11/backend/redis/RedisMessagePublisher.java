@@ -17,4 +17,8 @@ public class RedisMessagePublisher{
     public void publish(MessageDto message) {
         redisTemplate.convertAndSend(String.valueOf(message.getRoomName()), message);
     }
+
+    public void publishToUser(Long userId, MessageDto message) {
+        redisTemplate.convertAndSend(String.valueOf(userId), message);
+    }
 }

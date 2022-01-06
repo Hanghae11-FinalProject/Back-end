@@ -53,4 +53,5 @@ public class RoomController {
             redisMessageListenerContainer.addMessageListener(redisMessageSubscriber,topic);
         }
     }
+
 }

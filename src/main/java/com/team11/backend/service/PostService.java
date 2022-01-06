@@ -113,9 +113,12 @@ public class PostService {
     @Transactional
     public void editPostService(List<MultipartFile> images, String jsonString, Long postId) throws IOException {
 
+        System.out.println("images : "+ images);
         ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("게시물 수정 : " + jsonString);
         PostDto.PutRequestDto requestDto = objectMapper.readValue(jsonString,PostDto.PutRequestDto.class);
 
+        System.out.println(requestDto.getContent());
         List<ImageDto> imageDtoList = new ArrayList<>();
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new IllegalArgumentException("해당되는 포스트가 존재하지 않습니다.")
@@ -135,6 +138,7 @@ public class PostService {
             }
         }
 
+
         for(Image image : removeList){
             imageList.remove(image);
         }
@@ -143,9 +147,14 @@ public class PostService {
             tagRepository.deleteById(tag.getId());
         }
         //바꿀 이미지 S3에 저장
-        for (MultipartFile image: images){
-            ImageDto imageDto = fileUploadService.uploadImage(image);
-            imageDtoList.add(imageDto);
+        if(images != null){
+            for (MultipartFile image: images){
+                System.out.println(!image.isEmpty());
+                if(!image.isEmpty()){
+                    ImageDto imageDto = fileUploadService.uploadImage(image);
+                    imageDtoList.add(imageDto);
+                }
+            }
         }
 
         // 이미지 리스트, 테그 리스트 다시 초기화

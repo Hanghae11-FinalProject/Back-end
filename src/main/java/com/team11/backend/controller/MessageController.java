@@ -27,15 +27,15 @@ public class MessageController {
     @MessageMapping("/message")
     public void message(MessageDto messageDto){
         Message message = new Message(messageDto,userRepository,roomRepository);
-        messageService.sendMessage(message);
+        messageService.sendMessage(message,messageDto.getReceiverId());
     }
 
     //pub/api/message 클라이언트 요청으로 메세지 발행
-    @PostMapping("/api/message")
-    public ShowMessageDto.ResponseDto showMessageList(@RequestBody RoomDto.Reqeust roomDto,
-                                                      @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                      @PageableDefault(size = 20, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
-    ){
-        return messageService.showMessageList(roomDto, userDetails, pageable);
-    }
+//    @PostMapping("/api/message")
+//    public ShowMessageDto.ResponseDto showMessageList(@RequestBody RoomDto.Reqeust roomDto,
+//                                                      @AuthenticationPrincipal UserDetailsImpl userDetails,
+//                                                      @PageableDefault(size = 20, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
+//    ){
+//        return messageService.showMessageList(roomDto, userDetails, pageable);
+//    }
 }

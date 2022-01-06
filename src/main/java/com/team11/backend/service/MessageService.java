@@ -4,10 +4,12 @@ import com.team11.backend.dto.chat.MessageDto;
 import com.team11.backend.model.Message;
 import com.team11.backend.model.Post;
 import com.team11.backend.model.Room;
+import com.team11.backend.model.UserRoom;
 import com.team11.backend.redis.RedisMessagePublisher;
 import com.team11.backend.repository.MessageRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.repository.RoomRepository;
+import com.team11.backend.repository.UserRoomRepository;
 import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +31,16 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final RoomRepository roomRepository;
     private final PostRepository postRepository;
+    private final UserRoomRepository userRoomRepository;
 
 
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message,Long receiverId) {
         if (Message.MessageType.Start.equals(message.getMessageType())) {
             MessageDto messages = MessageDto.builder()
                     .message(message.getUser().getUsername() + "님이 입장")
                     .senderId(message.getUser().getId())
                     .roomName(message.getRoom().getRoomName())
+                    .receiverId(receiverId)
                     .type(message.getMessageType())
                     .build();
             messagePublisher.publish(messages);
@@ -49,6 +53,7 @@ public class MessageService {
                     .senderId(message.getUser().getId())
                     .roomName(message.getRoom().getRoomName())
                     .type(message.getMessageType())
+                    .receiverId(receiverId)
                     .build();
             messagePublisher.publish(exitMessage);
 
@@ -58,50 +63,66 @@ public class MessageService {
                     .senderId(message.getUser().getId())
                     .roomName(message.getRoom().getRoomName())
                     .type(message.getMessageType())
+                    .receiverId(receiverId)
                     .build();
+
+            Room room = roomRepository.findByRoomName(talkMessage.getRoomName()).orElseThrow(
+                    ()-> new IllegalArgumentException("해당되는 룸 없습니다.")
+            );
+
+            List<UserRoom> userRoomList = userRoomRepository.findByRoom(room);
+
             messageRepository.save(message);
+
+            for (UserRoom userRoom : userRoomList){
+                if(userRoom.getUser().getId() == message.getUser().getId()){
+                    userRoom.countChange();
+                }
+                userRoom.lastMessageIdChange(message.getId());
+            }
             messagePublisher.publish(talkMessage);
         }
-
     }
 
-    public ShowMessageDto.ResponseDto showMessageList(RoomDto.Reqeust roomDto, UserDetailsImpl userDetails, Pageable pageable) {
-        PageImpl<Message> messages = messageRepository.findByUser(userDetails.getUser(), pageable);
-        List<MessageListDto> messageListDtos = new ArrayList<>();
-        Post post = postRepository.findById(roomDto.getPostId()).orElseThrow(
-                ()-> new IllegalArgumentException("no post")
-        );
-        Room room = roomRepository.findByPost(post);
-        PostDto.ShowPostRoomDto showPostRoomDto = PostDto.ShowPostRoomDto.builder()
-                .myItem(room.getPost().getMyItem())
-                .exchangeItem(room.getPost().getExchangeItem())
-                .build();
-
-        for (Message message : messages) {
-            if(Objects.equals(message.getUser().getId(), userDetails.getUser().getId())) {
-                ChatUserDto chatUserDto = ChatUserDto.builder()
-                        .userId(message.getUser().getId())
-                        .profileImg(message.getUser().getProfileImg())
-                        .nickname(message.getUser().getNickname())
-                        .build();
-
-                MessageContentDto messageContentDto = MessageContentDto.builder()
-                        .content(message.getContent())
-                        .createdAt(TimeConversion.timeConversion(message.getCreateAt()))
-                        .build();
-
-                MessageListDto messageListDto = MessageListDto.builder()
-                        .user(chatUserDto)
-                        .message(messageContentDto)
-                        .build();
-
-                messageListDtos.add(messageListDto);
-            }
-        }
-
-        return ShowMessageDto.ResponseDto.builder()
-                .post(showPostRoomDto)
-                .messages(messageListDtos)
-                .build();
-    }
+//    public ShowMessageDto.ResponseDto showMessageList(RoomDto.Reqeust roomDto, UserDetailsImpl userDetails, Pageable pageable) {
+//        PageImpl<Message> messages = messageRepository.findByUser(userDetails.getUser(), pageable);
+//        List<MessageListDto> messageListDtos = new ArrayList<>();
+//
+//        Post post = postRepository.findById(roomDto.getPostId()).orElseThrow(
+//                ()-> new IllegalArgumentException("no post")
+//        );
+//
+//        List<Room> room = roomRepository.findByPost(post);
+//        PostDto.ShowPostRoomDto showPostRoomDto = PostDto.ShowPostRoomDto.builder()
+//                .myItem(room.getPost().getMyItem())
+//                .exchangeItem(room.getPost().getExchangeItem())
+//                .build();
+//
+//        for (Message message : messages) {
+//            if(Objects.equals(message.getUser().getId(), userDetails.getUser().getId())) {
+//                ChatUserDto chatUserDto = ChatUserDto.builder()
+//                        .userId(message.getUser().getId())
+//                        .profileImg(message.getUser().getProfileImg())
+//                        .nickname(message.getUser().getNickname())
+//                        .build();
+//
+//                MessageContentDto messageContentDto = MessageContentDto.builder()
+//                        .content(message.getContent())
+//                        .createdAt(TimeConversion.timeConversion(message.getCreateAt()))
+//                        .build();
+//
+//                MessageListDto messageListDto = MessageListDto.builder()
+//                        .user(chatUserDto)
+//                        .message(messageContentDto)
+//                        .build();
+//
+//                messageListDtos.add(messageListDto);
+//            }
+//        }
+//
+//        return ShowMessageDto.ResponseDto.builder()
+//                .post(showPostRoomDto)
+//                .messages(messageListDtos)
+//                .build();
+//    }
 }
