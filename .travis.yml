@@ -51,7 +51,7 @@ deploy:
     region: ap-northeast-2
     wait-until-deployed: true
     on:
-      repo: Team8-Project/back
+      repo: Hanghae11-FinalProject/Back-end
       branch: travis-deploy
 notifications:
   email:
