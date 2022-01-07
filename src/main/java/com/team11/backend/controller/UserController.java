@@ -1,6 +1,7 @@
 package com.team11.backend.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.team11.backend.dto.HeaderDto;
+import com.team11.backend.dto.KakaoUserUpdateAddressDto;
 import com.team11.backend.dto.MyPageDto;
 import com.team11.backend.dto.SignupDto;
 import com.team11.backend.security.UserDetailsImpl;
@@ -53,6 +54,11 @@ public class UserController {
             @RequestParam String code
     ) throws JsonProcessingException {
         return kakaoUserService.kakaoLogin(code);
+    }
+
+    @PutMapping("/user/address")
+    public KakaoUserUpdateAddressDto.ResponseDto kakaoAddressUpdate(@RequestBody KakaoUserUpdateAddressDto.RequestDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return userService.updateKakaoInfo(requestDto,userDetails.getUser());
     }
 
 

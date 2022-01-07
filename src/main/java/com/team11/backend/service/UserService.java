@@ -1,6 +1,7 @@
 package com.team11.backend.service;
 
 
+import com.team11.backend.dto.KakaoUserUpdateAddressDto;
 import com.team11.backend.dto.MyPageDto;
 import com.team11.backend.dto.SignupDto;
 import com.team11.backend.model.AuthProvider;
@@ -74,5 +75,12 @@ public class UserService {
     public void nicknameCheck(String nickname) {
         if (userRepository.existsByNickname(nickname))
             throw new DuplicateKeyException("이미 존재하는 닉네임 입니다.");
+    }
+
+    @Transactional
+    public KakaoUserUpdateAddressDto.ResponseDto updateKakaoInfo(KakaoUserUpdateAddressDto.RequestDto requestDto, User user) {
+        User userInfo = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+        userInfo.kakaoUserUpdateAddress(requestDto);
+        return KakaoUserUpdateAddressDto.convertDto(userInfo);
     }
 }

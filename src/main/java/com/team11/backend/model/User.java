@@ -1,6 +1,7 @@
 package com.team11.backend.model;
 
 import com.sun.istack.NotNull;
+import com.team11.backend.dto.KakaoUserUpdateAddressDto;
 import com.team11.backend.dto.MyPageDto;
 import lombok.*;
 
@@ -47,5 +48,10 @@ public class User {
     public void update(MyPageDto.RequestDto requestDto) {
         this.nickname = requestDto.getNickname();
         this.profileImg = requestDto.getProfileImg();
+    }
+
+    public void kakaoUserUpdateAddress(KakaoUserUpdateAddressDto.RequestDto requestDto) {
+        this.profileImg = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc5sXof%2FbtrpQSjrN1i%2FK5lwGk9FVONRvTksAYvyJ1%2Fimg.png";
+        this.address = requestDto.getAddress();
     }
 }
