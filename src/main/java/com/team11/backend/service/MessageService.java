@@ -29,56 +29,89 @@ public class MessageService {
     private final UserRoomRepository userRoomRepository;
     private final UserRepository userRepository;
 
-    public void sendMessage(Message message,Long receiverId) {
+    public void sendMessage(MessageDto messageDto) {
         LocalDateTime now = LocalDateTime.now();
-        if (Message.MessageType.Start.equals(message.getMessageType())) {
-            MessageDto messages = MessageDto.builder()
-                    .message(message.getUser().getUsername() + "님이 입장")
-                    .senderId(message.getUser().getId())
-                    .roomName(message.getRoom().getRoomName())
-                    .receiverId(receiverId)
+        MessageDto sendMessageDto = new MessageDto();
+
+        User sender = userRepository.findById(messageDto.getSenderId()).orElseThrow(
+                ()-> new IllegalArgumentException("해당되는 sender없음")
+        );
+
+        User receiver = userRepository.findById(messageDto.getReceiverId()).orElseThrow(
+                ()-> new IllegalArgumentException("해당되는 receiver없음")
+        );
+
+        if (Message.MessageType.Start.equals(messageDto.getType())) {
+            sendMessageDto = MessageDto.builder()
+                    .message(sender.getNickname() + "님이 입장")
+                    .senderId(sender.getId())
+                    .roomName(messageDto.getRoomName())
+                    .receiverId(messageDto.getReceiverId())
                     .createdAt(MessageTimeConversion.timeConversion(now))
-                    .type(message.getMessageType())
+                    .type(messageDto.getType())
                     .build();
-            messagePublisher.publish(messages);
-
-
-            messagePublisher.publish(messages);
-        } else if (Message.MessageType.Exit.equals(message.getMessageType())) {
-            MessageDto exitMessage = MessageDto.builder()
-                    .message(message.getUser().getUsername() + "님이 퇴장")
-                    .senderId(message.getUser().getId())
-                    .roomName(message.getRoom().getRoomName())
+        } else if (Message.MessageType.Exit.equals(messageDto.getType())) {
+            sendMessageDto = MessageDto.builder()
+                    .message(sender.getNickname() + "님이 퇴장")
+                    .senderId(sender.getId())
+                    .roomName(messageDto.getRoomName())
                     .createdAt(MessageTimeConversion.timeConversion(now))
-                    .type(message.getMessageType())
-                    .receiverId(receiverId)
-                    .build();
-            messagePublisher.publish(exitMessage);
-
-        } else if (Message.MessageType.Talk.equals(message.getMessageType())) {
-            MessageDto talkMessage = MessageDto.builder()
-                    .message(message.getContent())
-                    .senderId(message.getUser().getId())
-                    .roomName(message.getRoom().getRoomName())
-                    .createdAt(MessageTimeConversion.timeConversion(now))
-                    .type(message.getMessageType())
-                    .receiverId(receiverId)
+                    .type(messageDto.getType())
+                    .receiverId(messageDto.getReceiverId())
                     .build();
 
-            Room room = roomRepository.findByRoomName(talkMessage.getRoomName()).orElseThrow(
-                    ()-> new IllegalArgumentException("해당되는 룸 없습니다.")
-            );
+            roomOut(sendMessageDto);
 
-            List<UserRoom> userRoomList = userRoomRepository.findByRoom(room);
+        } else if (Message.MessageType.Talk.equals(messageDto.getType())) {
+            sendMessageDto = MessageDto.builder()
+                    .message(messageDto.getMessage())
+                    .senderId(sender.getId())
+                    .roomName(messageDto.getRoomName())
+                    .createdAt(MessageTimeConversion.timeConversion(now))
+                    .type(messageDto.getType())
+                    .receiverId(messageDto.getReceiverId())
+                    .build();
 
-            messageRepository.save(message);
+        }
 
-            for (UserRoom userRoom : userRoomList){
-                userRoom.lastMessageIdChange(message.getId());
+
+
+        Room room = roomRepository.findByRoomName(sendMessageDto.getRoomName()).orElseThrow(
+                ()-> new IllegalArgumentException("해당되는 룸 없습니다.")
+        );
+
+        List<UserRoom> userRoomList = userRoomRepository.findByRoom(room);
+
+        Message message = new Message(sendMessageDto,userRepository,roomRepository);
+        messageRepository.save(message);
+
+        for (UserRoom userRoom : userRoomList){
+            userRoom.lastMessageIdChange(message.getId());
+        }
+        messagePublisher.publish(sendMessageDto);
+    }
+
+
+    public void roomOut(MessageDto messages){
+        Room room = roomRepository.findByRoomName(messages.getRoomName()).orElseThrow(
+                ()-> new IllegalArgumentException("해당되는 룸없음")
+        );
+
+        List<UserRoom> userRoomList = userRoomRepository.findByRoom(room);
+        // 자기가 보는 userRoom 삭제
+        for (UserRoom userRoom : userRoomList){
+            if(userRoom.getUser().getId() != messages.getSenderId()){
+                userRoomRepository.deleteById(userRoom.getId());
             }
-            messagePublisher.publish(talkMessage);
+        }
+
+        if(userRoomList.size() == 1){ // 마지막으로 나가는 사람 -> room 삭제
+            messageRepository.deleteAllByRoom(room);
+            roomRepository.deleteById(room.getId());
         }
     }
+
+
     @Transactional
     public void updateRoomMessageCount(RoomDto.UpdateCountDto updateCountDto){
         Room room = roomRepository.findByRoomName(updateCountDto.getRoomName()).orElseThrow(

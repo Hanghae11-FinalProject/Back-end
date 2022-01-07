@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
     PageImpl<Message> findByRoom(Room room, Pageable pageable);
+    void deleteAllByRoom(Room room);
 
 }
