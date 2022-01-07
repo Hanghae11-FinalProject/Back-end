@@ -27,6 +27,7 @@ public class CategoryDto {
     public static class ResponseDto {
         private String categoryName;
         private Long postId;
+        private String profileImg;
         private String username;
         private String nickname;
         private String title;
