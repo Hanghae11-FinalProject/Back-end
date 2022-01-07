@@ -8,11 +8,13 @@ import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.service.KakaoUserService;
 import com.team11.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -58,6 +60,7 @@ public class UserController {
 
     @PutMapping("/user/address")
     public KakaoUserUpdateAddressDto.ResponseDto kakaoAddressUpdate(@RequestBody KakaoUserUpdateAddressDto.RequestDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
+        log.info("userTokenData = {}", userDetails.getUser().getUsername());
         return userService.updateKakaoInfo(requestDto,userDetails.getUser());
     }
 
