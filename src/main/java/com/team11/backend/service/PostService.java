@@ -254,7 +254,7 @@ public class PostService {
         List<CommentDto.ResponseDto> result = new ArrayList<>();
         Map<Long, CommentDto.ResponseDto> map = new HashMap<>();
         comments.forEach(c -> {
-            CommentDto.ResponseDto dto = new CommentDto.ResponseDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname(), TimeConversion.timeConversion(c.getCreateAt()));
+            CommentDto.ResponseDto dto = new CommentDto.ResponseDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname(),c.getUser().getProfileImg(), TimeConversion.timeConversion(c.getCreateAt()));
             map.put(dto.getId(), dto);
             if (c.getParent() != null)
                  map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록
