@@ -22,6 +22,10 @@ public class UserRoom {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "toUserId",nullable = false)
+    private User toUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roomId",nullable = false)
     private Room room;
 

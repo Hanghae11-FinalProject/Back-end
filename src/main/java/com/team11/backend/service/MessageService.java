@@ -103,7 +103,7 @@ public class MessageService {
         List<UserRoom> userRoomList = userRoomRepository.findByRoom(room);
         // 자기가 보는 userRoom 삭제
         for (UserRoom userRoom : userRoomList){
-            if(userRoom.getUser().getId() != messages.getSenderId()){
+            if(userRoom.getUser().getId() == messages.getSenderId()){
                 userRoomRepository.deleteById(userRoom.getId());
             }
         }
@@ -125,7 +125,7 @@ public class MessageService {
                 ()-> new IllegalArgumentException("해당방 없음")
         );
 
-        User user = userRepository.findById(updateCountDto.getToUserId()).orElseThrow(
+        User user = userRepository.findById(updateCountDto.getUserId()).orElseThrow(
                 ()-> new IllegalArgumentException("해당방 유저 없음")
         );
 
@@ -139,7 +139,7 @@ public class MessageService {
         Room room = roomRepository.findByRoomNameAndPost_Id(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no roomName"));
 
-        User user = userRepository.findById(roomDto.getToUserId()).orElseThrow(
+        User user = userRepository.findById(roomDto.getUserId()).orElseThrow(
                 ()->new IllegalArgumentException("해당 유저 없음")
         );
         UserRoom userRoom = userRoomRepository.findByRoomAndUser(room,user);
