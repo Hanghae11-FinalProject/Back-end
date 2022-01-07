@@ -30,7 +30,10 @@ public class CommentService {
                         postRepository.findById(requestDto.getPostId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다.")),
                         Optional.ofNullable(requestDto.getParentId())  //부모 코멘트가 존재하는지 확인
                                 .map(id -> commentRepository.findById(id).orElseThrow(IllegalArgumentException::new)) //만약 id
-                                .orElse(null))));
+                                .orElse(null))
+
+
+        ));
     }
 
     @Transactional
@@ -43,6 +46,6 @@ public class CommentService {
     }
 
     public static CommentDto.ResponseDto convertCommentToDto(Comment comment) { //댓글삭제
-        return new CommentDto.ResponseDto(comment.getId(), comment.getContent(), comment.getUser().getId(), comment.getUser().getNickname(), TimeConversion.timeConversion(comment.getCreateAt()));
+        return new CommentDto.ResponseDto(comment.getId(), comment.getContent(), comment.getUser().getId(), comment.getUser().getNickname(),comment.getUser().getProfileImg() ,TimeConversion.timeConversion(comment.getCreateAt()));
     }
 }
