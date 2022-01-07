@@ -119,7 +119,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/oauth/callback/kakao");
         skipPathList.add("GET,/api/search/rank");
 
-        // h2-console 허용
+        // h2-console 허용.
         skipPathList.add("GET,/h2-console/**");
         skipPathList.add("POST,/h2-console/**");
         skipPathList.add("GET,/webSocket/**");
