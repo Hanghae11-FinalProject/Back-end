@@ -61,6 +61,7 @@ public class RoomService {
         UserRoom userRoom = UserRoom.builder()
                 .room(room)
                 .user(user)
+                .toUser(toUser)
                 .lastMessgeId(null)
                 .count(0)
                 .build();
@@ -70,6 +71,7 @@ public class RoomService {
         UserRoom toUserRoom = UserRoom.builder()
                 .room(room)
                 .user(toUser)
+                .toUser(user)
                 .lastMessgeId(null)
                 .count(0)
                 .build();
@@ -92,44 +94,75 @@ public class RoomService {
     public List<ChatRoomDto> showRoomListService(UserDetailsImpl userDetails) {
         List<UserRoom> userRooms = userRoomRepository.findByUser(userDetails.getUser());
         List<ChatRoomDto> chatRoomDtos = new ArrayList<>();
+        for (UserRoom userRoom : userRooms) {
+            LastMessageDto lastMessageDto;
 
-        for (UserRoom userRoom : userRooms){
-            List<UserRoom> findByRoomUserRooms = userRoomRepository.findByRoom(userRoom.getRoom());
-            for(UserRoom findByRoomUserRoom : findByRoomUserRooms){
-                if(!Objects.equals(findByRoomUserRoom.getUser().getId(), userDetails.getUser().getId())){
-                    ChatUserDto chatUserDto = ChatUserDto.builder()
-                            .userId(findByRoomUserRoom.getUser().getId())
-                            .profileImg(findByRoomUserRoom.getUser().getProfileImg())
-                            .nickname(findByRoomUserRoom.getUser().getNickname())
-                            .build();
+            ChatUserDto chatUserDto = ChatUserDto.builder()
+                    .userId(userRoom.getToUser().getId())
+                    .profileImg(userRoom.getToUser().getProfileImg())
+                    .nickname(userRoom.getToUser().getNickname())
+                    .build();
 
-                    LastMessageDto lastMessageDto;
-
-                    if(findByRoomUserRoom.getLastMessgeId() == null){
-                         lastMessageDto = LastMessageDto.builder()
-                                .content("room create")
-                                .createdAt("asdasd")
-                                .build();
-                    }else{
-                        Message message = messageRepository.getById(findByRoomUserRoom.getLastMessgeId());
-                         lastMessageDto = LastMessageDto.builder()
-                                .content(message.getContent())
-                                .createdAt("asdasd")
-                                .build();
-                    }
-
-                    ChatRoomDto chatRoomDto = ChatRoomDto.builder()
-                            .roomName(findByRoomUserRoom.getRoom().getRoomName())
-                            .postId(findByRoomUserRoom.getRoom().getPost().getId())
-                            .user(chatUserDto)
-                            .lastMessage(lastMessageDto)
-                            .notReadingMessageCount(findByRoomUserRoom.getCount())
-                            .build();
-                    chatRoomDtos.add(chatRoomDto);
-
-                }
+            if (userRoom.getLastMessgeId() == null) {
+                lastMessageDto = LastMessageDto.builder()
+                        .content("room create")
+                        .createdAt("asdasd")
+                        .build();
+            } else {
+                Message message = messageRepository.getById(userRoom.getLastMessgeId());
+                lastMessageDto = LastMessageDto.builder()
+                        .content(message.getContent())
+                        .createdAt("asdasd")
+                        .build();
             }
+
+            ChatRoomDto chatRoomDto = ChatRoomDto.builder()
+                    .roomName(userRoom.getRoom().getRoomName())
+                    .postId(userRoom.getRoom().getPost().getId())
+                    .user(chatUserDto)
+                    .lastMessage(lastMessageDto)
+                    .notReadingMessageCount(userRoom.getCount())
+                    .build();
+
+            chatRoomDtos.add(chatRoomDto);
         }
+
+
+//            List<UserRoom> findByRoomUserRooms = userRoomRepository.findByRoom(userRoom.getRoom());
+//            for(UserRoom findByRoomUserRoom : findByRoomUserRooms){
+//                if(!Objects.equals(findByRoomUserRoom.getUser().getId(), userDetails.getUser().getId())){
+//                    ChatUserDto chatUserDto = ChatUserDto.builder()
+//                            .userId(findByRoomUserRoom.getUser().getId())
+//                            .profileImg(findByRoomUserRoom.getUser().getProfileImg())
+//                            .nickname(findByRoomUserRoom.getUser().getNickname())
+//                            .build();
+//
+//                    LastMessageDto lastMessageDto;
+//
+//                    if(findByRoomUserRoom.getLastMessgeId() == null){
+//                         lastMessageDto = LastMessageDto.builder()
+//                                .content("room create")
+//                                .createdAt("asdasd")
+//                                .build();
+//                    }else{
+//                        Message message = messageRepository.getById(findByRoomUserRoom.getLastMessgeId());
+//                         lastMessageDto = LastMessageDto.builder()
+//                                .content(message.getContent())
+//                                .createdAt("asdasd")
+//                                .build();
+//                    }
+//
+//                    ChatRoomDto chatRoomDto = ChatRoomDto.builder()
+//                            .roomName(findByRoomUserRoom.getRoom().getRoomName())
+//                            .postId(findByRoomUserRoom.getRoom().getPost().getId())
+//                            .user(chatUserDto)
+//                            .lastMessage(lastMessageDto)
+//                            .notReadingMessageCount(findByRoomUserRoom.getCount())
+//                            .build();
+//                    chatRoomDtos.add(chatRoomDto);
+//
+//                }
+//            }
 
         return chatRoomDtos;
 

@@ -14,20 +14,22 @@ public class RoomDto {
         private Long postId;
         private Long toUserId;
     }
-
+    // userId 보내야됨
     @Getter
     @Setter
     public static class findRoomDto{
         private String roomName;
         private Long postId;
+        private Long userId;
         private Long toUserId;
     }
 
+    // userId 보내야됨
     @Getter
     @Setter
     public static class UpdateCountDto{
         private String roomName;
-        private Long toUserId;
+        private Long userId;
     }
 
     @Getter
