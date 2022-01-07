@@ -3,10 +3,6 @@ package com.team11.backend.dto;
 import com.team11.backend.model.User;
 import lombok.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class KakaoUserUpdateAddressDto {
 
     @Getter
