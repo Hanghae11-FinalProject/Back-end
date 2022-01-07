@@ -11,6 +11,7 @@ public class BookMarkDto {
     @NoArgsConstructor
     public static class ResponseDto {
         private Long postId;
+        private Long postUserId;
         private String title;
         private String image;
         private String address;
