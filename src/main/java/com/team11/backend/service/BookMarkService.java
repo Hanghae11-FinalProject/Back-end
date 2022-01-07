@@ -54,6 +54,7 @@ public class BookMarkService {
         return bookMarkList.stream().map(s ->
                 new BookMarkDto.ResponseDto(
                         s.getPost().getId(),
+                        s.getPost().getUser().getId(),
                         s.getPost().getTitle(),
                         s.getPost().getImages().get(0).getImageUrl(),
                         s.getUser().getAddress(),
