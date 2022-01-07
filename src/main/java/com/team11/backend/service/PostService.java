@@ -40,10 +40,13 @@ public class PostService {
 //        List<ImageDto> imageDtoList = fileComponent.fileUploadAndGetImageList(images);
         List<ImageDto> imageDtoList = new ArrayList<>();
 
-        for (MultipartFile image: images){
-            ImageDto imageDto = fileUploadService.uploadImage(image);
-            imageDtoList.add(imageDto);
+        if(images != null){
+            for (MultipartFile image: images){
+                ImageDto imageDto = fileUploadService.uploadImage(image);
+                imageDtoList.add(imageDto);
+            }
         }
+
         //String 형태의 jsonString을 Dto로 변환부분
         ObjectMapper objectMapper = new ObjectMapper();
         PostDto.RequestDto requestDto = objectMapper.readValue(jsonString,PostDto.RequestDto.class);

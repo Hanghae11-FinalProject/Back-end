@@ -120,6 +120,7 @@ public class RoomService {
 
                     ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                             .roomName(findByRoomUserRoom.getRoom().getRoomName())
+                            .postId(findByRoomUserRoom.getRoom().getPost().getId())
                             .user(chatUserDto)
                             .lastMessage(lastMessageDto)
                             .notReadingMessageCount(findByRoomUserRoom.getCount())

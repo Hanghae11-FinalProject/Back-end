@@ -1,5 +1,6 @@
 package com.team11.backend.controller;
 
+import com.team11.backend.dto.MessageListDto;
 import com.team11.backend.dto.RoomDto;
 import com.team11.backend.dto.ShowMessageDto;
 import com.team11.backend.dto.chat.MessageDto;
@@ -30,11 +31,17 @@ public class MessageController {
         messageService.sendMessage(message,messageDto.getReceiverId());
     }
 
+    @PostMapping("/api/roomcount")
+    public void updateCount(@RequestBody RoomDto.UpdateCountDto updateCountDto){
+        System.out.println("연결 게속 되고 있어요 ㅠㅠ");
+        messageService.updateRoomMessageCount(updateCountDto);
+    }
     //pub/api/message 클라이언트 요청으로 메세지 발행
     @PostMapping("/api/message")
-    public ShowMessageDto.ResponseDto showMessageList(@RequestBody RoomDto.findRoomDto roomDto,
-                                                      @PageableDefault(size = 20, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
+    public MessageListDto showMessageList(@RequestBody RoomDto.findRoomDto roomDto,
+                                          @PageableDefault(size = 20, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable,
+                                          @AuthenticationPrincipal UserDetailsImpl userDetails
     ){
-        return messageService.showMessageList(roomDto, pageable);
+        return messageService.showMessageList(roomDto, pageable,userDetails);
     }
 }
