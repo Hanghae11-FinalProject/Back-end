@@ -49,6 +49,7 @@ public class SearchService {
                         s.getUser().getAddress(),
                         s.getMyItem(),
                         s.getExchangeItem(),
+                        s.getUser().getProfileImg(),
                         s.getImages(),
                         s.getBookMarks().stream()
                                 .map(this::toBookmarkResponseDto)
