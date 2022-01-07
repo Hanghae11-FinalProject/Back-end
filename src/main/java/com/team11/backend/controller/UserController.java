@@ -59,9 +59,10 @@ public class UserController {
     }
 
     @PutMapping("/user/address")
-    public KakaoUserUpdateAddressDto.ResponseDto kakaoAddressUpdate(@RequestBody KakaoUserUpdateAddressDto.RequestDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
-        log.info("userTokenData = {}", userDetails.getUser().getUsername());
-        return userService.updateKakaoInfo(requestDto,userDetails.getUser());
+    public KakaoUserUpdateAddressDto.ResponseDto kakaoAddressUpdate(@RequestBody KakaoUserUpdateAddressDto.RequestDto requestDto,
+                                                                    @AuthenticationPrincipal UserDetailsImpl customUserDetails){
+        log.info("userTokenData = {}", customUserDetails.getUser().getUsername());
+        return userService.updateKakaoInfo(requestDto,customUserDetails.getUser());
     }
 
 

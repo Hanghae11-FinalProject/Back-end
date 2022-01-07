@@ -10,7 +10,9 @@ import com.team11.backend.model.AuthProvider;
 import com.team11.backend.model.User;
 import com.team11.backend.repository.UserRepository;
 import com.team11.backend.security.UserDetailsImpl;
+import com.team11.backend.security.jwt.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class KakaoUserService {
     private final PasswordEncoder passwordEncoder;
@@ -48,7 +51,6 @@ public class KakaoUserService {
         User kakaoUser = registerKakaoOrUpdateKakao(snsUserInfoDto);
 
 // 4. 강제 로그인 처리
-
         return forceLogin(kakaoUser);
     }
 
@@ -67,7 +69,6 @@ public class KakaoUserService {
         // body.add("redirect_uri","http://localhost:3000/oauth/callback/kakao");
         // https://kauth.kakao.com/oauth/authorize?client_id=dcd2dc8ef9a91776b876f76145451b0f&redirect_uri=http://52.78.31.61:3000/oauth/kakao/callback&response_type=code
         body.add("code", code);
-
 
 
 // HTTP 요청 보내기
@@ -111,7 +112,7 @@ public class KakaoUserService {
         String nickname = jsonNode.get("properties")
                 .get("nickname").asText();
         String email;
-        if(jsonNode.get("kakao_account").get("email") == null)
+        if (jsonNode.get("kakao_account").get("email") == null)
             email = UUID.randomUUID().toString() + "@contap.com";
         else
             email = jsonNode.get("kakao_account")
@@ -119,7 +120,7 @@ public class KakaoUserService {
 
         String profileStr = "http://www.city.kr/files/attach/images/161/701/416/022/a2c34aa75756074e20552ccbac6894e8.jpg";
 
-        return new SnsUserInfoDto(id, nickname, email,profileStr);
+        return new SnsUserInfoDto(id, nickname, email, profileStr);
     }
 
     private User registerKakaoOrUpdateKakao(
@@ -170,7 +171,7 @@ public class KakaoUserService {
             SnsUserInfoDto snsUserInfoDto
     ) {
         if (sameUser.getUsername() == null) {
-            System.out.println("중복");
+            log.info("회원 중복 ={}",sameUser.getUsername());
             sameUser.setUsername(snsUserInfoDto.getEmail());
             sameUser.setNickname(snsUserInfoDto.getNickName());
             userRepository.save(sameUser);
@@ -181,15 +182,9 @@ public class KakaoUserService {
     private HeaderDto forceLogin(
             User kakaoUser
     ) {
-        UserDetails userDetails = new UserDetailsImpl(kakaoUser);
+        UserDetailsImpl userDetails = new UserDetailsImpl(kakaoUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        HeaderDto headerDto = new HeaderDto();
-        headerDto.setTOKEN(jwtTokenProvider.createToken(kakaoUser.getNickname(),Long.toString(kakaoUser.getId())));
-        headerDto.setUserId(kakaoUser.getId());
-        headerDto.setNickName(kakaoUser.getNickname());
-        headerDto.setProfileImg(kakaoUser.getProfileImg());
-        return headerDto;
+        return HeaderDto.createHeaderDto(JwtTokenUtils.generateJwtToken(userDetails),kakaoUser);
     }
 }
