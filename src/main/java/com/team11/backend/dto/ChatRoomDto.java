@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder
 public class ChatRoomDto {
     private String roomName;
+    private Long postId;
     private ChatUserDto user;
     private LastMessageDto lastMessage;
     private int notReadingMessageCount;

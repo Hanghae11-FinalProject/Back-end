@@ -25,6 +25,13 @@ public class RoomDto {
 
     @Getter
     @Setter
+    public static class UpdateCountDto{
+        private String roomName;
+        private Long toUserId;
+    }
+
+    @Getter
+    @Setter
     @Builder
     public static class Response{
         private ChatUserDto user;

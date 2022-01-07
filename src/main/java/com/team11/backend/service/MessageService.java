@@ -1,15 +1,9 @@
 package com.team11.backend.service;
 import com.team11.backend.dto.*;
 import com.team11.backend.dto.chat.MessageDto;
-import com.team11.backend.model.Message;
-import com.team11.backend.model.Post;
-import com.team11.backend.model.Room;
-import com.team11.backend.model.UserRoom;
+import com.team11.backend.model.*;
 import com.team11.backend.redis.RedisMessagePublisher;
-import com.team11.backend.repository.MessageRepository;
-import com.team11.backend.repository.PostRepository;
-import com.team11.backend.repository.RoomRepository;
-import com.team11.backend.repository.UserRoomRepository;
+import com.team11.backend.repository.*;
 import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.timeConversion.MessageTimeConversion;
 import com.team11.backend.timeConversion.TimeConversion;
@@ -33,7 +27,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final RoomRepository roomRepository;
     private final UserRoomRepository userRoomRepository;
-
+    private final UserRepository userRepository;
 
     public void sendMessage(Message message,Long receiverId) {
         LocalDateTime now = LocalDateTime.now();
@@ -80,18 +74,37 @@ public class MessageService {
             messageRepository.save(message);
 
             for (UserRoom userRoom : userRoomList){
-                if(userRoom.getUser().getId() == message.getUser().getId()){
-                    userRoom.countChange();
-                }
                 userRoom.lastMessageIdChange(message.getId());
             }
             messagePublisher.publish(talkMessage);
         }
     }
+    @Transactional
+    public void updateRoomMessageCount(RoomDto.UpdateCountDto updateCountDto){
+        Room room = roomRepository.findByRoomName(updateCountDto.getRoomName()).orElseThrow(
+                ()-> new IllegalArgumentException("해당방 없음")
+        );
 
+        User user = userRepository.findById(updateCountDto.getToUserId()).orElseThrow(
+                ()-> new IllegalArgumentException("해당방 유저 없음")
+        );
+
+        UserRoom userRoom = userRoomRepository.findByRoomAndUser(room,user);
+
+        userRoom.countChange();
+    }
+
+    @Transactional
     public MessageListDto showMessageList(RoomDto.findRoomDto roomDto, Pageable pageable,UserDetailsImpl userDetails) {
         Room room = roomRepository.findByRoomNameAndPost_Id(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no roomName"));
+
+        User user = userRepository.findById(roomDto.getToUserId()).orElseThrow(
+                ()->new IllegalArgumentException("해당 유저 없음")
+        );
+        UserRoom userRoom = userRoomRepository.findByRoomAndUser(room,user);
+
+        userRoom.countInit();
 
         PageImpl<Message> messages = messageRepository.findByRoom(room, pageable);
         List<MessageDto> messageDtos = new ArrayList<>();

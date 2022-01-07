@@ -31,6 +31,11 @@ public class MessageController {
         messageService.sendMessage(message,messageDto.getReceiverId());
     }
 
+    @PostMapping("/api/roomcount")
+    public void updateCount(@RequestBody RoomDto.UpdateCountDto updateCountDto){
+        System.out.println("연결 게속 되고 있어요 ㅠㅠ");
+        messageService.updateRoomMessageCount(updateCountDto);
+    }
     //pub/api/message 클라이언트 요청으로 메세지 발행
     @PostMapping("/api/message")
     public MessageListDto showMessageList(@RequestBody RoomDto.findRoomDto roomDto,
