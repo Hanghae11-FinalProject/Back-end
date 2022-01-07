@@ -27,8 +27,7 @@ public class MessageController {
 
     @MessageMapping("/message")
     public void message(MessageDto messageDto){
-        Message message = new Message(messageDto,userRepository,roomRepository);
-        messageService.sendMessage(message,messageDto.getReceiverId());
+        messageService.sendMessage(messageDto);
     }
 
     @PostMapping("/api/roomcount")
