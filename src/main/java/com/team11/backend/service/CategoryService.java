@@ -38,6 +38,7 @@ public class CategoryService {
                 .map(s -> new CategoryDto.ResponseDto(
                         s.getCategory(),
                         s.getId(),
+                        s.getUser().getProfileImg(),
                         s.getUser().getUsername(),
                         s.getUser().getNickname(),
                         s.getTitle(), s.getContent(),

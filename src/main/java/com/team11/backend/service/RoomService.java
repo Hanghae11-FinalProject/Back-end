@@ -38,12 +38,14 @@ public class RoomService {
         User toUser = userRepository.findById(roomDto.getToUserId()).orElseThrow(
                 ()-> new IllegalArgumentException("no touser")
         );
-        Room checkRoom = roomRepository.findByPost(post);
-        UserRoom checkUserRoom = userRoomRepository.findByRoomAndUser(checkRoom,toUser);
-
-        if(checkUserRoom != null){
-            throw new IllegalArgumentException("same room");
+        List<Room> checkRoomList = roomRepository.findByPost(post);
+        for (Room room : checkRoomList){
+            UserRoom checkUserRoom = userRoomRepository.findByRoomAndUser(room,toUser);
+            if(checkUserRoom != null){
+                throw new IllegalArgumentException("same room");
+            }
         }
+
 
         String roomName = UUID.randomUUID().toString();
 
@@ -118,6 +120,7 @@ public class RoomService {
 
                     ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                             .roomName(findByRoomUserRoom.getRoom().getRoomName())
+                            .postId(findByRoomUserRoom.getRoom().getPost().getId())
                             .user(chatUserDto)
                             .lastMessage(lastMessageDto)
                             .notReadingMessageCount(findByRoomUserRoom.getCount())

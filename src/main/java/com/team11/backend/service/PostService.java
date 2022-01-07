@@ -40,10 +40,13 @@ public class PostService {
 //        List<ImageDto> imageDtoList = fileComponent.fileUploadAndGetImageList(images);
         List<ImageDto> imageDtoList = new ArrayList<>();
 
-        for (MultipartFile image: images){
-            ImageDto imageDto = fileUploadService.uploadImage(image);
-            imageDtoList.add(imageDto);
+        if(images != null){
+            for (MultipartFile image: images){
+                ImageDto imageDto = fileUploadService.uploadImage(image);
+                imageDtoList.add(imageDto);
+            }
         }
+
         //String 형태의 jsonString을 Dto로 변환부분
         ObjectMapper objectMapper = new ObjectMapper();
         PostDto.RequestDto requestDto = objectMapper.readValue(jsonString,PostDto.RequestDto.class);
@@ -113,9 +116,12 @@ public class PostService {
     @Transactional
     public void editPostService(List<MultipartFile> images, String jsonString, Long postId) throws IOException {
 
+        System.out.println("images : "+ images);
         ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("게시물 수정 : " + jsonString);
         PostDto.PutRequestDto requestDto = objectMapper.readValue(jsonString,PostDto.PutRequestDto.class);
 
+        System.out.println(requestDto.getContent());
         List<ImageDto> imageDtoList = new ArrayList<>();
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new IllegalArgumentException("해당되는 포스트가 존재하지 않습니다.")
@@ -135,6 +141,7 @@ public class PostService {
             }
         }
 
+
         for(Image image : removeList){
             imageList.remove(image);
         }
@@ -143,9 +150,14 @@ public class PostService {
             tagRepository.deleteById(tag.getId());
         }
         //바꿀 이미지 S3에 저장
-        for (MultipartFile image: images){
-            ImageDto imageDto = fileUploadService.uploadImage(image);
-            imageDtoList.add(imageDto);
+        if(images != null){
+            for (MultipartFile image: images){
+                System.out.println(!image.isEmpty());
+                if(!image.isEmpty()){
+                    ImageDto imageDto = fileUploadService.uploadImage(image);
+                    imageDtoList.add(imageDto);
+                }
+            }
         }
 
         // 이미지 리스트, 테그 리스트 다시 초기화
@@ -196,7 +208,7 @@ public class PostService {
     }
 
     public List<MyPostDto.ResponseDto> showMyPostService(User user) {
-        List<Post> postList = postRepository.findAllByUser(user);
+        List<Post> postList = postRepository.findAllByUserOrderByCreateAtDesc(user);
         List<MyPostDto.ResponseDto> responseDtos = new ArrayList<>();
         for (Post post : postList){
             Integer bookmarkCnt = bookMarkRepository.countByPost(post).orElse(0);
