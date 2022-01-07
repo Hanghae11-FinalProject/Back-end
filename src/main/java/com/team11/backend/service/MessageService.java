@@ -32,6 +32,7 @@ public class MessageService {
     public void sendMessage(MessageDto messageDto) {
         LocalDateTime now = LocalDateTime.now();
         MessageDto sendMessageDto = new MessageDto();
+        boolean check = false;
 
         User sender = userRepository.findById(messageDto.getSenderId()).orElseThrow(
                 ()-> new IllegalArgumentException("해당되는 sender없음")
@@ -60,7 +61,7 @@ public class MessageService {
                     .receiverId(messageDto.getReceiverId())
                     .build();
 
-            roomOut(sendMessageDto);
+            check = roomOut(sendMessageDto);
 
         } else if (Message.MessageType.Talk.equals(messageDto.getType())) {
             sendMessageDto = MessageDto.builder()
@@ -74,25 +75,27 @@ public class MessageService {
 
         }
 
+        
+        if(!check){
+            Room room = roomRepository.findByRoomName(sendMessageDto.getRoomName()).orElseThrow(
+                    ()-> new IllegalArgumentException("해당되는 룸 없습니다.")
+            );
 
+            List<UserRoom> userRoomList = userRoomRepository.findByRoom(room);
 
-        Room room = roomRepository.findByRoomName(sendMessageDto.getRoomName()).orElseThrow(
-                ()-> new IllegalArgumentException("해당되는 룸 없습니다.")
-        );
+            Message message = new Message(sendMessageDto,userRepository,roomRepository);
+            messageRepository.save(message);
 
-        List<UserRoom> userRoomList = userRoomRepository.findByRoom(room);
-
-        Message message = new Message(sendMessageDto,userRepository,roomRepository);
-        messageRepository.save(message);
-
-        for (UserRoom userRoom : userRoomList){
-            userRoom.lastMessageIdChange(message.getId());
+            for (UserRoom userRoom : userRoomList){
+                userRoom.lastMessageIdChange(message.getId());
+            }
+            messagePublisher.publish(sendMessageDto);
         }
-        messagePublisher.publish(sendMessageDto);
     }
 
 
-    public void roomOut(MessageDto messages){
+    public boolean roomOut(MessageDto messages){
+        System.out.println(messages.getRoomName()+"룸네임");
         Room room = roomRepository.findByRoomName(messages.getRoomName()).orElseThrow(
                 ()-> new IllegalArgumentException("해당되는 룸없음")
         );
@@ -105,10 +108,14 @@ public class MessageService {
             }
         }
 
+        System.out.println("유저룸 사이즈"+userRoomList.size());
         if(userRoomList.size() == 1){ // 마지막으로 나가는 사람 -> room 삭제
             messageRepository.deleteAllByRoom(room);
             roomRepository.deleteById(room.getId());
+            return true;
         }
+
+        return false;
     }
 
 
