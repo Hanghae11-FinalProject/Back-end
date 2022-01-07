@@ -21,9 +21,9 @@ public class MessageTimeConversion {
             resultConversion = timeDiff / 60 / 60 / 24 + "일 전";
         } else{
             if(modifiedAt.get(ChronoField.AMPM_OF_DAY) == 0) {
-                resultConversion = "오전 "+modifiedAt.getHour()+":"+modifiedAt.getMinute();
+                resultConversion = "오전 "+modifiedAt.getHour()+":"+String.format("%02d", modifiedAt.getMinute());
             } else {
-                resultConversion = "오후 "+modifiedAt.getHour()+":"+modifiedAt.getMinute();
+                resultConversion = "오후 "+modifiedAt.getHour()+":"+String.format("%02d", modifiedAt.getMinute());
             }
         }
         return resultConversion;
