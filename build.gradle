@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'jacoco'
 }
 jar {
     enabled = false
@@ -69,7 +70,6 @@ dependencies {
 }
 
 
-
 test {
     useJUnitPlatform()
 }
@@ -92,4 +92,14 @@ configurations {
 }
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
 }
