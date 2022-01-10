@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class BackendApplication {
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
-            + "classpath:application.yml,"
+            + "/home/ubuntu/yarn/application.yml,"
             + "/home/ec2-user/app/config/springboot-webservice/real-application.yml";
     public static void main(String[] args) {
         //SpringApplication.run(BackendApplication.class, args);
