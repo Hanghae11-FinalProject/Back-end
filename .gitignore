@@ -22,8 +22,7 @@ application.properties
 application.yml
 application-aws.yml
 application-credentials.yml
-application-real1.yml
-application-real2.yml
+real-application.yml
 .idea
 *.iws
 *.iml
