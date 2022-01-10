@@ -14,11 +14,10 @@ public class ProfileController {
     private final Environment env;
 
     @GetMapping("/profile")
-    public String profile() {
-        List<String> profiles = Arrays.asList(env.getActiveProfiles());
-        List<String> realProfiles = Arrays.asList("real1", "real2");
-        String defaultProfile = profiles.isEmpty() ? "default" : profiles.get(0);
-        return profiles.stream().filter(realProfiles::contains).findAny().orElse(defaultProfile);
+    public String getProfile(){
+        return Arrays.stream(env.getActiveProfiles())
+                .findFirst()
+                .orElse("");
     }
 }
 
