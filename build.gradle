@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     //security test
     testImplementation 'org.springframework.security:spring-security-test'
 
