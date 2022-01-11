@@ -86,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "**/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**","/webSocket/**").permitAll()
                 .antMatchers("/oauth/callback/kakao").permitAll()
+                .antMatchers("/profile").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
@@ -125,6 +126,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/webSocket/**");
         skipPathList.add("POST,/pub/**");
         skipPathList.add("GET,/pub/**");
+
+        //무중단 배포
+        skipPathList.add("GET,/profile");
+        skipPathList.add("GET,/profile/**");
 
 
 
