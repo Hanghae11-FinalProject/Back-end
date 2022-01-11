@@ -20,7 +20,7 @@ cache:
 
 script: "./gradlew clean build"
 
-#매번 Travis CI에서 파일을 하나하나 복사하는건 복사시간이 오래 걸리므로, 프로젝트 폴더 채로 압축해서 S3로 전달
+#매번 Travis CI에서 파일을 하나하나 복사하는건 복사시간이 오래 걸리므로 프로젝트 폴더 채로 압축해서 S3로 전달
 before_deploy:
   - zip -r team8-deploy *
   - mkdir -p deploy
