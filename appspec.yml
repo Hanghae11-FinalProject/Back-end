@@ -3,13 +3,13 @@ version: 0.0 #프로젝트 버전이 아니기 때문에 0.0 외에 다른 버�
 os: linux
 files:
   - source:  /
-    destination: /home/ec2-user/app/springboot-webservice/
+    destination: /home/ec2-user/app/travis/build/
     overwrite: yes # 기존 파일들이 있으면 덮어 쓸지를 결정한다.
 
 # 파일 권한 추가
 #permission:
 #  - object: /
-#    pattern: "**";;
+#    pattern: "**";
 #    owner: ubuntu
 #    group: ubuntu
 
