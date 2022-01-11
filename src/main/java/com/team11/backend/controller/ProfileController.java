@@ -11,13 +11,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class ProfileController {
-    private final Environment environment;
+
+    private Environment env;
 
     @GetMapping("/profile")
-    public String profile() {
-        List<String> profiles = Arrays.asList(environment.getActiveProfiles());
-        List<String> realProfiles = Arrays.asList("set1", "set2");
-        String defaultProfile = profiles.isEmpty() ? "default" : profiles.get(0);
-        return profiles.stream().filter(realProfiles::contains).findAny().orElse(defaultProfile);
+    public String getProfile(){
+        return Arrays.stream(env.getActiveProfiles())
+                .findFirst()
+                .orElse("");
     }
 }
