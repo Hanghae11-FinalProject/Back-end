@@ -9,7 +9,7 @@ files:
 # 파일 권한 추가
 #permission:
 #  - object: /
-#    pattern: "**";
+#    pattern: "**";;
 #    owner: ubuntu
 #    group: ubuntu
 
