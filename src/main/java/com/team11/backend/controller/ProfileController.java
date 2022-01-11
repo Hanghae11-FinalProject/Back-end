@@ -20,7 +20,7 @@ public class ProfileController {
         return Arrays.stream(env.getActiveProfiles())
                 .findFirst()
                 .orElse("");
-    }//test
+    }//test.
 
 }
 
