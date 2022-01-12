@@ -32,7 +32,7 @@ public class CategoryService {
 //        List<BookMarkDto.DetailResponseDto> bookMarkResponseDtoList = post.getBookMarks().stream()
 //                .map(this::toBookmarkResponseDto)
 //                .collect(Collectors.toList());
-
+//상세페이지 댓글 개수 불일치.
         PageImpl<Post> posts = categoryRepository.categoryFilter(categoryRequestDto, pageable);
         return posts.stream()
                 .map(s -> new CategoryDto.ResponseDto(
