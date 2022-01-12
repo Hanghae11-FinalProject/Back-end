@@ -29,7 +29,7 @@ public class CategoryService {
     @Transactional
     public List<CategoryDto.ResponseDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 
-//        List<BookMarkDto.DetailResponseDto> bookMarkResponseDtoList = post.getBookMarks().stream()
+//        .List<BookMarkDto.DetailResponseDto> bookMarkResponseDtoList = post.getBookMarks().stream()
 //                .map(this::toBookmarkResponseDto)
 //                .collect(Collectors.toList());
 //상세페이지 댓글 개수 불일치.
