@@ -129,7 +129,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("POST,/pub/**");
         skipPathList.add("GET,/pub/**");
 
-        //무중단 배포.
+        //무중단 배포
         skipPathList.add("GET,/profile");
         skipPathList.add("GET,/profile/**");
         skipPathList.add("GET,/actuator/**");
