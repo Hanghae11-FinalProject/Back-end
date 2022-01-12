@@ -25,7 +25,7 @@ public class ProfileController {
         return str[idx];
     }
 /*
-   private final Environment env;
+  . private final Environment env;
 
     @GetMapping("/profile")
     public String getProfile(){
