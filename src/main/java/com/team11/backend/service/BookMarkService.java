@@ -74,8 +74,16 @@ public class BookMarkService {
     public CategoryDto.ResponseDto cancelBookMark(User user, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("해당 게시글이 존재하지 않습니다."));
         BookMark bookMark = bookMarkRepository.findByUserAndPost(user, post).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 대상입니다."));
+        List<BookMark> bookMarks = bookMarkRepository.findByPost(post);
+        for (int i = 0; i < bookMarks.size(); i++) {
+            if(bookMarks.get(i).equals(bookMark)){
+                bookMarks.remove(bookMarks.get(i));
+            }
+        }
+        post.updatebookMark(bookMarks);
         bookMarkRepository.delete(bookMark);
-        CategoryDto.ResponseDto responseDto =  CategoryDto.ResponseDto.builder()
+
+        return CategoryDto.ResponseDto.builder()
                 .bookMarks(post.getBookMarks().stream()
                         .map(this::toBookmarkResponseDto)
                         .collect(Collectors.toList()))
@@ -95,8 +103,6 @@ public class BookMarkService {
                 .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
                 .commentCnt(commentRepository.countByPost(post).orElse(0))
                 .build();
-
-        return responseDto;
     }
 
     @Transactional

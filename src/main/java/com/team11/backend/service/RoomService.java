@@ -121,6 +121,7 @@ public class RoomService {
                     .postId(userRoom.getRoom().getPost().getId())
                     .user(chatUserDto)
                     .lastMessage(lastMessageDto)
+                    .currentState(userRoom.getRoom().getPost().getCurrentState())
                     .notReadingMessageCount(userRoom.getCount())
                     .build();
 
