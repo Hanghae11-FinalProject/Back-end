@@ -19,6 +19,7 @@ public class BookMarkDto {
         private String currentState;
     }
 
+
     @Getter
     @Builder
     @AllArgsConstructor

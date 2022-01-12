@@ -11,11 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 public class Search {
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-
     private String keyword;
-
 }
