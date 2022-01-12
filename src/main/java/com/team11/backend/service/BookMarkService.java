@@ -1,10 +1,12 @@
 package com.team11.backend.service;
 
 import com.team11.backend.dto.BookMarkDto;
+import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.model.BookMark;
 import com.team11.backend.model.Post;
 import com.team11.backend.model.User;
 import com.team11.backend.repository.BookMarkRepository;
+import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.PostRepository;
 import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +23,10 @@ public class BookMarkService {
 
     private final BookMarkRepository bookMarkRepository;
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
-    public boolean addBookMark(User user, Long postId) {
+    public CategoryDto.ResponseDto addBookMark(User user, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("해당 게시글이 존재하지 않습니다."));
         impossibleMyPostBookMark(user,post);
         if (!isNotAlreadyBookMark(user,post)) {
@@ -33,17 +36,67 @@ public class BookMarkService {
                     .build();
             bookMarkRepository.save(bookMark);
 
-            return true;
+            CategoryDto.ResponseDto responseDto =  CategoryDto.ResponseDto.builder()
+                    .bookMarks(post.getBookMarks().stream()
+                            .map(this::toBookmarkResponseDto)
+                            .collect(Collectors.toList()))
+                    .categoryName(post.getCategory())
+                    .postId(post.getId())
+                    .profileImg(post.getUser().getProfileImg())
+                    .username(post.getUser().getUsername())
+                    .nickname(post.getUser().getNickname())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .address(post.getUser().getAddress())
+                    .images(post.getImages())
+                    .currentState(post.getCurrentState())
+                    .myItem(post.getMyItem())
+                    .exchangeItem(post.getExchangeItem())
+                    .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
+                    .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
+                    .commentCnt(commentRepository.countByPost(post).orElse(0))
+                    .build();
+
+
+            return responseDto;
         }
-        return false;
+
+        return null;
     }
 
+    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
+
+        return BookMarkDto.DetailResponseDto.builder()
+                .userId(bookMark.getUser().getId())
+                .build();
+    }
     @Transactional
-    public Long cancelBookMark(User user, Long postId) {
+    public CategoryDto.ResponseDto cancelBookMark(User user, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("해당 게시글이 존재하지 않습니다."));
         BookMark bookMark = bookMarkRepository.findByUserAndPost(user, post).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 대상입니다."));
         bookMarkRepository.delete(bookMark);
-        return bookMark.getId();
+        CategoryDto.ResponseDto responseDto =  CategoryDto.ResponseDto.builder()
+                .bookMarks(post.getBookMarks().stream()
+                        .map(this::toBookmarkResponseDto)
+                        .collect(Collectors.toList()))
+                .categoryName(post.getCategory())
+                .postId(post.getId())
+                .profileImg(post.getUser().getProfileImg())
+                .username(post.getUser().getUsername())
+                .nickname(post.getUser().getNickname())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .address(post.getUser().getAddress())
+                .images(post.getImages())
+                .currentState(post.getCurrentState())
+                .myItem(post.getMyItem())
+                .exchangeItem(post.getExchangeItem())
+                .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
+                .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
+                .commentCnt(commentRepository.countByPost(post).orElse(0))
+                .build();
+
+        return responseDto;
     }
 
     @Transactional

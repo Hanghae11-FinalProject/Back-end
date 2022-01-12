@@ -1,5 +1,6 @@
 package com.team11.backend.controller;
 
+import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.service.BookMarkService;
 import lombok.AllArgsConstructor;
@@ -28,16 +29,15 @@ public class BookMarkController {
             throw new IllegalArgumentException("token not");
         }
         log.info("BookMarkAddPostUser={}", customUserDetails.getUser().getNickname());
-        boolean result = false;
+        CategoryDto.ResponseDto result;
         result = bookMarkService.addBookMark(customUserDetails.getUser(), postId);
 
-        return result ?
-                new ResponseEntity<>(true, HttpStatus.OK) : new ResponseEntity<>(false, HttpStatus.OK);
+        return result != null? new ResponseEntity<>(result, HttpStatus.OK) : new ResponseEntity<>(false, HttpStatus.OK);
     }
 
     @DeleteMapping("/api/bookmark/{postId}")
-    public Long cancelBookMark(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
-                               @PathVariable Long postId
+    public CategoryDto.ResponseDto cancelBookMark(@AuthenticationPrincipal UserDetailsImpl customUserDetails,
+                                                  @PathVariable Long postId
     ) {
         log.info("BookMarkCancelUser={}", customUserDetails.getUser().getNickname());
         return bookMarkService.cancelBookMark(customUserDetails.getUser(), postId);

@@ -13,6 +13,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @RequiredArgsConstructor
 public class RedisConfiguration {
     private final RedisConnectionFactory redisConnectionFactory;
+
     @Bean
     RedisMessageListenerContainer container(RedisConnectionFactory redisConnectionFactory){
         RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
@@ -21,15 +22,7 @@ public class RedisConfiguration {
         return redisMessageListenerContainer;
     }
 
-//    @Bean
-//    MessageListenerAdapter messageListenerAdapter(){
-//        return new MessageListenerAdapter(redisMessageSubscriber,"onMessage");
-//    }
-//
-//    @Bean
-//    ChannelTopic topic(){
-//        return new ChannelTopic("stackfortech");
-//    }
+
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
@@ -40,8 +33,4 @@ public class RedisConfiguration {
         return redisTemplate;
     }
 
-//    @Bean
-//    RedisMessagePublisher messagePublisher(){
-//        return new RedisMessagePublisher(redisTemplate(redisConnectionFactory),topic());
-//    }
 }
