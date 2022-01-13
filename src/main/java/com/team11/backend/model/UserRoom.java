@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class UserRoom {
+public class UserRoom extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;

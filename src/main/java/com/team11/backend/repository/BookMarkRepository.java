@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface BookMarkRepository extends JpaRepository<BookMark,Long> {
     boolean existsByUserAndPost(User user, Post post);
     Optional<BookMark> findByUserAndPost(User user, Post post);
+    List<BookMark> findByPost(Post post);
     List<BookMark> findByUserUsername(String username);
 
     Optional<Integer> countByPost(Post post);

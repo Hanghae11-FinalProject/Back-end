@@ -48,13 +48,17 @@ public class Post extends Timestamped{
     private List<Tag> tags;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private final List<BookMark> bookMarks = new ArrayList<>();
+    private List<BookMark> bookMarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private final List<Comment> comments = new ArrayList<>();
 
     @Column(nullable = false)
     private String category;
+
+    public void updatebookMark(List<BookMark> bookMarks){
+        this.bookMarks = bookMarks;
+    }
 
     public void updatePost(PostDto.PutRequestDto requestDto, List<Image> images, List<Tag> tags){
         this.title = requestDto.getTitle();
