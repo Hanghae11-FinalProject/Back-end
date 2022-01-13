@@ -7,6 +7,7 @@ import com.team11.backend.dto.RoomDto;
 import com.team11.backend.model.*;
 import com.team11.backend.repository.*;
 import com.team11.backend.security.UserDetailsImpl;
+import com.team11.backend.timeConversion.MessageTimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -105,14 +106,14 @@ public class RoomService {
 
             if (userRoom.getLastMessgeId() == null) {
                 lastMessageDto = LastMessageDto.builder()
-                        .content("room create")
-                        .createdAt("asdasd")
+                        .content("방이 생성 되었습니다.")
+                        .createdAt(MessageTimeConversion.timeConversion(userRoom.getCreateAt()))
                         .build();
             } else {
                 Message message = messageRepository.getById(userRoom.getLastMessgeId());
                 lastMessageDto = LastMessageDto.builder()
                         .content(message.getContent())
-                        .createdAt("asdasd")
+                        .createdAt(MessageTimeConversion.timeConversion(message.getCreateAt()))
                         .build();
             }
 
