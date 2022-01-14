@@ -39,7 +39,7 @@ public class RoomService {
         );
         List<Room> checkRoomList = roomRepository.findByRoomPostId(post.getId());
         for (Room room : checkRoomList){
-            UserRoom checkUserRoom = userRoomRepository.findByRoomAndUser(room,toUser);
+            UserRoom checkUserRoom = userRoomRepository.findByRoomAndUserAndToUser(room,user,toUser);
             if(checkUserRoom != null){
                 throw new IllegalArgumentException("same room");
             }
