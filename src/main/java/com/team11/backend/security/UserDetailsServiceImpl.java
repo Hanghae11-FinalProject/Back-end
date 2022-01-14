@@ -1,7 +1,5 @@
 package com.team11.backend.security;
 
-
-
 import com.team11.backend.model.User;
 import com.team11.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

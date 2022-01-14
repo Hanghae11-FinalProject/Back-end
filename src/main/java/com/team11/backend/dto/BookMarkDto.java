@@ -1,6 +1,5 @@
 package com.team11.backend.dto;
 
-import com.team11.backend.model.CurrentState;
 import lombok.*;
 
 public class BookMarkDto {

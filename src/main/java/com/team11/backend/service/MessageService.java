@@ -6,17 +6,14 @@ import com.team11.backend.redis.RedisMessagePublisher;
 import com.team11.backend.repository.*;
 import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.timeConversion.MessageTimeConversion;
-import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Transactional
