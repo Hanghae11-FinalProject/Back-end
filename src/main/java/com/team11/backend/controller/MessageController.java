@@ -35,7 +35,7 @@ public class MessageController {
         System.out.println("연결 게속 되고 있어요 ㅠㅠ");
         messageService.updateRoomMessageCount(updateCountDto);
     }
-    //pub/api/message 클라이언트 요청으로 메세지 발행
+//    pub/api/message 클라이언트 요청으로 메세지 발행
     @PostMapping("/api/message")
     public MessageListDto showMessageList(@RequestBody RoomDto.findRoomDto roomDto,
                                           @PageableDefault(size = 20, sort = "createAt", direction = Sort.Direction.ASC) Pageable pageable,
