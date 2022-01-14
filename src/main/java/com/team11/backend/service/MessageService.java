@@ -28,6 +28,7 @@ public class MessageService {
     private final RoomRepository roomRepository;
     private final UserRoomRepository userRoomRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     public void sendMessage(MessageDto messageDto) {
         LocalDateTime now = LocalDateTime.now();
@@ -136,7 +137,7 @@ public class MessageService {
 
     @Transactional
     public MessageListDto showMessageList(RoomDto.findRoomDto roomDto, Pageable pageable,UserDetailsImpl userDetails) {
-        Room room = roomRepository.findByRoomNameAndPost_Id(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
+        Room room = roomRepository.findByRoomNameAndRoomPostId(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no roomName"));
 
         User user = userRepository.findById(roomDto.getUserId()).orElseThrow(
@@ -149,10 +150,19 @@ public class MessageService {
         PageImpl<Message> messages = messageRepository.findByRoom(room, pageable);
         List<MessageDto> messageDtos = new ArrayList<>();
 
-        PostDto.ShowPostRoomDto showPostRoomDto = PostDto.ShowPostRoomDto.builder()
-                .myItem(room.getPost().getMyItem())
-                .exchangeItem(room.getPost().getExchangeItem())
-                .build();
+        Post post = postRepository.findById(room.getRoomPostId()).orElse(null);
+        PostDto.ShowPostRoomDto showPostRoomDto;
+        if(post == null){
+            showPostRoomDto = PostDto.ShowPostRoomDto.builder()
+                    .myItem("")
+                    .exchangeItem("")
+                    .build();
+        }else{
+            showPostRoomDto = PostDto.ShowPostRoomDto.builder()
+                    .myItem(post.getMyItem())
+                    .exchangeItem(post.getExchangeItem())
+                    .build();
+        }
 
         for (Message message : messages) {
             if(roomDto.getToUserId() == message.getUser().getId()){

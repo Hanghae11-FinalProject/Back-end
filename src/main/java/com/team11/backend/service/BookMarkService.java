@@ -110,15 +110,27 @@ public class BookMarkService {
         if (user == null) throw new NullPointerException("로그인이 필요합니다");
         List<BookMark> bookMarkList =
                 bookMarkRepository.findByUserUsername(user.getUsername());
-        return bookMarkList.stream().map(s ->
-                new BookMarkDto.ResponseDto(
-                        s.getPost().getId(),
-                        s.getPost().getUser().getId(),
-                        s.getPost().getTitle(),
-                        s.getPost().getImages().get(0).getImageUrl(),
-                        s.getUser().getAddress(),
-                        TimeConversion.timeConversion(s.getPost().getCreateAt()),
-                        s.getPost().getCurrentState().name())
+        return bookMarkList.stream().map(s ->{
+
+            if(s.getPost().getImages().size()== 0)
+            return new BookMarkDto.ResponseDto(
+                    s.getPost().getId(),
+                    s.getPost().getUser().getId(),
+                    s.getPost().getTitle(),
+                    null,
+                    s.getUser().getAddress(),
+                    TimeConversion.timeConversion(s.getPost().getCreateAt()),
+                    s.getPost().getCurrentState().name());
+            else
+                    return new BookMarkDto.ResponseDto(
+                            s.getPost().getId(),
+                            s.getPost().getUser().getId(),
+                            s.getPost().getTitle(),
+                            s.getPost().getImages().get(0).getImageUrl(),
+                            s.getUser().getAddress(),
+                            TimeConversion.timeConversion(s.getPost().getCreateAt()),
+                            s.getPost().getCurrentState().name());
+                }
         ).collect(Collectors.toList());
     }
 
