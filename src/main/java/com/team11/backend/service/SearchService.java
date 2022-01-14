@@ -10,6 +10,7 @@ import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.querydsl.SearchRepository;
 import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class SearchService {
@@ -38,7 +40,7 @@ public class SearchService {
         try {
             redisTemplate.opsForZSet().incrementScore("ranking", searchRequestDto.getKeyword().get(0),1);
         } catch (Exception e) {
-            System.out.println(e.toString());
+            log.info("Search exception ={} ",e.toString());
         }
         redisTemplate.opsForZSet().incrementScore("ranking", searchRequestDto.getKeyword().get(0), score);
 
@@ -76,11 +78,6 @@ public class SearchService {
                 .userId(bookMark.getUser().getId())
                 .build();
     }
-
-//    public SearchRankResponseDto SearchRankList() {
-//        List<String> strings = searchRepositoryInterface.findKeywordRank();
-//        return new SearchRankResponseDto(strings.subList(0, Math.min(10, strings.size())));
-//    }
 
     public List<SearchRankResponseDto> SearchRankList() {
         String key = "ranking";
