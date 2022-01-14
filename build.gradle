@@ -53,6 +53,7 @@ dependencies {
     implementation 'io.lettuce:lettuce-core:6.1.5.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     //aws
+    //implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
     implementation('org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE')
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     //implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'

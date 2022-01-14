@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 public class HeaderTokenExtractor {
 
     /*
-     * HEADER_PREFIX
+     * HEADER_PREFIX.
      * header Authorization token 값의 표준이되는 변수
      */
     public final String HEADER_PREFIX = "Bearer ";
