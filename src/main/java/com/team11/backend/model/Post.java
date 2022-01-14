@@ -47,6 +47,7 @@ public class Post extends Timestamped{
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Tag> tags;
 
+    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<BookMark> bookMarks = new ArrayList<>();
 
