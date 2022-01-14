@@ -7,6 +7,7 @@ import com.team11.backend.dto.RoomDto;
 import com.team11.backend.model.*;
 import com.team11.backend.repository.*;
 import com.team11.backend.security.UserDetailsImpl;
+import com.team11.backend.timeConversion.MessageTimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class RoomService {
         User toUser = userRepository.findById(roomDto.getToUserId()).orElseThrow(
                 ()-> new IllegalArgumentException("no touser")
         );
-        List<Room> checkRoomList = roomRepository.findByPost(post);
+        List<Room> checkRoomList = roomRepository.findByRoomPostId(post.getId());
         for (Room room : checkRoomList){
             UserRoom checkUserRoom = userRoomRepository.findByRoomAndUser(room,toUser);
             if(checkUserRoom != null){
@@ -51,7 +52,7 @@ public class RoomService {
 
         Room room = Room.builder()
                 .roomName(roomName)
-                .post(post)
+                .roomPostId(post.getId())
                 .build();
 
         roomRepository.save(room);
@@ -105,24 +106,38 @@ public class RoomService {
 
             if (userRoom.getLastMessgeId() == null) {
                 lastMessageDto = LastMessageDto.builder()
-                        .content("room create")
-                        .createdAt("asdasd")
+                        .content("방이 생성 되었습니다.")
+                        .createdAt(MessageTimeConversion.timeConversion(userRoom.getCreateAt()))
                         .build();
             } else {
                 Message message = messageRepository.getById(userRoom.getLastMessgeId());
                 lastMessageDto = LastMessageDto.builder()
                         .content(message.getContent())
-                        .createdAt("asdasd")
+                        .createdAt(MessageTimeConversion.timeConversion(message.getCreateAt()))
+                        .build();
+            }
+            Post post = postRepository.findById(userRoom.getRoom().getRoomPostId()).orElse(null);
+            ChatRoomDto chatRoomDto;
+            if(post == null){
+                chatRoomDto = ChatRoomDto.builder()
+                        .roomName(userRoom.getRoom().getRoomName())
+                        .postId(userRoom.getRoom().getRoomPostId())
+                        .user(chatUserDto)
+                        .lastMessage(lastMessageDto)
+                        .currentState(CurrentState.Complete)
+                        .notReadingMessageCount(userRoom.getCount())
+                        .build();
+            }else{
+                chatRoomDto = ChatRoomDto.builder()
+                        .roomName(userRoom.getRoom().getRoomName())
+                        .postId(userRoom.getRoom().getRoomPostId())
+                        .user(chatUserDto)
+                        .lastMessage(lastMessageDto)
+                        .currentState(post.getCurrentState())
+                        .notReadingMessageCount(userRoom.getCount())
                         .build();
             }
 
-            ChatRoomDto chatRoomDto = ChatRoomDto.builder()
-                    .roomName(userRoom.getRoom().getRoomName())
-                    .postId(userRoom.getRoom().getPost().getId())
-                    .user(chatUserDto)
-                    .lastMessage(lastMessageDto)
-                    .notReadingMessageCount(userRoom.getCount())
-                    .build();
 
             chatRoomDtos.add(chatRoomDto);
         }

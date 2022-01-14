@@ -20,8 +20,8 @@ public class Room {
     @Column(nullable = false)
     private String roomName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postId",nullable = false)
-    private Post post;
+
+    @Column(nullable = false)
+    private Long roomPostId;
 
 }
