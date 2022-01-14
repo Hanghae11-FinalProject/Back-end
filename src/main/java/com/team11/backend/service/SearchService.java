@@ -5,7 +5,6 @@ import com.team11.backend.dto.SearchDto;
 import com.team11.backend.dto.SearchRankResponseDto;
 import com.team11.backend.model.BookMark;
 import com.team11.backend.model.Post;
-
 import com.team11.backend.repository.BookMarkRepository;
 import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.querydsl.SearchRepository;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
@@ -36,11 +34,6 @@ public class SearchService {
     public SearchDto.TotalResponseDto keywordSearch(SearchDto.RequestDto searchRequestDto, Pageable pageable) {
 
         PageImpl<Post> posts = searchRepository.keywordFilter(searchRequestDto, pageable);
-
-//        searchRepositoryInterface.save(Search.builder()
-//                .keyword(searchRequestDto.getKeyword().get(0))
-//                .build());
-
         Double score = 0.0;
         try {
             redisTemplate.opsForZSet().incrementScore("ranking", searchRequestDto.getKeyword().get(0),1);

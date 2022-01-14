@@ -1,7 +1,6 @@
 package com.team11.backend.component;
 
 import com.team11.backend.dto.ImageDto;
-import com.team11.backend.model.Image;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,18 +1,13 @@
 package com.team11.backend.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.team11.backend.model.CurrentState;
-import com.team11.backend.model.Image;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

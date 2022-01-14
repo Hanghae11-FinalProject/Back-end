@@ -1,7 +1,6 @@
 package com.team11.backend.dto;
 
 import com.team11.backend.model.User;
-import com.team11.backend.security.UserDetailsImpl;
 import lombok.*;
 
 

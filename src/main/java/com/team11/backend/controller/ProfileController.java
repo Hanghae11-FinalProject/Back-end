@@ -24,13 +24,4 @@ public class ProfileController {
 
         return str[idx];
     }
-/*
-  . private final Environment env;
-
-    @GetMapping("/profile")
-    public String getProfile(){
-        return Arrays.stream(env.getActiveProfiles())
-                .findFirst()
-                .orElse("");
-    }*/
 }

@@ -3,7 +3,6 @@ package com.team11.backend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team11.backend.component.AwsS3UploadService;
-import com.team11.backend.component.FileComponent;
 import com.team11.backend.component.FileUploadService;
 import com.team11.backend.dto.*;
 import com.team11.backend.model.*;

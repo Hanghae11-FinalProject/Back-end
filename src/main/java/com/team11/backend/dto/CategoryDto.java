@@ -3,10 +3,7 @@ package com.team11.backend.dto;
 import com.team11.backend.model.CurrentState;
 import com.team11.backend.model.Image;
 import lombok.*;
-
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 public class CategoryDto {
 
