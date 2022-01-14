@@ -28,5 +28,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
                                              @Param("regionGu") String regionGu,
                                              Pageable pageable);
 
+
+
 }
 

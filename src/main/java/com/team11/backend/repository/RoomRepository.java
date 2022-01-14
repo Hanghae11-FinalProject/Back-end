@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    List<Room> findByPost(Post post);
-    Optional<Room> findByRoomNameAndPost_Id(String roomName, Long postId);
+    List<Room> findByRoomPostId(Long post);
+    Optional<Room> findByRoomNameAndRoomPostId(String roomName, Long postId);
     Optional<Room> findByRoomName(String roomName);
 }
