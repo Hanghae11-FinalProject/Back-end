@@ -142,8 +142,8 @@ public class MessageService {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         pageable = PageRequest.of(page, 20, sort);
 
-        //채팅방 개수
-        Room room = userRoomCount(roomDto);
+        Room room = roomRepository.findByRoomNameAndRoomPostId(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
+                ()-> new IllegalArgumentException("no roomName"));
 
         //해당 RoomPostId로 게시물이 존재하는지 조회, 없으면 null
         Post post = postRepository.findById(room.getRoomPostId()).orElse(null);
