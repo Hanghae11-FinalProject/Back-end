@@ -138,9 +138,9 @@ public class MessageService {
     public MessageListDto showMessageList(RoomDto.findRoomDto roomDto, Pageable pageable,UserDetailsImpl userDetails) {
 
         //채팅 페이지 설정
-        int page = pageable.getPageNumber();
-        Sort sort = Sort.by(Sort.Direction. ASC, "createdAt" );
-        pageable = PageRequest.of(page, 200, sort );
+//        int page = pageable.getPageNumber();
+//        Sort sort = Sort.by(Sort.Direction. ASC, "createdAt" );
+//        pageable = PageRequest.of(page, 200, sort);
 
         Room room = roomRepository.findByRoomNameAndRoomPostId(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no roomName"));
