@@ -142,6 +142,11 @@ public class MessageService {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         pageable = PageRequest.of(page, 20, sort);
 
+        //채팅 페이지 설정
+//        int page = pageable.getPageNumber();
+//        Sort sort = Sort.by(Sort.Direction. ASC, "createdAt" );
+//        pageable = PageRequest.of(page, 200, sort);
+
         Room room = roomRepository.findByRoomNameAndRoomPostId(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no roomName"));
 
@@ -175,7 +180,7 @@ public class MessageService {
                         .senderId(message.getUser().getId())
                         .receiverId(userDetails.getUser().getId())
                         .type(message.getMessageType())
-                        .createdAt(MessageTimeConversion.timeConversion(message.getCreateAt()))
+                        .createdAt(MessageTimeConversion.timeConversion(message.getCreatedAt()))
                         .build();
                 messageDtos.add(messageDto);
             } else {
@@ -186,11 +191,10 @@ public class MessageService {
                         .senderId(message.getUser().getId())
                         .receiverId(roomDto.getToUserId())
                         .type(message.getMessageType())
-                        .createdAt(MessageTimeConversion.timeConversion(message.getCreateAt()))
+                        .createdAt(MessageTimeConversion.timeConversion(message.getCreatedAt()))
                         .build();
                 messageDtos.add(messageDto);
             }
-
         }
         return messageDtos;
     }

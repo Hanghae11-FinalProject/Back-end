@@ -43,6 +43,6 @@ public class CommentService {
     }
 
     public static CommentDto.ResponseDto convertCommentToDto(Comment comment) { //댓글삭제
-        return new CommentDto.ResponseDto(comment.getId(), comment.getContent(), comment.getUser().getId(), comment.getUser().getNickname(), comment.getUser().getProfileImg(),TimeConversion.timeConversion(comment.getCreateAt()));
+        return new CommentDto.ResponseDto(comment.getId(), comment.getContent(), comment.getUser().getId(), comment.getUser().getNickname(), comment.getUser().getProfileImg(),TimeConversion.timeConversion(comment.getCreatedAt()));
     }
 }

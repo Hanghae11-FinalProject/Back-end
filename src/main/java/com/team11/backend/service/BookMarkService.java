@@ -52,7 +52,7 @@ public class BookMarkService {
                     .currentState(post.getCurrentState())
                     .myItem(post.getMyItem())
                     .exchangeItem(post.getExchangeItem())
-                    .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
+                    .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
                     .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
                     .commentCnt(commentRepository.countByPost(post).orElse(0))
                     .build();
@@ -99,7 +99,7 @@ public class BookMarkService {
                 .currentState(post.getCurrentState())
                 .myItem(post.getMyItem())
                 .exchangeItem(post.getExchangeItem())
-                .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
+                .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
                 .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
                 .commentCnt(commentRepository.countByPost(post).orElse(0))
                 .build();
@@ -119,7 +119,7 @@ public class BookMarkService {
                     s.getPost().getTitle(),
                     null,
                     s.getUser().getAddress(),
-                    TimeConversion.timeConversion(s.getPost().getCreateAt()),
+                    TimeConversion.timeConversion(s.getPost().getCreatedAt()),
                     s.getPost().getCurrentState().name());
             else
                     return new BookMarkDto.ResponseDto(
@@ -128,7 +128,7 @@ public class BookMarkService {
                             s.getPost().getTitle(),
                             s.getPost().getImages().get(0).getImageUrl(),
                             s.getUser().getAddress(),
-                            TimeConversion.timeConversion(s.getPost().getCreateAt()),
+                            TimeConversion.timeConversion(s.getPost().getCreatedAt()),
                             s.getPost().getCurrentState().name());
                 }
         ).collect(Collectors.toList());

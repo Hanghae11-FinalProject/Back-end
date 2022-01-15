@@ -58,7 +58,7 @@ public class SearchService {
                                 .map(this::toBookmarkResponseDto)
                                 .collect(Collectors.toList()),
                         s.getCurrentState(),
-                        TimeConversion.timeConversion(s.getCreateAt()),
+                        TimeConversion.timeConversion(s.getCreatedAt()),
                         bookMarkRepository.countByPost(s).orElse(0),
                         commentRepository.countByPost(s).orElse(0)))
                 .collect(Collectors.toList());
