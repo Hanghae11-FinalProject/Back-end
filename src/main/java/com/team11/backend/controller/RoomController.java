@@ -31,21 +31,22 @@ public class RoomController {
     @PostMapping("/api/room")
     public RoomDto.Response roomCreate(@RequestBody RoomDto.Request roomDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return roomService.createRoomService(roomDto,userDetails);
+
     }
 
     @GetMapping("/api/room")
-    public List<ChatRoomDto> showRoomList(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public List<ChatRoomDto> showRoomList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.showRoomListService(userDetails);
     }
 
 
     @MessageMapping("/join")
-    public void join(String roomId){
-        String roomId2 = roomId.replaceAll("\"","");
+    public void join(String roomId) {
+        String roomId2 = roomId.replaceAll("\"", "");
         ChannelTopic topic = topics.get(roomId2);
-        if(topic == null){
+        if (topic == null) {
             topic = new ChannelTopic(roomId2);
-            redisMessageListenerContainer.addMessageListener(redisMessageSubscriber,topic);
+            redisMessageListenerContainer.addMessageListener(redisMessageSubscriber, topic);
         }
     }
 
