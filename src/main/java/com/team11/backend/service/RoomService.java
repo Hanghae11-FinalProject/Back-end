@@ -33,21 +33,22 @@ public class RoomService {
         );
 
 
-        User user = userDetails.getUser();
-        User toUser = userRepository.findById(roomDto.getToUserId()).orElseThrow(
+        User user = userDetails.getUser(); //게시물에 접근하는 유저
+        User toUser = userRepository.findById(roomDto.getToUserId()).orElseThrow( //게시물 주인
                 ()-> new IllegalArgumentException("no touser")
         );
-        List<Room> checkRoomList = roomRepository.findByRoomPostId(post.getId());
+        List<Room> checkRoomList = roomRepository.findByRoomPostId(post.getId()); //해당 게시물에 모든 채팅정보 가져오기
         for (Room room : checkRoomList){
-            UserRoom checkUserRoom = userRoomRepository.findByRoomAndUserAndToUser(room,user,toUser);
-            if(checkUserRoom != null){
+            UserRoom checkUserRoom = userRoomRepository.findByRoomAndUserAndToUser(room,user,toUser);//해당 게시물에 유저와, 게시물에 접근하는 유저에 채팅방 정보가 있는지 확인
+            if(checkUserRoom != null){ //이미 대화하고 있던 방이 있을경우
                 throw new IllegalArgumentException("same room");
             }
         }
 
-
+        /* 대화하고 있던 방이 없다면 여기부터 새로운 방정보 생성*/
         String roomName = UUID.randomUUID().toString();
 
+        //방생성
         Room room = Room.builder()
                 .roomName(roomName)
                 .roomPostId(post.getId())
@@ -57,6 +58,7 @@ public class RoomService {
 
         // userRoom two create
 
+        //게시물 주인 입장에서 보이는 채팅방 생성
         UserRoom userRoom = UserRoom.builder()
                 .room(room)
                 .user(user)
@@ -67,6 +69,7 @@ public class RoomService {
 
         userRoomRepository.save(userRoom);
 
+        //게시물에 접근한 유저 입장에서 보이는 채팅방 생성
         UserRoom toUserRoom = UserRoom.builder()
                 .room(room)
                 .user(toUser)
