@@ -100,7 +100,7 @@ public class PostService {
                 .bookMarkCount(bookMarkRepository.countByPost(post).orElse(0))
                 .commentCount(commentRepository.countByPost(post).orElse(0))
                 .comments(responseDtos)
-                .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
+                .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
                 .build();
     }
 
@@ -207,7 +207,7 @@ public class PostService {
     }
 
     public List<MyPostDto.ResponseDto> showMyPostService(User user) {
-        List<Post> postList = postRepository.findAllByUserOrderByCreateAtDesc(user);
+        List<Post> postList = postRepository.findAllByUserOrderByCreatedAtDesc(user);
         List<MyPostDto.ResponseDto> responseDtos = new ArrayList<>();
         for (Post post : postList){
             Integer bookmarkCnt = bookMarkRepository.countByPost(post).orElse(0);
@@ -217,7 +217,7 @@ public class PostService {
                     .postId(post.getId())
                     .title(post.getTitle())
                     .content(post.getContent())
-                    .createdAt(TimeConversion.timeConversion(post.getCreateAt()))
+                    .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
                     .address(user.getAddress())
                     .currentState(post.getCurrentState())
                     .bookmarkCnt(bookmarkCnt)
@@ -253,7 +253,7 @@ public class PostService {
         List<CommentDto.ResponseDto> result = new ArrayList<>();
         Map<Long, CommentDto.ResponseDto> map = new HashMap<>();
         comments.forEach(c -> {
-            CommentDto.ResponseDto dto = new CommentDto.ResponseDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname(),c.getUser().getProfileImg(), TimeConversion.timeConversion(c.getCreateAt()));
+            CommentDto.ResponseDto dto = new CommentDto.ResponseDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname(),c.getUser().getProfileImg(), TimeConversion.timeConversion(c.getCreatedAt()));
             map.put(dto.getId(), dto);
             if (c.getParent() != null)
                  map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록

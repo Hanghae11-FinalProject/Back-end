@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class) //변경 시 자동 기록 ->
 public abstract class Timestamped {
     @CreatedDate
-    private LocalDateTime createAt; //글작성 최초 시점
+    private LocalDateTime createdAt; //글작성 최초 시점
 }
-//
 

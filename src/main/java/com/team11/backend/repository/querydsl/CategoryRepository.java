@@ -39,7 +39,7 @@ public class CategoryRepository {
                         (CategoryCityFilter(categoryRequestDto.getAddress()))
 
                 )
-                .orderBy(post.createAt.desc()) // 최신순 정렬
+                .orderBy(post.createdAt.desc()) // 최신순 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .setHint("org.hibernate.readOnly", true)// dirty check를 위해 snapshot 인스턴스를 보관하므로 더 많은 메모리를 사용하는 단점이 있다. 대량의 데이터를 조회만 할거기 때문에 읽기 전용으로 메모리 사용량을 최적화할 수 있다

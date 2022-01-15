@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findAllByUserOrderByCreateAtDesc(User user);
+    List<Post> findAllByUserOrderByCreatedAtDesc(User user);
     @Query(value = "select p from Post p where " +
             "((:isFood = true) and (p.category like 'food')) or " +
             "((:isCloth = true) and (p.category like 'cloth')) or " +

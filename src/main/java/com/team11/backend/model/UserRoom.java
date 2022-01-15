@@ -31,14 +31,14 @@ public class UserRoom extends Timestamped{
 
 
     @Column(nullable = true)
-    private Long lastMessgeId;
+    private Long lastMessageId;
 
 
     @Column(nullable = false)
     private int count;
 
     public void lastMessageIdChange(Long Id){
-        this.lastMessgeId = Id;
+        this.lastMessageId = Id;
     }
 
     public void countChange(){

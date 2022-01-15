@@ -137,6 +137,11 @@ public class MessageService {
     @Transactional
     public MessageListDto showMessageList(RoomDto.findRoomDto roomDto, Pageable pageable,UserDetailsImpl userDetails) {
 
+        //채팅 페이지 설정
+        int page = pageable.getPageNumber();
+        Sort sort = Sort.by(Sort.Direction. ASC, "createdAt" );
+        pageable = PageRequest.of(page, 200, sort );
+
         Room room = roomRepository.findByRoomNameAndRoomPostId(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no roomName"));
 
@@ -172,7 +177,7 @@ public class MessageService {
                         .senderId(message.getUser().getId())
                         .receiverId(userDetails.getUser().getId())
                         .type(message.getMessageType())
-                        .createdAt(MessageTimeConversion.timeConversion(message.getCreateAt()))
+                        .createdAt(MessageTimeConversion.timeConversion(message.getCreatedAt()))
                         .build();
                 messageDtos.add(messageDto);
             }else{
@@ -182,28 +187,10 @@ public class MessageService {
                         .senderId(message.getUser().getId())
                         .receiverId(roomDto.getToUserId())
                         .type(message.getMessageType())
-                        .createdAt(MessageTimeConversion.timeConversion(message.getCreateAt()))
+                        .createdAt(MessageTimeConversion.timeConversion(message.getCreatedAt()))
                         .build();
                 messageDtos.add(messageDto);
             }
-
-//            ChatUserDto chatUserDto = ChatUserDto.builder()
-//                    .userId(message.getUser().getId())
-//                    .profileImg(message.getUser().getProfileImg())
-//                    .nickname(message.getUser().getNickname())
-//                    .build();
-
-//            MessageContentDto messageContentDto = MessageContentDto.builder()
-//                    .content(message.getContent())
-//                    .createdAt(TimeConversion.timeConversion(message.getCreateAt()))
-//                    .build();
-
-//            MessageListDto messageListDto = MessageListDto.builder()
-//                    .user(chatUserDto)
-//                    .message(messageContentDto)
-//                    .build();
-
-
         }
 
 

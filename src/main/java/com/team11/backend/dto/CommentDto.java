@@ -39,17 +39,17 @@ public class CommentDto {
         private Long userId;
         private String nickname;
         private String profileImg;
-        private String createAt;
+        private String createdAt;
         private final List<CommentDto.ResponseDto> children = new ArrayList<>();
 
         @Builder
-        public ResponseDto(Long id, String content, Long userId, String nickname, String profileImg, String createAt) {
+        public ResponseDto(Long id, String content, Long userId, String nickname, String profileImg, String createdAt) {
             this.id = id;
             this.content = content;
             this.userId = userId;
             this.nickname = nickname;
             this.profileImg = profileImg;
-            this.createAt = createAt;
+            this.createdAt = createdAt;
         }
     }
 }

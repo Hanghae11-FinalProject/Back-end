@@ -42,7 +42,7 @@ public class SearchRepository {
                         SearchKeywordFilter(searchRequestDto.getKeyword())
 //                        .and(tag.in(post.tags))
                 )
-                .orderBy(post.currentState.asc(), post.createAt.desc()) // 최신순 정렬
+                .orderBy(post.currentState.asc(), post.createdAt.desc()) // 최신순 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();

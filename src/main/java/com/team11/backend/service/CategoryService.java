@@ -47,7 +47,7 @@ public class CategoryService {
                         s.getCurrentState(),
                         s.getMyItem(),
                         s.getExchangeItem(),
-                        TimeConversion.timeConversion(s.getCreateAt()),
+                        TimeConversion.timeConversion(s.getCreatedAt()),
                         bookMarkRepository.countByPost(s).orElse(0),
                         commentRepository.countByPost(s).orElse(0)))
                 .collect(Collectors.toList());
