@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MessageController {
     private final MessageService messageService;
-
-    @MessageMapping("/message")
+    // '/pub/message'
+    @MessageMapping("/message") //클라이언트가 SEND할 수 있는 경로 stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
     public void message(MessageDto messageDto){
         messageService.sendMessage(messageDto);
     }

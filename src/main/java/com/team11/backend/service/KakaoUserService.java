@@ -67,7 +67,7 @@ public class KakaoUserService {
         body.add("client_id", "397c0abcfdf1e8bb72359a99d7784e74");
         body.add("redirect_uri", "http://pingpong-market.shop/oauth/callback/kakao");
         // body.add("redirect_uri","http://localhost:3000/oauth/callback/kakao");
-        // https://kauth.kakao.com/oauth/authorize?client_id=dcd2dc8ef9a91776b876f76145451b0f&redirect_uri=http://52.78.31.61:3000/oauth/kakao/callback&response_type=code
+        // https://kauth.kakao.com/oauth/authorize?client_id=dcd2dc8ef9a91776b876f76145451b0f&redirect_uri=http://pingpong-market.shop/oauth/callback/kakao&response_type=code
         body.add("code", code);
 
 
