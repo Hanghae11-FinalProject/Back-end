@@ -8,7 +8,9 @@ import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.timeConversion.MessageTimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
@@ -134,6 +136,12 @@ public class MessageService {
 
     @Transactional
     public MessageListDto showMessageList(RoomDto.findRoomDto roomDto, Pageable pageable,UserDetailsImpl userDetails) {
+
+        //채팅 페이지 설정
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        Sort sort = Sort.by(Sort.Direction. DESC, "createdAt" );
+        pageable = PageRequest.of(page, 20, sort );
+
         Room room = roomRepository.findByRoomNameAndRoomPostId(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no roomName"));
 
