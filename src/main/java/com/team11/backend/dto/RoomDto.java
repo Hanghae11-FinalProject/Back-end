@@ -10,7 +10,7 @@ public class RoomDto {
 
     @Getter
     @Setter
-    public static class Reqeust{
+    public static class Request{
         private Long postId;
         private Long toUserId;
     }

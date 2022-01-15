@@ -26,7 +26,7 @@ public class RoomService {
     private final MessageRepository messageRepository;
 
     @Transactional
-    public RoomDto.Response createRoomService(RoomDto.Reqeust roomDto, UserDetailsImpl userDetails){
+    public RoomDto.Response createRoomService(RoomDto.Request roomDto, UserDetailsImpl userDetails){
 
         Post post = postRepository.findById(roomDto.getPostId()).orElseThrow(
                 ()-> new IllegalArgumentException("no post")
