@@ -62,7 +62,7 @@ public class SearchService {
                         bookMarkRepository.countByPost(s).orElse(0),
                         commentRepository.countByPost(s).orElse(0)))
                 .collect(Collectors.toList());
-        Long postCnt = (long) responseDtoList.size();
+        Long postCnt = posts.getTotalElements();
 
         return SearchDto.TotalResponseDto.builder()
                 .postCnt(postCnt)
