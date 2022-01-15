@@ -139,7 +139,7 @@ public class MessageService {
 
         //채팅 페이지 설정
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        Sort sort = Sort.by(Sort.Direction.ASC, "createdAt" );
+        Sort sort = Sort.by(Sort.Direction. DESC, "createdAt" );
         pageable = PageRequest.of(page, 20, sort );
 
         Room room = roomRepository.findByRoomNameAndRoomPostId(roomDto.getRoomName(), roomDto.getPostId()).orElseThrow(
