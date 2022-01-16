@@ -1,18 +1,26 @@
 package com.team11.backend.repository.querydsl;
 
-import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team11.backend.dto.CategoryDto;
+import com.team11.backend.dto.querydto.*;
 import com.team11.backend.model.Post;
-import org.springframework.data.domain.PageImpl;
+import com.team11.backend.repository.BookMarkRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
-
+import static com.team11.backend.model.QBookMark.bookMark;
+import static com.team11.backend.model.QComment.comment;
+import static com.team11.backend.model.QImage.image;
 import static com.team11.backend.model.QPost.post;
 import static com.team11.backend.model.QUser.user;
 
@@ -23,15 +31,33 @@ public class CategoryRepository {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
-    public CategoryRepository(EntityManager em) {
+    @Autowired
+    public CategoryRepository(EntityManager em , BookMarkRepository bookMarkRepository) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
+
     }
 
-    public PageImpl<Post> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
+    public Page<CategoryQueryDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 
-        QueryResults<Post> postQueryResults = queryFactory
-                .select(post)
+        List<CategoryQueryDto> result = queryFactory
+                .select(new QCategoryQueryDto(
+                        post.id, user.username, user.nickname, user.address, post.title,
+                        user.profileImg, post.content, post.myItem, post.exchangeItem,
+                        post.currentState, post.category, post.createdAt.stringValue(),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(bookMark.count())
+                                .from(bookMark)
+                                .where(bookMark.post.eq(post))
+                                ,"bookmarkCnt"
+                        ),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(comment.count())
+                                .from(comment)
+                                .where(comment.post.eq(post))
+                                , "commentCnt"
+                        )
+                ))
                 .from(post)
                 .leftJoin(post.user, user)
                 .where(
@@ -43,14 +69,40 @@ public class CategoryRepository {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .setHint("org.hibernate.readOnly", true)// dirty check를 위해 snapshot 인스턴스를 보관하므로 더 많은 메모리를 사용하는 단점이 있다. 대량의 데이터를 조회만 할거기 때문에 읽기 전용으로 메모리 사용량을 최적화할 수 있다
-                .fetchResults();
+                .fetch();
+        //COUNT 쿼리가 여러번 나가는 것을 방지하기위해 따로 작성
+        JPAQuery<Post> count = queryFactory
+                .select(post)
+                .from(post)
+                .leftJoin(post.user, user)
+                .where(
+                        CategoryEq(categoryRequestDto.getCategoryName()),
+                        (CategoryCityFilter(categoryRequestDto.getAddress()))
 
+                ).orderBy(post.createdAt.desc());
+        return PageableExecutionUtils.getPage(result,pageable,count::fetchCount);
+    }
 
-        List<Post> content = postQueryResults.getResults();
-        long total = postQueryResults.getTotal();
+    public List<ImageQueryDto> imageFilter(List<Long> postIdCollect) {
+        return queryFactory
+                .select(new QImageQueryDto(
+                        post.id,image.id,image.imageName,image.imageUrl
+                ))
+                .from(image)
+                .leftJoin(image.post, post)
+                .where(post.id.in(postIdCollect))
+                .fetch();
+    }
 
-        return new PageImpl<>(content, pageable, total);
-
+    public List<BookMarkQueryDto> bookMarkFilter(List<Long> postIdCollect) {
+        return queryFactory
+                .select(new QBookMarkQueryDto(
+                    post.id,bookMark.user.id
+                ))
+                .from(bookMark)
+                .leftJoin(bookMark.post, post)
+                .where(post.id.in(postIdCollect))
+                .fetch();
     }
 
     private BooleanExpression CategoryEq(List<String> categoryName) {
@@ -68,4 +120,6 @@ public class CategoryRepository {
     private BooleanExpression isFilterAddress(String address){
         return post.user.address.contains(address);
     }
+
+
 }
