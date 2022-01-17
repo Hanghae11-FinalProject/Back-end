@@ -1,14 +1,15 @@
 package com.team11.backend.dto.querydto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import com.querydsl.core.types.Expression;
 import com.team11.backend.model.CurrentState;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class CategoryQueryDto {
 
     private Long postId;
