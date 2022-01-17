@@ -238,7 +238,7 @@ public class PostService {
         Map<Long, CommentQueryDto> map = new HashMap<>();
         comments.forEach(c -> {
             CommentQueryDto dto = new CommentQueryDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname(),c.getUser().getProfileImg(), TimeConversion.timeConversion(c.getCreatedAt()));
-            map.put(dto.getCommentId(), dto);
+            map.put(dto.getId(), dto);
             if (c.getParent() != null)
                 map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록
             else result.add(dto);
