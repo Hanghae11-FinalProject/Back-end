@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 public class CommentQueryDto {
     private Long postId;
-    private Long commentId;
+    private Long id;
     private String content;
     private Long userId;
     private String nickname;
@@ -25,9 +25,9 @@ public class CommentQueryDto {
 
     @Builder
     @QueryProjection
-    public CommentQueryDto(Long postId, Long commentId, String content, Long userId, String nickname, String profileImg, String createdAt) {
+    public CommentQueryDto(Long postId, Long id, String content, Long userId, String nickname, String profileImg, String createdAt) {
         this.postId = postId;
-        this.commentId = commentId;
+        this.id = id;
         this.content = content;
         this.userId = userId;
         this.nickname = nickname;
@@ -35,8 +35,8 @@ public class CommentQueryDto {
         this.createdAt = createdAt;
     }
 
-    public CommentQueryDto(Long commentId, String content, Long userId, String nickname, String profileImg, String createdAt) {
-        this.commentId = commentId;
+    public CommentQueryDto(Long id, String content, Long userId, String nickname, String profileImg, String createdAt) {
+        this.id = id;
         this.content = content;
         this.userId = userId;
         this.nickname = nickname;
