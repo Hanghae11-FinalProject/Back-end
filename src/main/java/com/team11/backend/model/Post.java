@@ -42,7 +42,7 @@ public class Post extends Timestamped{
     @OneToMany(mappedBy = "post" , fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Image> images;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post" , fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Tag> tags;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
@@ -68,6 +68,9 @@ public class Post extends Timestamped{
         this.category = category;
         for (Image image : images) {
             image.setPost(this);
+        }
+        for (Tag tag : tags){
+            tag.setPost(this);
         }
     }
 

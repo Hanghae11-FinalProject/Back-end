@@ -2,7 +2,7 @@ package com.team11.backend.controller;
 
 import com.team11.backend.dto.CurrentStateDto;
 import com.team11.backend.dto.MyPostDto;
-import com.team11.backend.dto.PostDto;
+import com.team11.backend.dto.querydto.PostDetailQueryDto;
 import com.team11.backend.model.User;
 import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.service.PostService;
@@ -31,7 +31,7 @@ public class PostController {
 
     // 게시글 상세조회
     @GetMapping("/api/posts/{postId}")
-    public PostDto.DetailResponseDto getDetail(@PathVariable Long postId ) {
+    public PostDetailQueryDto getDetail(@PathVariable Long postId ) {
         return postService.getDetail(postId);
     }
 

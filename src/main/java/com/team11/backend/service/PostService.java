@@ -5,22 +5,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team11.backend.component.AwsS3UploadService;
 import com.team11.backend.component.FileUploadService;
 import com.team11.backend.dto.*;
+import com.team11.backend.dto.querydto.CommentQueryDto;
+import com.team11.backend.dto.querydto.PostDetailQueryDto;
 import com.team11.backend.model.*;
 import com.team11.backend.repository.*;
+import com.team11.backend.repository.querydsl.PostQueryRepository;
 import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostService {
+    private final PostQueryRepository postQueryRepository;
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
     private final FileUploadService fileUploadService;
@@ -72,52 +77,23 @@ public class PostService {
 
     // 상세페이지
     @Transactional
-    public PostDto.DetailResponseDto getDetail(Long postId) {
+    public PostDetailQueryDto getDetail(Long postId) {
 
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
+        PostDetailQueryDto postDetailQueryDto = postQueryRepository.postDetail(postId);
+        postDetailQueryDto.setTags(postQueryRepository.tagData(postId));
+        postDetailQueryDto.setBookMarks(postQueryRepository.bookMarkData(postId));
+        postDetailQueryDto.setComments(convertNestedStructure(postQueryRepository.commentData(postId)));
+        postDetailQueryDto.setImages(postQueryRepository.imageData(postId));
 
-        List<BookMarkDto.DetailResponseDto> bookMarkResponseDtoList = post.getBookMarks().stream()
-                .map(this::toBookmarkResponseDto)
-                .collect(Collectors.toList());
-
-        List<CommentDto.ResponseDto> responseDtos = convertNestedStructure(commentRepository.findCommentByPost(post));
-        return PostDto.DetailResponseDto.builder()
-                .postId(postId)
-                .nickname(post.getUser().getNickname())
-                .profileImg(post.getUser().getProfileImg())
-                .userId(post.getUser().getId())
-                .bookMarks(bookMarkResponseDtoList)
-                .title(post.getTitle())
-                .content(post.getContent())
-                .address(post.getUser().getAddress())
-                .tags(post.getTags())
-                .images(post.getImages())
-                .myItem(post.getMyItem())
-                .exchangeItem(post.getExchangeItem())
-                .currentState(post.getCurrentState())
-                .categoryName(post.getCategory())
-                .bookMarkCount(bookMarkRepository.countByPost(post).orElse(0))
-                .commentCount(commentRepository.countByPost(post).orElse(0))
-                .comments(responseDtos)
-                .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
-                .build();
-    }
-
-    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
-
-        return BookMarkDto.DetailResponseDto.builder()
-                .userId(bookMark.getUser().getId())
-                .build();
+        return postDetailQueryDto;
     }
 
     //수정
     @Transactional
     public void editPostService(List<MultipartFile> images, String jsonString, Long postId) throws IOException {
-
-        System.out.println("images : "+ images);
+        log.info("이미지={}",images);
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println("게시물 수정 : " + jsonString);
+        log.info("게시물 수정 jsonString ={}",jsonString);
         PostDto.PutRequestDto requestDto = objectMapper.readValue(jsonString,PostDto.PutRequestDto.class);
 
         System.out.println(requestDto.getContent());
@@ -248,20 +224,6 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
-
-    private List<CommentDto.ResponseDto> convertNestedStructure(List<Comment> comments) { //조회시 계층형 구조 만들기
-        List<CommentDto.ResponseDto> result = new ArrayList<>();
-        Map<Long, CommentDto.ResponseDto> map = new HashMap<>();
-        comments.forEach(c -> {
-            CommentDto.ResponseDto dto = new CommentDto.ResponseDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname(),c.getUser().getProfileImg(), TimeConversion.timeConversion(c.getCreatedAt()));
-            map.put(dto.getId(), dto);
-            if (c.getParent() != null)
-                 map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록
-            else result.add(dto);
-        });
-        return result;
-    }
-
     @Transactional
     public void editCurrentState(CurrentStateDto currentStateDto, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
@@ -269,5 +231,18 @@ public class PostService {
         );
 
         post.updateCurrentState(currentStateDto.getCurrentState());
+    }
+
+    private List<CommentQueryDto> convertNestedStructure(List<Comment> comments) { //조회시 계층형 구조 만들기
+        List<CommentQueryDto> result = new ArrayList<>();
+        Map<Long, CommentQueryDto> map = new HashMap<>();
+        comments.forEach(c -> {
+            CommentQueryDto dto = new CommentQueryDto(c.getId(), c.getContent(), c.getUser().getId(), c.getUser().getNickname(),c.getUser().getProfileImg(), TimeConversion.timeConversion(c.getCreatedAt()));
+            map.put(dto.getCommentId(), dto);
+            if (c.getParent() != null)
+                map.get(c.getParent().getId()).getChildren().add(dto);//양방향 연관관계를 사용해서 자식 코멘트에 댓글 등록
+            else result.add(dto);
+        });
+        return result;
     }
 }

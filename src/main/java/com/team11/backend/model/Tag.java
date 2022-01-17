@@ -1,9 +1,6 @@
 package com.team11.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Getter
+@Setter
 public class Tag {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +19,7 @@ public class Tag {
     @Column(nullable = true)
     private String tagName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "postId")
+    private Post post;
 }
