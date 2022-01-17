@@ -1,18 +1,13 @@
 package com.team11.backend.model;
 
 import com.team11.backend.dto.PostDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
@@ -37,28 +32,43 @@ public class Post extends Timestamped{
     @Enumerated(EnumType.STRING)
     private CurrentState currentState;
 
+    @Column(nullable = false)
+    private String category;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId",nullable = false)
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post" , fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Image> images;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Tag> tags;
 
-    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<BookMark> bookMarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private final List<Comment> comments = new ArrayList<>();
 
-    @Column(nullable = false)
-    private String category;
-
     public void updatebookMark(List<BookMark> bookMarks){
         this.bookMarks = bookMarks;
+    }
+
+    @Builder
+    public Post(String title, String content, String myItem, String exchangeItem, CurrentState currentState, User user, List<Image> images, List<Tag> tags, String category) {
+        this.title = title;
+        this.content = content;
+        this.myItem = myItem;
+        this.exchangeItem = exchangeItem;
+        this.currentState = currentState;
+        this.user = user;
+        this.images = images;
+        this.tags = tags;
+        this.category = category;
+        for (Image image : images) {
+            image.setPost(this);
+        }
     }
 
     public void updatePost(PostDto.PutRequestDto requestDto, List<Image> images, List<Tag> tags){

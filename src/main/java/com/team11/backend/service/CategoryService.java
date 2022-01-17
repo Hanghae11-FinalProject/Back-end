@@ -1,20 +1,17 @@
 package com.team11.backend.service;
 
-
-import com.team11.backend.dto.BookMarkDto;
 import com.team11.backend.dto.CategoryDto;
-import com.team11.backend.model.BookMark;
-import com.team11.backend.model.Post;
-import com.team11.backend.repository.BookMarkRepository;
-import com.team11.backend.repository.CommentRepository;
+import com.team11.backend.dto.querydto.BookMarkQueryDto;
+import com.team11.backend.dto.querydto.CategoryQueryDto;
+import com.team11.backend.dto.querydto.ImageQueryDto;
 import com.team11.backend.repository.querydsl.CategoryRepository;
-import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -23,41 +20,22 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CommentRepository commentRepository;
-    private final BookMarkRepository bookMarkRepository;
 
     @Transactional
-    public List<CategoryDto.ResponseDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
-
+    public Page<CategoryQueryDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 //상세페이지 댓글 개수 불일치.
-        PageImpl<Post> posts = categoryRepository.categoryFilter(categoryRequestDto, pageable);
-        return posts.stream()
-                .map(s -> new CategoryDto.ResponseDto(
-                        s.getCategory(),
-                        s.getId(),
-                        s.getUser().getProfileImg(),
-                        s.getUser().getUsername(),
-                        s.getUser().getNickname(),
-                        s.getTitle(), s.getContent(),
-                        s.getUser().getAddress(),
-                        s.getImages(),
-                        s.getBookMarks().stream()
-                                .map(this::toBookmarkResponseDto)
-                                .collect(Collectors.toList()),
-                        s.getCurrentState(),
-                        s.getMyItem(),
-                        s.getExchangeItem(),
-                        TimeConversion.timeConversion(s.getCreatedAt()),
-                        bookMarkRepository.countByPost(s).orElse(0),
-                        commentRepository.countByPost(s).orElse(0)))
-                .collect(Collectors.toList());
+        Page<CategoryQueryDto> postList = categoryRepository.categoryFilter(categoryRequestDto, pageable);
 
-    }
+        List<Long> postIdCollect = postList.stream().map(CategoryQueryDto::getPostId).collect(Collectors.toList());
 
-    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
+        List<ImageQueryDto> imageList = categoryRepository.imageFilter(postIdCollect);
+        Map<Long, List<ImageQueryDto>> imageIdMap = imageList.stream().collect(Collectors.groupingBy(ImageQueryDto::getPostId));
 
-        return BookMarkDto.DetailResponseDto.builder()
-                .userId(bookMark.getUser().getId())
-                .build();
+        List<BookMarkQueryDto> bookMarkInUserIdList = categoryRepository.bookMarkFilter(postIdCollect);
+        Map<Long, List<BookMarkQueryDto>> bookMarkInUserIdMap = bookMarkInUserIdList.stream().collect(Collectors.groupingBy(BookMarkQueryDto::getPostId));
+        postList.forEach(key -> key.setImages(imageIdMap.get(key.getPostId())));
+        postList.forEach(key -> key.setBookMarks(bookMarkInUserIdMap.get(key.getPostId())));
+
+        return postList;
     }
 }

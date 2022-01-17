@@ -2,18 +2,16 @@ package com.team11.backend.model;
 
 
 import com.team11.backend.dto.ImageDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@Entity
+@Setter
 @Getter
+@Entity
 public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -24,6 +22,10 @@ public class Image {
 
     @Column(nullable = false)
     private  String imageUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JoinColumn(name = "postId")
+    private Post post;
 
     public void updateImage(ImageDto imageDto){
         this.imageName = imageDto.getImageName();
