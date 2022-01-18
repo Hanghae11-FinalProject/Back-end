@@ -1,6 +1,7 @@
 package com.team11.backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team11.backend.dto.ImageDto;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class Image {
     @Column(nullable = false)
     private  String imageUrl;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name = "postId")
     private Post post;
