@@ -22,7 +22,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    private final RedisTemplate<String,List<CategoryQueryDto>> redisTemplateList;
+   // private final RedisTemplate<String,List<CategoryQueryDto>> redisTemplateList;
 
     @Transactional
     public Page<CategoryQueryDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
@@ -39,7 +39,7 @@ public class CategoryService {
         postList.forEach(key -> key.setImages(imageIdMap.get(key.getPostId())));
         postList.forEach(key -> key.setBookMarks(bookMarkInUserIdMap.get(key.getPostId())));
 
-        redisTemplateList.opsForList().leftPush("category"+pageable.getPageNumber(), postList.stream().collect(Collectors.toList()));
+       // redisTemplateList.opsForList().leftPush("category"+pageable.getPageNumber(), postList.stream().collect(Collectors.toList()));
         return postList;
     }
 }
