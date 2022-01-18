@@ -153,7 +153,7 @@ public class MessageService {
         //게시물 주인 유저 입장인지, 게시물에 접근한 유저 입장에서 보낸 메세지인지 판별
         List<MessageDto> messageDtos = DiscriminationWhoSentMessage(roomDto, userDetails, room, messages);
 
-        //위에 post 값이 존재하는지,null 인지를 기준으로 myItem,exchangeItem 있는지 없는지 유무 확인
+        //위에 post 값이 존재하는지,null 인지를 기준으로 myItem,exchangeItem 있는지 없는지 유무 확인.
         PostDto.ShowPostRoomDto showPostRoomDto = getShowPostRoomDto(post);
 
 
