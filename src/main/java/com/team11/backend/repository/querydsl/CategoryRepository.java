@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
+import static com.querydsl.core.types.ExpressionUtils.count;
 import static com.team11.backend.model.QBookMark.bookMark;
 import static com.team11.backend.model.QComment.comment;
 import static com.team11.backend.model.QImage.image;
@@ -46,17 +47,16 @@ public class CategoryRepository {
                         user.profileImg, post.content, post.myItem, post.exchangeItem,
                         post.currentState, post.category, post.createdAt.stringValue(),
                         ExpressionUtils.as(
-                                JPAExpressions.select(bookMark.count())
+                                JPAExpressions.select(count(bookMark))
                                 .from(bookMark)
-                                .where(bookMark.post.eq(post))
+                                .groupBy(post)
                                 ,"bookmarkCnt"
                         ),
                         ExpressionUtils.as(
-                                JPAExpressions.select(comment.count())
+                                JPAExpressions.select(count(comment))
                                 .from(comment)
-                                .where(comment.post.eq(post))
-                                , "commentCnt"
-                        )
+                                .groupBy(post)
+                        , "commentCnt")
                 ))
                 .from(post)
                 .leftJoin(post.user, user)

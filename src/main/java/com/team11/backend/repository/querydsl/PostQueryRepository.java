@@ -38,7 +38,7 @@ public class PostQueryRepository {
     public PostDetailQueryDto postDetail(Long postId) {
         return queryFactory
                 .select(new QPostDetailQueryDto(
-                        post.id, post.user.username, post.user.nickname, post.user.address, post.title,
+                        post.id,user.id, post.user.username, post.user.nickname, post.user.address, post.title,
                         post.user.profileImg, post.content, post.myItem, post.exchangeItem,
                         post.currentState, post.category, post.createdAt.stringValue(),
                         ExpressionUtils.as(

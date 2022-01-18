@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PostDetailQueryDto {
     private Long postId;
+    private Long userId;
     private String username;
     private String nickname;
     private String address;
@@ -30,8 +31,9 @@ public class PostDetailQueryDto {
     private List<CommentQueryDto> comments;
 
     @QueryProjection
-    public PostDetailQueryDto(Long postId, String username, String nickname, String address, String title, String profileImg, String content, String myItem, String exchangeItem, CurrentState currentState, String categoryName, String createAt, Long bookmarkCnt, Long commentCnt) {
+    public PostDetailQueryDto(Long postId, Long userId, String username, String nickname, String address, String title, String profileImg, String content, String myItem, String exchangeItem, CurrentState currentState, String categoryName, String createAt, Long bookmarkCnt, Long commentCnt) {
         this.postId = postId;
+        this.userId = userId;
         this.username = username;
         this.nickname = nickname;
         this.address = address;
