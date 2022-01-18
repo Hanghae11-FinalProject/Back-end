@@ -8,6 +8,7 @@ import com.team11.backend.repository.querydsl.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+
+    private final RedisTemplate<String,List<CategoryQueryDto>> redisTemplateList;
 
     @Transactional
     public Page<CategoryQueryDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
@@ -36,6 +39,7 @@ public class CategoryService {
         postList.forEach(key -> key.setImages(imageIdMap.get(key.getPostId())));
         postList.forEach(key -> key.setBookMarks(bookMarkInUserIdMap.get(key.getPostId())));
 
+        redisTemplateList.opsForList().leftPush("category"+pageable.getPageNumber(), postList.stream().collect(Collectors.toList()));
         return postList;
     }
 }

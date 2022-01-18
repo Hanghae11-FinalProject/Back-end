@@ -10,6 +10,7 @@ public class CategoryDto {
 
     @Data
     @Builder
+    @ToString
     @AllArgsConstructor
     @NoArgsConstructor
     public static class RequestDto {
