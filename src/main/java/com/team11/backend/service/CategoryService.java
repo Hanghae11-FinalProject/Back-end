@@ -22,7 +22,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-   // private final RedisTemplate<String,List<CategoryQueryDto>> redisTemplateList;.
+   // private final RedisTemplate<String,List<CategoryQueryDto>> redisTemplateList;..
 
     @Transactional
     public Page<CategoryQueryDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
