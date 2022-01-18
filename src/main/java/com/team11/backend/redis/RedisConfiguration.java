@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.team11.backend.dto.querydto.CategoryQueryDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,8 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.util.List;
 
 @Configuration
 @EnableRedisRepositories
@@ -61,6 +64,15 @@ public class RedisConfiguration extends CachingConfigurerSupport {
         return redisTemplate;
     }
 
+    @Bean
+    public RedisTemplate<String, List<CategoryQueryDto>> redisTemplateList(RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate<String, List<CategoryQueryDto>> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(CategoryQueryDto.class));
+        return redisTemplate;
+    }
+
     //레디스 캐시
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
@@ -77,4 +89,7 @@ public class RedisConfiguration extends CachingConfigurerSupport {
                 .cacheDefaults(redisCacheConfiguration)
                 .build();
     }
+
+
+
 }

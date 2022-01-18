@@ -4,9 +4,11 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
-public class ImageQueryDto {
+public class ImageQueryDto  {
     private Long postId;
     private Long imageId;
     private String imageName;
