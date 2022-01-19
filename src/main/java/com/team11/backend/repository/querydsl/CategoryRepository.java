@@ -33,7 +33,7 @@ public class CategoryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Autowired
-    public CategoryRepository(EntityManager em , BookMarkRepository bookMarkRepository) {
+    public CategoryRepository(EntityManager em, BookMarkRepository bookMarkRepository) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
 
@@ -48,15 +48,15 @@ public class CategoryRepository {
                         post.currentState, post.category, post.createdAt.stringValue(),
                         ExpressionUtils.as(
                                 JPAExpressions.select(count(bookMark))
-                                .from(bookMark)
-                                .groupBy(post)
-                                ,"bookmarkCnt"
+                                        .from(bookMark)
+                                        .where(bookMark.post.eq(post))
+                                , "bookmarkCnt"
                         ),
                         ExpressionUtils.as(
                                 JPAExpressions.select(count(comment))
-                                .from(comment)
-                                .groupBy(post)
-                        , "commentCnt")
+                                        .from(comment)
+                                        .where(comment.post.eq(post))
+                                , "commentCnt")
                 ))
                 .from(post)
                 .leftJoin(post.user, user)
@@ -80,13 +80,13 @@ public class CategoryRepository {
                         (CategoryCityFilter(categoryRequestDto.getAddress()))
 
                 ).orderBy(post.createdAt.desc());
-        return PageableExecutionUtils.getPage(result,pageable,count::fetchCount);
+        return PageableExecutionUtils.getPage(result, pageable, count::fetchCount);
     }
 
     public List<ImageQueryDto> imageFilter(List<Long> postIdCollect) {
         return queryFactory
                 .select(new QImageQueryDto(
-                        post.id,image.id,image.imageName,image.imageUrl
+                        post.id, image.id, image.imageName, image.imageUrl
                 ))
                 .from(image)
                 .leftJoin(image.post, post)
@@ -97,7 +97,7 @@ public class CategoryRepository {
     public List<BookMarkQueryDto> bookMarkFilter(List<Long> postIdCollect) {
         return queryFactory
                 .select(new QBookMarkQueryDto(
-                    post.id,bookMark.user.id
+                        post.id, bookMark.user.id
                 ))
                 .from(bookMark)
                 .leftJoin(bookMark.post, post)
