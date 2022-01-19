@@ -37,9 +37,6 @@ public class BookMarkService {
             bookMarkRepository.save(bookMark);
 
             CategoryDto.ResponseDto responseDto =  CategoryDto.ResponseDto.builder()
-                    .bookMarks(post.getBookMarks().stream()
-                            .map(this::toBookmarkResponseDto)
-                            .collect(Collectors.toList()))
                     .categoryName(post.getCategory())
                     .postId(post.getId())
                     .profileImg(post.getUser().getProfileImg())
@@ -55,7 +52,11 @@ public class BookMarkService {
                     .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
                     .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
                     .commentCnt(commentRepository.countByPost(post).orElse(0))
+                    .bookMarks(post.getBookMarks().stream()
+                            .map(this::toBookmarkResponseDto)
+                            .collect(Collectors.toList()))
                     .build();
+
 
 
             return responseDto;

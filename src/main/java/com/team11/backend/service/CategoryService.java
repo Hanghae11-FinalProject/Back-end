@@ -11,8 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -22,13 +24,12 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    private final RedisTemplate<String,List<CategoryQueryDto>> redisTemplateList;
+   // private final RedisTemplate<String,List<CategoryQueryDto>> redisTemplateList;..
 
     @Transactional
     public Page<CategoryQueryDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 //상세페이지 댓글 개수 불일치.
         Page<CategoryQueryDto> postList = categoryRepository.categoryFilter(categoryRequestDto, pageable);
-
         List<Long> postIdCollect = postList.stream().map(CategoryQueryDto::getPostId).collect(Collectors.toList());
 
         List<ImageQueryDto> imageList = categoryRepository.imageFilter(postIdCollect);
@@ -36,10 +37,11 @@ public class CategoryService {
 
         List<BookMarkQueryDto> bookMarkInUserIdList = categoryRepository.bookMarkFilter(postIdCollect);
         Map<Long, List<BookMarkQueryDto>> bookMarkInUserIdMap = bookMarkInUserIdList.stream().collect(Collectors.groupingBy(BookMarkQueryDto::getPostId));
-        postList.forEach(key -> key.setImages(imageIdMap.get(key.getPostId())));
-        postList.forEach(key -> key.setBookMarks(bookMarkInUserIdMap.get(key.getPostId())));
+        postList.forEach(key -> key.setImages(Optional.ofNullable(imageIdMap.get(key.getPostId())).orElse(new ArrayList<>())));
+        postList.forEach(key -> key.setBookMarks(Optional.ofNullable(bookMarkInUserIdMap.get(key.getPostId())).orElse(new ArrayList<>())));
 
-        redisTemplateList.opsForList().leftPush("category"+pageable.getPageNumber(), postList.stream().collect(Collectors.toList()));
+
+       // redisTemplateList.opsForList().leftPush("category"+pageable.getPageNumber(), postList.stream().collect(Collectors.toList()));
         return postList;
     }
 }
