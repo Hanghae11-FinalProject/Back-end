@@ -150,7 +150,6 @@ public class RoomService {
     public int notReadingMessageCount(UserDetailsImpl userDetails) {
         List<UserRoom> userRooms = userRoomRepository.findByUser(userDetails.getUser());
         List<Integer> newMessageCnts = new ArrayList<>();
-//        List<RoomDto.NotReadingResponse> notReadingResponseList = new ArrayList<>();
 
         int totalNewMessageCnt = 0;
         for (UserRoom userRoom : userRooms) {
@@ -163,18 +162,6 @@ public class RoomService {
         for (int i=0;  i < newMessageCnts.size(); i++){
             totalNewMessageCnt += newMessageCnts.get(i);
         }
-//        for (UserRoom userRoom : userRooms) {
-//            RoomDto.NotReadingResponse notReadingResponse;
-//
-//            notReadingResponse = RoomDto.NotReadingResponse.builder()
-//                    .totalNotReadingMessageCount(userRoom.getCount())
-//                    .build();
-//            notReadingResponseList.add(notReadingResponse);
-//
-//        }
-//        for (int i=0;  notReadingResponseList.size() <= i; i++){
-//            sum += i;
-//        }
 
         return totalNewMessageCnt;
     }
