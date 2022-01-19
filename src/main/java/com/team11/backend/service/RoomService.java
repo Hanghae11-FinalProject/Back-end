@@ -160,7 +160,7 @@ public class RoomService {
             newMessageCnts.add(notReadingResponse);
 
         }
-        for (int i=0;  newMessageCnts.size() <= i; i++){
+        for (int i=0;  i < newMessageCnts.size(); i++){
             totalNewMessageCnt += newMessageCnts.get(i);
         }
 //        for (UserRoom userRoom : userRooms) {
