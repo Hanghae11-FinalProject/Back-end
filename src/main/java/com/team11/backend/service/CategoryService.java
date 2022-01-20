@@ -6,9 +6,7 @@ import com.team11.backend.dto.querydto.CategoryQueryDto;
 import com.team11.backend.dto.querydto.ImageQueryDto;
 import com.team11.backend.repository.querydsl.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -24,12 +22,10 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-   // private final RedisTemplate<String,List<CategoryQueryDto>> redisTemplateList;..
-
     @Transactional
-    public Page<CategoryQueryDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
+    public List<CategoryQueryDto> categoryFilter(CategoryDto.RequestDto categoryRequestDto, Pageable pageable) {
 //상세페이지 댓글 개수 불일치.
-        Page<CategoryQueryDto> postList = categoryRepository.categoryFilter(categoryRequestDto, pageable);
+        List<CategoryQueryDto> postList = categoryRepository.categoryFilter(categoryRequestDto, pageable).toList();
         List<Long> postIdCollect = postList.stream().map(CategoryQueryDto::getPostId).collect(Collectors.toList());
 
         List<ImageQueryDto> imageList = categoryRepository.imageFilter(postIdCollect);
@@ -41,7 +37,6 @@ public class CategoryService {
         postList.forEach(key -> key.setBookMarks(Optional.ofNullable(bookMarkInUserIdMap.get(key.getPostId())).orElse(new ArrayList<>())));
 
 
-       // redisTemplateList.opsForList().leftPush("category"+pageable.getPageNumber(), postList.stream().collect(Collectors.toList()));
         return postList;
     }
 }
