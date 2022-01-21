@@ -77,11 +77,6 @@ public class SearchService {
                 .build();
     }
 
-//    public SearchRankResponseDto SearchRankList() {
-//        List<String> strings = searchRepositoryInterface.findKeywordRank();
-//        return new SearchRankResponseDto(strings.subList(0, Math.min(10, strings.size())));
-//    }
-
     public List<SearchRankResponseDto> SearchRankList() {
         String key = "ranking";
         ZSetOperations<String, String> ZSetOperations = redisTemplate.opsForZSet();
