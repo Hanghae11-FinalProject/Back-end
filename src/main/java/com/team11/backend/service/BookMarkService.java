@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.team11.backend.dto.CategoryDto.categoryResponseDto;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,41 +38,14 @@ public class BookMarkService {
                     .build();
             bookMarkRepository.save(bookMark);
 
-            CategoryDto.ResponseDto responseDto =  CategoryDto.ResponseDto.builder()
-                    .categoryName(post.getCategory())
-                    .postId(post.getId())
-                    .profileImg(post.getUser().getProfileImg())
-                    .username(post.getUser().getUsername())
-                    .nickname(post.getUser().getNickname())
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .address(post.getUser().getAddress())
-                    .images(post.getImages())
-                    .currentState(post.getCurrentState())
-                    .myItem(post.getMyItem())
-                    .exchangeItem(post.getExchangeItem())
-                    .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
-                    .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
-                    .commentCnt(commentRepository.countByPost(post).orElse(0))
-                    .bookMarks(post.getBookMarks().stream()
-                            .map(this::toBookmarkResponseDto)
-                            .collect(Collectors.toList()))
-                    .build();
 
-
-
-            return responseDto;
+            return categoryResponseDto(post,bookMarkRepository,commentRepository);
         }
 
         return null;
     }
 
-    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
 
-        return BookMarkDto.DetailResponseDto.builder()
-                .userId(bookMark.getUser().getId())
-                .build();
-    }
     @Transactional
     public CategoryDto.ResponseDto cancelBookMark(User user, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("해당 게시글이 존재하지 않습니다."));
@@ -84,26 +59,7 @@ public class BookMarkService {
         post.updatebookMark(bookMarks);
         bookMarkRepository.delete(bookMark);
 
-        return CategoryDto.ResponseDto.builder()
-                .bookMarks(post.getBookMarks().stream()
-                        .map(this::toBookmarkResponseDto)
-                        .collect(Collectors.toList()))
-                .categoryName(post.getCategory())
-                .postId(post.getId())
-                .profileImg(post.getUser().getProfileImg())
-                .username(post.getUser().getUsername())
-                .nickname(post.getUser().getNickname())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .address(post.getUser().getAddress())
-                .images(post.getImages())
-                .currentState(post.getCurrentState())
-                .myItem(post.getMyItem())
-                .exchangeItem(post.getExchangeItem())
-                .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
-                .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
-                .commentCnt(commentRepository.countByPost(post).orElse(0))
-                .build();
+        return categoryResponseDto(post,bookMarkRepository,commentRepository);
     }
 
     @Transactional

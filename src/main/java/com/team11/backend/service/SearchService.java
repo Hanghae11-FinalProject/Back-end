@@ -1,14 +1,11 @@
 package com.team11.backend.service;
 
-import com.team11.backend.dto.BookMarkDto;
 import com.team11.backend.dto.SearchDto;
 import com.team11.backend.dto.SearchRankResponseDto;
-import com.team11.backend.model.BookMark;
 import com.team11.backend.model.Post;
 import com.team11.backend.repository.BookMarkRepository;
 import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.querydsl.SearchRepository;
-import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import static com.team11.backend.dto.SearchDto.searchResponseDto;
 
 @RequiredArgsConstructor
 @Service
@@ -43,25 +41,7 @@ public class SearchService {
         redisTemplate.opsForZSet().incrementScore("ranking", searchRequestDto.getKeyword().get(0), score);
 
 
-        List<SearchDto.ResponseDto> responseDtoList = posts.stream()
-                .map(s -> new SearchDto.ResponseDto(
-                        s.getId(),
-                        s.getUser().getNickname(),
-                        s.getTitle(),
-                        s.getContent(),
-                        s.getUser().getAddress(),
-                        s.getMyItem(),
-                        s.getExchangeItem(),
-                        s.getUser().getProfileImg(),
-                        s.getImages(),
-                        s.getBookMarks().stream()
-                                .map(this::toBookmarkResponseDto)
-                                .collect(Collectors.toList()),
-                        s.getCurrentState(),
-                        TimeConversion.timeConversion(s.getCreatedAt()),
-                        bookMarkRepository.countByPost(s).orElse(0),
-                        commentRepository.countByPost(s).orElse(0)))
-                .collect(Collectors.toList());
+        List<SearchDto.ResponseDto> responseDtoList = searchResponseDto(posts,bookMarkRepository,commentRepository);
         Long postCnt = posts.getTotalElements();
 
         return SearchDto.TotalResponseDto.builder()
@@ -70,12 +50,7 @@ public class SearchService {
                 .build();
     }
 
-    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
 
-        return BookMarkDto.DetailResponseDto.builder()
-                .userId(bookMark.getUser().getId())
-                .build();
-    }
 
 //    public SearchRankResponseDto SearchRankList() {
 //        List<String> strings = searchRepositoryInterface.findKeywordRank();

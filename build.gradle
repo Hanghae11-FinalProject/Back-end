@@ -23,6 +23,10 @@ repositories {
 }
 
 dependencies {
+    //sentry
+    implementation 'io.sentry:sentry-logback:5.4.2'
+    implementation 'io.sentry:sentry-spring-boot-starter:5.5.3'
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     //security test
     testImplementation 'org.springframework.security:spring-security-test'
