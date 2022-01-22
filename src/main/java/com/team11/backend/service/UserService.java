@@ -31,7 +31,7 @@ public class UserService {
                         .nickname(requestDto.getNickname())
                         .password(encodePassword.encode(requestDto.getPassword()))
                         .address(requestDto.getAddress())
-                        .profileImg("https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc5sXof%2FbtrpQSjrN1i%2FK5lwGk9FVONRvTksAYvyJ1%2Fimg.png")
+                        .profileImg("https://media.vlpt.us/images/leejh4197/post/020fe273-f2c7-4c84-9cd5-a81ce6ea39f3/KakaoTalk_20220122_002028413.png")
                         .provider(AuthProvider.pingpong)
                         .build());
         return user.getId();

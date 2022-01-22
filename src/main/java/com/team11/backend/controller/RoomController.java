@@ -39,11 +39,6 @@ public class RoomController {
         return roomService.showRoomListService(userDetails);
     }
 
-    @GetMapping("/api/messageCount")
-    public int notReadingMessageCount(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return roomService.notReadingMessageCount(userDetails);
-    }
-
     @MessageMapping("/join")
     public void join(String roomId) {
         String roomId2 = roomId.replaceAll("\"", "");
