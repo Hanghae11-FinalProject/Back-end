@@ -8,13 +8,12 @@ import com.team11.backend.model.User;
 import com.team11.backend.repository.BookMarkRepository;
 import com.team11.backend.repository.CommentRepository;
 import com.team11.backend.repository.PostRepository;
-import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.stream.Collectors;
+import static com.team11.backend.dto.BookMarkDto.convertToBookMarkDto;
+import static com.team11.backend.dto.CategoryDto.convertToCategoryDto;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,40 +35,10 @@ public class BookMarkService {
                     .build();
             bookMarkRepository.save(bookMark);
 
-            CategoryDto.ResponseDto responseDto =  CategoryDto.ResponseDto.builder()
-                    .categoryName(post.getCategory())
-                    .postId(post.getId())
-                    .profileImg(post.getUser().getProfileImg())
-                    .username(post.getUser().getUsername())
-                    .nickname(post.getUser().getNickname())
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .address(post.getUser().getAddress())
-                    .images(post.getImages())
-                    .currentState(post.getCurrentState())
-                    .myItem(post.getMyItem())
-                    .exchangeItem(post.getExchangeItem())
-                    .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
-                    .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
-                    .commentCnt(commentRepository.countByPost(post).orElse(0))
-                    .bookMarks(post.getBookMarks().stream()
-                            .map(this::toBookmarkResponseDto)
-                            .collect(Collectors.toList()))
-                    .build();
-
-
-
-            return responseDto;
+            return convertToCategoryDto(post,bookMarkRepository,commentRepository);
         }
 
         return null;
-    }
-
-    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
-
-        return BookMarkDto.DetailResponseDto.builder()
-                .userId(bookMark.getUser().getId())
-                .build();
     }
     @Transactional
     public CategoryDto.ResponseDto cancelBookMark(User user, Long postId) {
@@ -84,60 +53,20 @@ public class BookMarkService {
         post.updatebookMark(bookMarks);
         bookMarkRepository.delete(bookMark);
 
-        return CategoryDto.ResponseDto.builder()
-                .bookMarks(post.getBookMarks().stream()
-                        .map(this::toBookmarkResponseDto)
-                        .collect(Collectors.toList()))
-                .categoryName(post.getCategory())
-                .postId(post.getId())
-                .profileImg(post.getUser().getProfileImg())
-                .username(post.getUser().getUsername())
-                .nickname(post.getUser().getNickname())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .address(post.getUser().getAddress())
-                .images(post.getImages())
-                .currentState(post.getCurrentState())
-                .myItem(post.getMyItem())
-                .exchangeItem(post.getExchangeItem())
-                .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
-                .bookmarkCnt(bookMarkRepository.countByPost(post).orElse(0))
-                .commentCnt(commentRepository.countByPost(post).orElse(0))
-                .build();
+        return convertToCategoryDto(post,bookMarkRepository,commentRepository);
     }
 
     @Transactional
     public List<BookMarkDto.ResponseDto> findMyBookMark(User user) {
         if (user == null) throw new NullPointerException("로그인이 필요합니다");
-        List<BookMark> bookMarkList =
-                bookMarkRepository.findByUserUsername(user.getUsername());
-        return bookMarkList.stream().map(s ->{
+        List<BookMark> bookMarkList = bookMarkRepository.findByUserUsername(user.getUsername());
 
-            if(s.getPost().getImages().size()== 0)
-            return new BookMarkDto.ResponseDto(
-                    s.getPost().getId(),
-                    s.getPost().getUser().getId(),
-                    s.getPost().getTitle(),
-                    null,
-                    s.getUser().getAddress(),
-                    TimeConversion.timeConversion(s.getPost().getCreatedAt()),
-                    s.getPost().getCurrentState().name());
-            else
-                    return new BookMarkDto.ResponseDto(
-                            s.getPost().getId(),
-                            s.getPost().getUser().getId(),
-                            s.getPost().getTitle(),
-                            s.getPost().getImages().get(0).getImageUrl(),
-                            s.getUser().getAddress(),
-                            TimeConversion.timeConversion(s.getPost().getCreatedAt()),
-                            s.getPost().getCurrentState().name());
-                }
-        ).collect(Collectors.toList());
+        return convertToBookMarkDto(bookMarkList);
     }
 
     private void impossibleMyPostBookMark(User user, Post post) {
         if (user.getUsername().equals(post.getUser().getUsername()))
-            throw new IllegalArgumentException("자기 게시물을 즐겨찾기 할 수 없습니다.");
+            throw new IllegalArgumentException("본인 게시물은 즐겨찾기 할 수 없습니다.");
     }
 
     private boolean isNotAlreadyBookMark(User user, Post post) {

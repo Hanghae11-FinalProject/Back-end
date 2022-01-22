@@ -116,7 +116,6 @@ public class PostService {
             }
         }
 
-
         for(Image image : removeList){
             imageList.remove(image);
         }
@@ -127,60 +126,23 @@ public class PostService {
         //바꿀 이미지 S3에 저장
         if(images != null){
             for (MultipartFile image: images){
-                System.out.println(!image.isEmpty());
+                log.info("이미지 존재유무={}",image.isEmpty());
                 if(!image.isEmpty()){
                     ImageDto imageDto = fileUploadService.uploadImage(image);
                     imageDtoList.add(imageDto);
                 }
             }
         }
-
         // 이미지 리스트, 테그 리스트 다시 초기화
         tagList = new ArrayList<>();
 
         //String 형태의 jsonString을 Dto로 변환부분
-
-
         putDtoParser(tagList, imageList, imageDtoList, requestDto);
-
 
         post.updatePost(requestDto,imageList,tagList);
 
     }
 
-    private void dtoParser(List<Tag> tagList, List<Image> imageList, List<ImageDto> imageDtoList, PostDto.RequestDto requestDto) {
-        for (ImageDto imagedto:imageDtoList) {
-            Image image = Image.builder()
-                    .imageName(imagedto.getImageName())
-                    .imageUrl(imagedto.getImageUrl())
-                    .build();
-            imageList.add(image);
-        }
-
-        for (TagDto.RequestDto tagRequestDto: requestDto.getTagRequestDtos()) {
-            Tag tag = Tag.builder()
-                    .tagName(tagRequestDto.getTagName())
-                    .build();
-            tagList.add(tag);
-        }
-    }
-
-    private void putDtoParser(List<Tag> tagList, List<Image> imageList, List<ImageDto> imageDtoList, PostDto.PutRequestDto requestDto) {
-        for (ImageDto imagedto:imageDtoList) {
-            Image image = Image.builder()
-                    .imageName(imagedto.getImageName())
-                    .imageUrl(imagedto.getImageUrl())
-                    .build();
-            imageList.add(image);
-        }
-
-        for (TagDto.RequestDto tagRequestDto: requestDto.getTagRequsetDtos()) {
-            Tag tag = Tag.builder()
-                    .tagName(tagRequestDto.getTagName())
-                    .build();
-            tagList.add(tag);
-        }
-    }
 
     public List<MyPostDto.ResponseDto> showMyPostService(User user) {
         List<Post> postList = postRepository.findAllByUserOrderByCreatedAtDesc(user);
@@ -245,4 +207,39 @@ public class PostService {
         });
         return result;
     }
+
+    private void dtoParser(List<Tag> tagList, List<Image> imageList, List<ImageDto> imageDtoList, PostDto.RequestDto requestDto) {
+        for (ImageDto imagedto:imageDtoList) {
+            Image image = Image.builder()
+                    .imageName(imagedto.getImageName())
+                    .imageUrl(imagedto.getImageUrl())
+                    .build();
+            imageList.add(image);
+        }
+
+        for (TagDto.RequestDto tagRequestDto: requestDto.getTagRequestDtos()) {
+            Tag tag = Tag.builder()
+                    .tagName(tagRequestDto.getTagName())
+                    .build();
+            tagList.add(tag);
+        }
+    }
+
+    private void putDtoParser(List<Tag> tagList, List<Image> imageList, List<ImageDto> imageDtoList, PostDto.PutRequestDto requestDto) {
+        for (ImageDto imagedto:imageDtoList) {
+            Image image = Image.builder()
+                    .imageName(imagedto.getImageName())
+                    .imageUrl(imagedto.getImageUrl())
+                    .build();
+            imageList.add(image);
+        }
+
+        for (TagDto.RequestDto tagRequestDto: requestDto.getTagRequsetDtos()) {
+            Tag tag = Tag.builder()
+                    .tagName(tagRequestDto.getTagName())
+                    .build();
+            tagList.add(tag);
+        }
+    }
+
 }
