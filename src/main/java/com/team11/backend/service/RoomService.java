@@ -146,23 +146,4 @@ public class RoomService {
         return chatRoomDtos;
 
     }
-
-    public int notReadingMessageCount(UserDetailsImpl userDetails) {
-        List<UserRoom> userRooms = userRoomRepository.findByUser(userDetails.getUser());
-        List<Integer> newMessageCnts = new ArrayList<>();
-
-        int totalNewMessageCnt = 0;
-        for (UserRoom userRoom : userRooms) {
-            int notReadingResponse;
-
-            notReadingResponse = userRoom.getCount();
-            newMessageCnts.add(notReadingResponse);
-
-        }
-        for (int i=0;  i < newMessageCnts.size(); i++){
-            totalNewMessageCnt += newMessageCnts.get(i);
-        }
-
-        return totalNewMessageCnt;
-    }
 }
