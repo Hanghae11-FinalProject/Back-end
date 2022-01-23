@@ -25,15 +25,15 @@ public class PostDetailQueryDto {
     private CurrentState currentState;
     private String categoryName;
     private String createAt;
-    private Long bookmarkCnt;
-    private Long commentCnt;
+    private Integer bookmarkCnt;
+    private Integer commentCnt;
     private List<TagQueryDto> tags;
     private List<ImageQueryDto> images;
     private List<BookMarkQueryDto> bookMarks;
     private List<CommentQueryDto> comments;
 
     @QueryProjection
-    public PostDetailQueryDto(Long postId, Long userId, String username, String nickname, String address, String title, String profileImg, String content, String myItem, String exchangeItem, CurrentState currentState, String categoryName, LocalDateTime createAt, Long bookmarkCnt, Long commentCnt) {
+    public PostDetailQueryDto(Long postId, Long userId, String username, String nickname, String address, String title, String profileImg, String content, String myItem, String exchangeItem, CurrentState currentState, String categoryName, LocalDateTime createAt, Integer bookmarkCnt, Integer commentCnt) {
         this.postId = postId;
         this.userId = userId;
         this.username = username;

@@ -1,7 +1,7 @@
 package com.team11.backend.controller;
 
 import com.team11.backend.dto.CurrentStateDto;
-import com.team11.backend.dto.MyPostDto;
+import com.team11.backend.dto.MyPostResponseDto;
 import com.team11.backend.dto.querydto.PostDetailQueryDto;
 import com.team11.backend.model.User;
 import com.team11.backend.security.UserDetailsImpl;
@@ -54,7 +54,7 @@ public class PostController {
     }
 
     @GetMapping("/api/myposts")
-    public List<MyPostDto.ResponseDto> showMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public List<MyPostResponseDto> showMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
         return postService.showMyPostService(user);
     }

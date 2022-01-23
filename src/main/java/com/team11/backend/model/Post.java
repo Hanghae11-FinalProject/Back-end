@@ -35,6 +35,10 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String category;
 
+    private Integer bookMarkCnt = 0;
+
+    private Integer commentCnt = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId",nullable = false)
     private User user;
@@ -89,4 +93,19 @@ public class Post extends Timestamped{
         this.currentState = CurrentState.valueOf(currentState);
     }
 
+    public void addBookMarkCount(){
+        bookMarkCnt = bookMarkCnt + 1;
+    }
+
+    public void minusBookMarkCount(){
+        bookMarkCnt = bookMarkCnt - 1;
+    }
+
+    public void addCommentCount(){
+        commentCnt = commentCnt + 1;
+    }
+
+    public void minusCommentCount(){
+        commentCnt = commentCnt - 1;
+    }
 }
