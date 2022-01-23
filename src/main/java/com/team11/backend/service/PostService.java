@@ -142,30 +142,9 @@ public class PostService {
         post.updatePost(requestDto,imageList,tagList);
 
     }
-
-
-    public List<MyPostDto.ResponseDto> showMyPostService(User user) {
-        List<Post> postList = postRepository.findAllByUserOrderByCreatedAtDesc(user);
-        List<MyPostDto.ResponseDto> responseDtos = new ArrayList<>();
-        for (Post post : postList){
-            Integer bookmarkCnt = bookMarkRepository.countByPost(post).orElse(0);
-            Integer commentCnt = commentRepository.countByPost(post).orElse(0);
-
-            MyPostDto.ResponseDto responseDto = MyPostDto.ResponseDto.builder()
-                    .postId(post.getId())
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .createdAt(TimeConversion.timeConversion(post.getCreatedAt()))
-                    .address(user.getAddress())
-                    .currentState(post.getCurrentState())
-                    .bookmarkCnt(bookmarkCnt)
-                    .commentCnt(commentCnt)
-                    .build();
-
-            responseDtos.add(responseDto);
-        }
-
-        return responseDtos;
+    //내가 등록한 게시물 전체 보기
+    public List<MyPostResponseDto> showMyPostService(User user) {
+        return postRepository.findAllByUserOrderByCreatedAtDesc(user);
     }
 
     //삭제

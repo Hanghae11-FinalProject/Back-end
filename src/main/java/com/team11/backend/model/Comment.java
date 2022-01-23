@@ -50,7 +50,7 @@ public class Comment extends Timestamped {
         comment.user = user;
         comment.post = post;
         comment.parent = parent;
-
+        comment.post.addCommentCount();
         return comment;
     }
 

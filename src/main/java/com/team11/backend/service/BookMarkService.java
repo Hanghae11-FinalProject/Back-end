@@ -34,6 +34,7 @@ public class BookMarkService {
                     .post(post)
                     .build();
             bookMarkRepository.save(bookMark);
+            post.addBookMarkCount();
 
             return convertToCategoryDto(post,bookMarkRepository,commentRepository);
         }
@@ -51,6 +52,7 @@ public class BookMarkService {
             }
         }
         post.updatebookMark(bookMarks);
+        post.minusBookMarkCount();
         bookMarkRepository.delete(bookMark);
 
         return convertToCategoryDto(post,bookMarkRepository,commentRepository);
