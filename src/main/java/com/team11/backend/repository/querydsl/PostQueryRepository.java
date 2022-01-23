@@ -41,18 +41,6 @@ public class PostQueryRepository {
                         post.id,user.id, post.user.username, post.user.nickname, post.user.address, post.title,
                         post.user.profileImg, post.content, post.myItem, post.exchangeItem,
                         post.currentState, post.category, post.createdAt,post.bookMarkCnt,post.commentCnt
-                       /* ExpressionUtils.as(
-                                JPAExpressions.select(bookMark.count())
-                                        .from(bookMark)
-                                        .where(bookMark.post.eq(post))
-                                , "bookmarkCnt"
-                        ),
-                        ExpressionUtils.as(
-                                JPAExpressions.select(comment.count())
-                                        .from(comment)
-                                        .where(comment.post.eq(post))
-                                , "commentCnt"
-                        )*/
                 ))
                 .from(post)
                 .leftJoin(post.user, user)
