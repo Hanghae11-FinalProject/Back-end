@@ -40,7 +40,7 @@ public class PostQueryRepository {
                 .select(new QPostDetailQueryDto(
                         post.id,user.id, post.user.username, post.user.nickname, post.user.address, post.title,
                         post.user.profileImg, post.content, post.myItem, post.exchangeItem,
-                        post.currentState, post.category, post.createdAt.stringValue(),
+                        post.currentState, post.category, post.createdAt,
                         ExpressionUtils.as(
                                 JPAExpressions.select(bookMark.count())
                                         .from(bookMark)
