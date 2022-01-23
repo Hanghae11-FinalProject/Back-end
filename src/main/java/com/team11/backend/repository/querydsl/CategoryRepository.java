@@ -45,7 +45,7 @@ public class CategoryRepository {
                 .select(new QCategoryQueryDto(
                         post.id, user.username, user.nickname, user.address, post.title,
                         user.profileImg, post.content, post.myItem, post.exchangeItem,
-                        post.currentState, post.category, post.createdAt.stringValue(),
+                        post.currentState, post.category, post.createdAt,
                         ExpressionUtils.as(
                                 JPAExpressions.select(count(bookMark))
                                         .from(bookMark)
