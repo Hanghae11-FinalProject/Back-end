@@ -27,14 +27,14 @@ public class CategoryQueryDto {
     private String exchangeItem;
     private CurrentState currentState;
     private String categoryName;
-    private String createAt;
+    private String createdAt;
     private Integer bookmarkCnt;
     private Integer commentCnt;
     private List<ImageQueryDto> images;
     private List<BookMarkQueryDto> bookMarks;
 
     @QueryProjection
-    public CategoryQueryDto(Long postId, String username, String nickname, String address, String title, String profileImg, String content, String myItem, String exchangeItem, CurrentState currentState, String categoryName, LocalDateTime createAt, Integer bookmarkCnt, Integer commentCnt) {
+    public CategoryQueryDto(Long postId, String username, String nickname, String address, String title, String profileImg, String content, String myItem, String exchangeItem, CurrentState currentState, String categoryName, LocalDateTime createdAt, Integer bookmarkCnt, Integer commentCnt) {
         this.postId = postId;
         this.username = username;
         this.nickname = nickname;
@@ -46,7 +46,7 @@ public class CategoryQueryDto {
         this.exchangeItem = exchangeItem;
         this.currentState = currentState;
         this.categoryName = categoryName;
-        this.createAt = TimeConversion.timeConversion(createAt);
+        this.createdAt = TimeConversion.timeConversion(createdAt);
         this.bookmarkCnt = bookmarkCnt;
         this.commentCnt = commentCnt;
     }
