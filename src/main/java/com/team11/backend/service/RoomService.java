@@ -40,7 +40,7 @@ public class RoomService {
         List<Room> checkRoomList = roomRepository.findByRoomPostId(post.getId()); //해당 게시물에 모든 채팅정보 가져오기
         for (Room room : checkRoomList){
             UserRoom checkUserRoom = userRoomRepository.findByRoomAndUserAndToUser(room,user,toUser);//해당 게시물에 유저와, 게시물에 접근하는 유저에 채팅방 정보가 있는지 확인
-            if(checkUserRoom != null){ //이미 대화하고 있던 방이 있을경우
+            if(checkUserRoom != null){ //이미 대화하고 있던 방이 있을경우.
                 throw new IllegalArgumentException("same room");
             }
         }

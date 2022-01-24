@@ -50,7 +50,7 @@ public class KakaoUserService {
 // 3. "카카오 사용자 정보"로 필요시 회원가입  및 이미 같은 이메일이 있으면 기존회원으로 로그인
         User kakaoUser = registerKakaoOrUpdateKakao(snsUserInfoDto);
 
-// 4. 강제 로그인 처리
+// 4. 강제 로그인 처리.
         return forceLogin(kakaoUser);
     }
 
@@ -118,7 +118,7 @@ public class KakaoUserService {
             email = jsonNode.get("kakao_account")
                     .get("email").asText();
 
-        String profileStr = "http://www.city.kr/files/attach/images/161/701/416/022/a2c34aa75756074e20552ccbac6894e8.jpg";
+        String profileStr = "https://media.vlpt.us/images/leejh4197/post/020fe273-f2c7-4c84-9cd5-a81ce6ea39f3/KakaoTalk_20220122_002028413.png";
 
         return new SnsUserInfoDto(id, nickname, email, profileStr);
     }
@@ -158,7 +158,7 @@ public class KakaoUserService {
                     .provider(AuthProvider.kakao)
                     .password(encodedPassword)
                     .nickname(nickname)
-                    .profileImg("http://www.city.kr/files/attach/images/161/701/416/022/a2c34aa75756074e20552ccbac6894e8.jpg")
+                    .profileImg("https://media.vlpt.us/images/leejh4197/post/020fe273-f2c7-4c84-9cd5-a81ce6ea39f3/KakaoTalk_20220122_002028413.png")
                     .build();
             userRepository.save(kakaoUser);
 
