@@ -50,7 +50,7 @@ public class KakaoUserService {
 // 3. "카카오 사용자 정보"로 필요시 회원가입  및 이미 같은 이메일이 있으면 기존회원으로 로그인
         User kakaoUser = registerKakaoOrUpdateKakao(snsUserInfoDto);
 
-// 4. 강제 로그인 처리
+// 4. 강제 로그인 처리.
         return forceLogin(kakaoUser);
     }
 
