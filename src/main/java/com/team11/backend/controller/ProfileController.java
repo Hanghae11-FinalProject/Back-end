@@ -21,7 +21,7 @@ public class ProfileController {
                 break;
             }
         }
-
+//.
         return str[idx];
     }
 }
