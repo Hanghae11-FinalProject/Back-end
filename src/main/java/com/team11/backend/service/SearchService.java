@@ -1,23 +1,21 @@
 package com.team11.backend.service;
 
-import com.team11.backend.dto.BookMarkDto;
+
 import com.team11.backend.dto.SearchDto;
 import com.team11.backend.dto.SearchRankResponseDto;
-import com.team11.backend.model.BookMark;
-import com.team11.backend.model.Post;
-import com.team11.backend.repository.BookMarkRepository;
-import com.team11.backend.repository.CommentRepository;
+import com.team11.backend.dto.querydto.BookMarkQueryDto;
+import com.team11.backend.dto.querydto.ImageQueryDto;
+import com.team11.backend.dto.querydto.SearchQueryDto;
+import com.team11.backend.repository.querydsl.CategoryRepository;
 import com.team11.backend.repository.querydsl.SearchRepository;
-import com.team11.backend.timeConversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -25,15 +23,26 @@ import java.util.stream.Collectors;
 public class SearchService {
 
     private final SearchRepository searchRepository;
-    private final CommentRepository commentRepository;
-    private final BookMarkRepository bookMarkRepository;
+    private final CategoryRepository categoryRepository;
     private final RedisTemplate<String, String> redisTemplate;
 
 
     @Transactional
-    public SearchDto.TotalResponseDto keywordSearch(SearchDto.RequestDto searchRequestDto, Pageable pageable) {
+    public Page<SearchQueryDto> keywordSearch(SearchDto.RequestDto searchRequestDto, Pageable pageable) {
 
-        PageImpl<Post> posts = searchRepository.keywordFilter(searchRequestDto, pageable);
+        Page<SearchQueryDto> postList = searchRepository.keywordFilter(searchRequestDto, pageable);
+        List<Long> collectPostId = postList.stream().map(SearchQueryDto::getPostId).collect(Collectors.toList());
+
+        List<ImageQueryDto> imageList = categoryRepository.imageFilter(collectPostId);
+        Map<Long, List<ImageQueryDto>> imageIdMap = imageList.stream().collect(Collectors.groupingBy(ImageQueryDto::getPostId));
+
+        List<BookMarkQueryDto> bookMarkInUserIdList = categoryRepository.bookMarkFilter(collectPostId);
+        Map<Long, List<BookMarkQueryDto>> bookMarkInUserIdMap = bookMarkInUserIdList.stream().collect(Collectors.groupingBy(BookMarkQueryDto::getPostId));
+
+        postList.forEach(key -> key.setImages(Optional.ofNullable(imageIdMap.get(key.getPostId())).orElse(new ArrayList<>())));
+        postList.forEach(key -> key.setBookMarks(Optional.ofNullable(bookMarkInUserIdMap.get(key.getPostId())).orElse(new ArrayList<>())));
+
+
         Double score = 0.0;
         try {
             redisTemplate.opsForZSet().incrementScore("ranking", searchRequestDto.getKeyword().get(0),1);
@@ -43,38 +52,8 @@ public class SearchService {
         redisTemplate.opsForZSet().incrementScore("ranking", searchRequestDto.getKeyword().get(0), score);
 
 
-        List<SearchDto.ResponseDto> responseDtoList = posts.stream()
-                .map(s -> new SearchDto.ResponseDto(
-                        s.getId(),
-                        s.getUser().getNickname(),
-                        s.getTitle(),
-                        s.getContent(),
-                        s.getUser().getAddress(),
-                        s.getMyItem(),
-                        s.getExchangeItem(),
-                        s.getUser().getProfileImg(),
-                        s.getImages(),
-                        s.getBookMarks().stream()
-                                .map(this::toBookmarkResponseDto)
-                                .collect(Collectors.toList()),
-                        s.getCurrentState(),
-                        TimeConversion.timeConversion(s.getCreatedAt()),
-                        bookMarkRepository.countByPost(s).orElse(0),
-                        commentRepository.countByPost(s).orElse(0)))
-                .collect(Collectors.toList());
-        Long postCnt = posts.getTotalElements();
+        return postList;
 
-        return SearchDto.TotalResponseDto.builder()
-                .postCnt(postCnt)
-                .posts(responseDtoList)
-                .build();
-    }
-
-    private BookMarkDto.DetailResponseDto toBookmarkResponseDto(BookMark bookMark) {
-
-        return BookMarkDto.DetailResponseDto.builder()
-                .userId(bookMark.getUser().getId())
-                .build();
     }
 
     public List<SearchRankResponseDto> SearchRankList() {

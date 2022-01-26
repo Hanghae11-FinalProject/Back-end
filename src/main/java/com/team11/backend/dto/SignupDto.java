@@ -1,5 +1,6 @@
 package com.team11.backend.dto;
 
+import com.team11.backend.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,8 +42,8 @@ public class SignupDto {
         private String address;
 
         private String profileImg;
-    }
 
+    }
 
     @Getter
     @Builder
