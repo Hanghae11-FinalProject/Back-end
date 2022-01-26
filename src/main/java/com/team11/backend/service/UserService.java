@@ -24,7 +24,6 @@ public class UserService {
 
     @Transactional
     public Long signUp(SignupDto.RequestDto requestDto) {
-        DuplicateUsernameAndNickname(requestDto);
         User user = userRepository.save(
                 User.builder()
                         .username(requestDto.getUsername())
@@ -55,14 +54,6 @@ public class UserService {
                 .profileImg(userInfo.getProfileImg())
                 .build();
 
-    }
-
-    private void DuplicateUsernameAndNickname(SignupDto.RequestDto requestDto) {
-        if (userRepository.existsByUsername(requestDto.getUsername()))
-            throw new DuplicateKeyException("이미 존재하는 이메일 입니다");
-
-        if (userRepository.existsByNickname(requestDto.getNickname()))
-            throw new DuplicateKeyException("이미 존재하는 닉네임 입니다.");
     }
 
     // 아이디 중복검사, 반환값 없음
