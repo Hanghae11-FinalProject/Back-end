@@ -117,7 +117,7 @@ class BookMarkServiceTest {
                 .tagName("만두")
                 .build();
         List<Tag> tagList1 = new ArrayList<>();
-        tagList1.add(tag);
+        tagList1.add(tag1);
         post2 = Post.builder()
                 .tags(tagList1)
                 .images(list1)
