@@ -47,17 +47,6 @@ public class CategoryRepository {
                         user.profileImg, post.content, post.myItem, post.exchangeItem,
                         post.currentState, post.category, post.createdAt,post.bookMarkCnt
                         ,post.commentCnt
-                       /* ExpressionUtils.as(
-                                JPAExpressions.select(count(bookMark))
-                                        .from(bookMark)
-                                        .where(bookMark.post.eq(post))
-                                , "bookmarkCnt"
-                        ),
-                        ExpressionUtils.as(
-                                JPAExpressions.select(count(comment))
-                                        .from(comment)
-                                        .where(comment.post.eq(post))
-                                , "commentCnt")*/
                 ))
                 .from(post)
                 .leftJoin(post.user, user)

@@ -60,7 +60,8 @@ public class Post extends Timestamped{
     }
 
     @Builder
-    public Post(String title, String content, String myItem, String exchangeItem, CurrentState currentState, User user, List<Image> images, List<Tag> tags, String category) {
+    public Post(Long id,String title, String content, String myItem, String exchangeItem, CurrentState currentState, User user, List<Image> images, List<Tag> tags, String category) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.myItem = myItem;
