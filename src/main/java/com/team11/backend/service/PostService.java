@@ -31,8 +31,6 @@ public class PostService {
     private final FileUploadService fileUploadService;
     private final AwsS3UploadService awsS3UploadService;
     private final TagRepository tagRepository;
-    private final CommentRepository commentRepository;
-    private final BookMarkRepository bookMarkRepository;
 
 
 

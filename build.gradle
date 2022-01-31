@@ -105,7 +105,9 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        xml.required = true
-        html.required = false
+        html.enabled true
+        csv.enabled true
+        xml.enabled false
     }
+    finalizedBy 'jacocoTestCoverageVerification' // 추가
 }

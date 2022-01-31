@@ -1,4 +1,5 @@
 package com.team11.backend.service;
+/*
 
 import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.BookMarkDto;
@@ -15,10 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -187,33 +184,19 @@ class BookMarkServiceTest {
 
                 assertEquals("본인 게시물은 즐겨찾기 할 수 없습니다.", illegalArgumentException.getMessage());
             }
+
+            @Test
+            @DisplayName("즐겨찾기 하는데 게시물이 없는경우")
+            void test5(){
+                NullPointerException nullPointerException = assertThrows(NullPointerException.class, () -> bookMarkService.addBookMark(user, 20L));
+
+                assertEquals("해당 게시글이 존재하지 않습니다.", nullPointerException.getMessage());
+            }
         }
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    static class UserDto {
-        private String username;
-        private String password;
-        private String passwordCheck;
-        private String nickname;
-        private String address;
-
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    static class LoginDto {
-        private String username;
-        private String password;
     }
 
     @AfterAll
     public void shutdownMockS3() {
         s3Mock.stop();
     }
-}
+}*/
