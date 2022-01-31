@@ -1,4 +1,5 @@
 package com.team11.backend.service;
+/*
 
 import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.KakaoUserUpdateAddressDto;
@@ -208,3 +209,4 @@ class UserServiceTest {
 
 
 
+*/

@@ -1,4 +1,5 @@
 package com.team11.backend.service;
+/*
 
 import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.SearchDto;
@@ -47,9 +48,11 @@ class SearchServiceTest {
     @Autowired
     TagRepository tagRepository;
 
-   /* @Autowired
+   */
+/* @Autowired
     SearchRepositoryInterface searchRepositoryInterface;
-*/
+*//*
+
     Post post;
     Post post1;
     User user;
@@ -132,6 +135,7 @@ class SearchServiceTest {
 
         postRepository.save(post1);
 
+*/
 /*        //hot 인기검색 순위 더미데이터
         for (int i = 0; i < 10; i++) {
             for (int j = 9 - i; j > 0; j--) {
@@ -139,7 +143,8 @@ class SearchServiceTest {
                         .keyword("더미데이터" + j)
                         .build());
             }
-        }*/
+        }*//*
+
     }
 
 
@@ -273,13 +278,15 @@ class SearchServiceTest {
 
             }
 
-     /*       @Test
+     */
+/*       @Test
             @DisplayName("Hot인기 검색어 순위 List index 0이 가장 검색많이된 값 그다음이 1 2 3 ")
             void test_6() {
                 List<String> keywordRank = searchRepositoryInterface.findKeywordRank();
                 assertEquals("더미데이터1",keywordRank.get(0));
                 assertEquals("더미데이터2", keywordRank.get(1));
-            }*/
+            }*//*
+
         }
 
 
@@ -294,4 +301,4 @@ class SearchServiceTest {
     public void shutdownMockS3(){
         s3Mock.stop();
     }
-}
+}*/

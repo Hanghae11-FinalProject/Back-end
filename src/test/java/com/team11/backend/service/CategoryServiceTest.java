@@ -1,5 +1,6 @@
 package com.team11.backend.service;
 
+/*
 import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.CategoryDto;
 import com.team11.backend.dto.querydto.CategoryQueryDto;
@@ -264,3 +265,4 @@ class CategoryServiceTest {
         s3Mock.stop();
     }
 }
+*/

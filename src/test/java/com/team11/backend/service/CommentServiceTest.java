@@ -1,5 +1,6 @@
 package com.team11.backend.service;
 
+/*
 import com.team11.backend.config.S3MockConfig;
 import com.team11.backend.dto.CommentDto;
 import com.team11.backend.model.*;
@@ -115,7 +116,8 @@ class CommentServiceTest {
                 assertEquals(1, post.getCommentCnt());
             }
 
-     /*       @Test
+     */
+/*       @Test
             @DisplayName("댓글에 대댓글 등록")
             void test2(){
 
@@ -145,7 +147,8 @@ class CommentServiceTest {
 
                 assertEquals(commentRequest1.getContent(),responseDto1.getContent());
                 assertEquals(2, post.getCommentCnt());
-            }*/
+            }*//*
+
         }
 
     }
@@ -154,4 +157,4 @@ class CommentServiceTest {
     public void shutdownMockS3() {
         s3Mock.stop();
     }
-}
+}*/
