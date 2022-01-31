@@ -28,7 +28,7 @@
 //@Import(S3MockConfig.class)
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 //class CategoryServiceTest {
-//
+// //test
 //    @Autowired
 //    S3Mock s3Mock;
 //
