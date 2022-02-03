@@ -140,7 +140,7 @@
      - 1.ec2서버 내부에 임의의 yml파일 저장공간을 만들어 넣어두고  
  ![image](https://user-images.githubusercontent.com/25544668/151780893-c74936cf-75a0-43c4-bac0-1df8a0b540c0.png)
  
-     - 2.무중단 배포를위한 bin/bash 내부에 1번의 특정경로의 yml
+     - 2.무중단 배포를위한 bin/bash 내부에 1번의 특정경로의 yml을  -Dspring.config.location=file 을 사용해 읽어들여 
  ![image](https://user-images.githubusercontent.com/25544668/151781088-07e01f38-04da-4139-8540-5f9ced139e3c.png)
 
 
