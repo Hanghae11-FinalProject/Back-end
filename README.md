@@ -24,19 +24,19 @@
 <br />
 
 # 🧩 와이어프레임
-<p align="center">
-<img src="https://user-images.githubusercontent.com/25544668/150818035-4499a92c-0d19-4ce2-b4fa-b9efedf4229d.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150818262-adc691ac-7b51-452f-9059-b1b0f275be6e.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150818398-326bcefe-aad1-4194-a97a-869dd8767498.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150818526-ec5f2fad-6b9c-4fad-80c5-e633ccf9dd38.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150818618-8b093db6-7cf5-409f-92f5-9623d3cfe8bb.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819254-853dab4b-2db6-46fe-8a23-926d331c5a58.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819362-d2fe9a64-cfe5-483e-a27a-3a9b679be6c2.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819576-650785a0-cfaf-4b6a-9b04-b4f5d1dc2295.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819583-7bde66f2-2d4a-4917-8308-b2dcc7b52fcf.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819584-1dbb3226-4931-4a02-b7fe-2088bf4c0635.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819587-2a431876-845e-4e3f-9c37-c2a75af69b20.png" width="200">
-
+<p text-align="center">
+<img src="https://user-images.githubusercontent.com/25544668/150818035-4499a92c-0d19-4ce2-b4fa-b9efedf4229d.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150818262-adc691ac-7b51-452f-9059-b1b0f275be6e.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150818526-ec5f2fad-6b9c-4fad-80c5-e633ccf9dd38.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150818618-8b093db6-7cf5-409f-92f5-9623d3cfe8bb.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819254-853dab4b-2db6-46fe-8a23-926d331c5a58.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819362-d2fe9a64-cfe5-483e-a27a-3a9b679be6c2.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819576-650785a0-cfaf-4b6a-9b04-b4f5d1dc2295.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819583-7bde66f2-2d4a-4917-8308-b2dcc7b52fcf.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819584-1dbb3226-4931-4a02-b7fe-2088bf4c0635.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819587-2a431876-845e-4e3f-9c37-c2a75af69b20.png" width="150px" alt="page" />
+<img src="https://i0.wp.com/www.midnightinsomewhere.com/wp-content/uploads/2022/01/page12.png?resize=248%2C482&ssl=1" width="150px" alt="page" />
+<img src="https://i0.wp.com/www.midnightinsomewhere.com/wp-content/uploads/2022/01/page13.png?resize=248%2C482&ssl=1" width="150px" alt="page" />
 </p> 
 
 <br />
