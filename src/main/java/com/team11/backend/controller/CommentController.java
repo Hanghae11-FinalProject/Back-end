@@ -25,6 +25,7 @@ public class CommentController {
         return commentService.create(requestDto,userDetails.getUser().getId());
     }
 
+    //댓글, 대댓글 삭제
     @DeleteMapping("/api/comments/{commentId}")
     public Long deleteComment(@PathVariable Long commentId,
                               @AuthenticationPrincipal UserDetailsImpl userDetails

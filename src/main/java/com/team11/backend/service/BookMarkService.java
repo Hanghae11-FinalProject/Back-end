@@ -43,23 +43,20 @@ public class BookMarkService {
         return null;
     }
 
+    //북마크 취소
     @Transactional
     public CategoryDto.ResponseDto cancelBookMark(User user, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("해당 게시글이 존재하지 않습니다."));
         BookMark bookMark = bookMarkRepository.findByUserAndPost(user, post).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 대상입니다."));
-        List<BookMark> bookMarks = bookMarkRepository.findByPost(post);
-        for (int i = 0; i < bookMarks.size(); i++) {
-            if(bookMarks.get(i).equals(bookMark)){
-                bookMarks.remove(bookMarks.get(i));
-            }
-        }
-        post.updatebookMark(bookMarks);
-        post.minusBookMarkCount();//북마크를 취소시 개수 -1
+        bookMarkRepository.deleteBookMarkByPostIdAndUser(postId, user);
+        if (post.getBookMarkCnt() > 0)
+            post.minusBookMarkCount();//북마크를 취소시 개수 -1
         bookMarkRepository.delete(bookMark);
 
         return convertToCategoryDto(post,bookMarkRepository,commentRepository);
     }
 
+    //내 북마크 목록 전체 조회
     @Transactional
     public List<BookMarkDto.ResponseDto> findMyBookMark(User user) {
         if (user == null) throw new NullPointerException("로그인이 필요합니다");
@@ -67,7 +64,7 @@ public class BookMarkService {
 
         return convertToBookMarkDto(bookMarkList);
     }
-
+    
     private void impossibleMyPostBookMark(User user, Post post) {
         if (user.getUsername().equals(post.getUser().getUsername()))
             throw new IllegalArgumentException("본인 게시물은 즐겨찾기 할 수 없습니다.");

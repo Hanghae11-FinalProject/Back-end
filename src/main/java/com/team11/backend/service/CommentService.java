@@ -23,16 +23,18 @@ public class CommentService {
 
     @Transactional
     public CommentDto.ResponseDto create(CommentDto.RequestDto requestDto, Long userId) {
+
         return convertCommentToDto(commentRepository.save(
                 Comment.createComment(
                         requestDto.getContent(),
                         userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 정보 입니다")),
                         postRepository.findById(requestDto.getPostId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다.")),
                         Optional.ofNullable(requestDto.getParentId())  //부모 코멘트가 존재하는지 확인
-                                .map(id -> commentRepository.findById(id).orElseThrow(IllegalArgumentException::new)) //만약 id
+                                .map(id -> commentRepository.findById(id).orElseThrow(IllegalArgumentException::new))
                                 .orElse(null))));
     }
 
+    //댓글 삭제
     @Transactional
     public Long deleteComment(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
@@ -42,7 +44,7 @@ public class CommentService {
         return commentId;
     }
 
-    public static CommentDto.ResponseDto convertCommentToDto(Comment comment) { //댓글삭제
+    public static CommentDto.ResponseDto convertCommentToDto(Comment comment) {
         return new CommentDto.ResponseDto(comment.getId(), comment.getContent(), comment.getUser().getId(), comment.getUser().getNickname(), comment.getUser().getProfileImg(),TimeConversion.timeConversion(comment.getCreatedAt()));
     }
 }
