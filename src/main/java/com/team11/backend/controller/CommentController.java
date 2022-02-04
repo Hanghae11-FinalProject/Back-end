@@ -17,7 +17,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-
+    //댓글, 대댓글기능
     @PostMapping("/api/comments")
     public CommentDto.ResponseDto addComment(@Valid @RequestBody CommentDto.RequestDto requestDto,
                                              @AuthenticationPrincipal UserDetailsImpl userDetails)
