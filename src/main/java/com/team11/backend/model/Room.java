@@ -20,7 +20,6 @@ public class Room {
     @Column(nullable = false)
     private String roomName;
 
-
     @Column(nullable = false)
     private Long roomPostId;
 
