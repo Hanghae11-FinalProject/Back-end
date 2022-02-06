@@ -23,6 +23,8 @@ repositories {
 }
 
 dependencies {
+    //Jasypt
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     //security test
     testImplementation 'org.springframework.security:spring-security-test'
