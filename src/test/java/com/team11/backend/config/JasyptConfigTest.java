@@ -3,10 +3,13 @@ package com.team11.backend.config;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
 @SpringBootTest
+@Rollback
 class JasyptConfigTest {
 
     @Test
@@ -26,12 +29,12 @@ class JasyptConfigTest {
     }
 
     public String jasyptEncoding(String value){
-        String key = "my_jasypt_key";
+        String key = "안알랴줌";
         StandardPBEStringEncryptor pbeEnc = new StandardPBEStringEncryptor();
-        pbeEnc.setAlgorithm("PBEWithMD5AndDES");
+        pbeEnc.setAlgorithm("안알랴줌");
         pbeEnc.setPassword(key);
 
         return pbeEnc.encrypt(value);
     }
 
-}
+}*/
