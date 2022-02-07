@@ -14,7 +14,7 @@
 # 👥 멤버
 - Back-end: [정영빈](https://github.com/jybin96), [김우진](https://github.com/woojin126), [서유리](https://github.com/uriseozz)
 - Front-end: [우민기](https://github.com/WooMinGy), [정민경](https://github.com/keimindev), [이주형](https://github.com/leejh4197)
-- Designer: [이인영],[정혜지]
+- Designer: 이인영, 정혜지
 - [\[Front-End Github\]](https://github.com/Hanghae11-FinalProject/Front-end/tree/develop/project-11)
 <br />
 
@@ -135,12 +135,22 @@
 <br />
 
 # 💡 Trouble Shooting
-* 김우진: 무중단 배포를위해 특정 브랜치에 push 이벤트 발생시 자동 빌드,배포가 진행되는 상황에서 yml파일을 같이 push하면 안되는데 ec2서버 내부에서 yml을 읽어들어야 jar파일 구동이 되는 상황 
-  \- 해결: 
+* 무중단 배포를위해 특정 브랜치에 push 이벤트 발생시 자동 빌드,배포가 진행되는 상황에서 yml파일을 같이 push하면 안되는데 ec2서버 내부에서 yml을 읽어들어야 jar파일 구동이 되는 상황 
+  - 해결: 
      - 1.ec2서버 내부에 임의의 yml파일 저장공간을 만들어 넣어두고  
  ![image](https://user-images.githubusercontent.com/25544668/151780893-c74936cf-75a0-43c4-bac0-1df8a0b540c0.png)
  
      - 2.무중단 배포를위한 bin/bash 내부에 1번의 특정경로의 yml을  -Dspring.config.location=file 을 사용해 읽어들여 
  ![image](https://user-images.githubusercontent.com/25544668/151781088-07e01f38-04da-4139-8540-5f9ced139e3c.png)
+</br>
+    
+
+* 카테고리 필터 및 검색기능 적용 시 쿼리문이 복잡해짐 → 쿼리DSL 사용. 
+  * 쿼리를 자바코드로 작성하여 컴파일 시점에서 오류를 잡기쉬우면서 동적쿼리를 쉽게 작성
+![img.png](img.png)
+</br>
 
 
+* 인기검색어 기능 구현 시 처음에는 검색어를 전부 DB에 저장해 많이 검색된 검색어 순위를 출력 → DB접근을 줄이기위해 cache적용
+  * 단순한 정보를 반복적으로 동일하게 제공해야 하고, 정보의 업데이트가 실시간으로 이루어질 필요가 없기 때문
+    ![image](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FSXOX1%2Fbtrr9fKbY8N%2FNNJBh3fFBrn7TCzXhfspw0%2Fimg.png)
