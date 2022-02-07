@@ -22,9 +22,6 @@ class JasyptConfigTest {
         String encryptUrl = jasyptEncoding(url);
         String encryptUsername = jasyptEncoding(username);
         String encryptPassword = jasyptEncoding(password);
-        System.out.println(jasyptEncoding(url));
-        System.out.println(jasyptEncoding(username));
-        System.out.println(jasyptEncoding(password));
 
         Assertions.assertThat(url).isEqualTo(jasyptDecryt(encryptUrl));
         Assertions.assertThat(username).isEqualTo(jasyptDecryt(encryptUsername));
