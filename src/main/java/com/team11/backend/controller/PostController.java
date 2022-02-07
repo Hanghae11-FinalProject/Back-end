@@ -20,6 +20,7 @@ public class PostController {
 
     private final PostService postService;
 
+    //게시물 등록
     @PostMapping("/api/posts")
     public void createPost(
             @RequestParam(name = "image",required = false) List<MultipartFile> images,
@@ -40,6 +41,7 @@ public class PostController {
         postService.editPostService(images,jsonString,postId);
     }
 
+    //게시물 삭제
     @DeleteMapping("/api/posts/{postId}")
     public void boardDelete(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -48,11 +50,13 @@ public class PostController {
         postService.deletePost(userDetails.getUser(), postId);
     }
 
+    //게시물 수정
     @PutMapping("/api/currentstate/{postId}")
     public void updateCurrentState(@RequestBody CurrentStateDto currentStateDto ,@PathVariable Long postId){
         postService.editCurrentState(currentStateDto,postId);
     }
 
+    //내가 등록한 게시물 조회
     @GetMapping("/api/myposts")
     public List<MyPostResponseDto> showMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();

@@ -14,7 +14,7 @@
 # 👥 멤버
 - Back-end: [정영빈](https://github.com/jybin96), [김우진](https://github.com/woojin126), [서유리](https://github.com/uriseozz)
 - Front-end: [우민기](https://github.com/WooMinGy), [정민경](https://github.com/keimindev), [이주형](https://github.com/leejh4197)
-- Designer: [이인영],[정혜지]
+- Designer: 이인영, 정혜지
 - [\[Front-End Github\]](https://github.com/Hanghae11-FinalProject/Front-end/tree/develop/project-11)
 <br />
 
@@ -24,19 +24,19 @@
 <br />
 
 # 🧩 와이어프레임
-<p align="center">
-<img src="https://user-images.githubusercontent.com/25544668/150818035-4499a92c-0d19-4ce2-b4fa-b9efedf4229d.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150818262-adc691ac-7b51-452f-9059-b1b0f275be6e.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150818398-326bcefe-aad1-4194-a97a-869dd8767498.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150818526-ec5f2fad-6b9c-4fad-80c5-e633ccf9dd38.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150818618-8b093db6-7cf5-409f-92f5-9623d3cfe8bb.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819254-853dab4b-2db6-46fe-8a23-926d331c5a58.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819362-d2fe9a64-cfe5-483e-a27a-3a9b679be6c2.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819576-650785a0-cfaf-4b6a-9b04-b4f5d1dc2295.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819583-7bde66f2-2d4a-4917-8308-b2dcc7b52fcf.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819584-1dbb3226-4931-4a02-b7fe-2088bf4c0635.png" width="200">
-<img src="https://user-images.githubusercontent.com/25544668/150819587-2a431876-845e-4e3f-9c37-c2a75af69b20.png" width="200">
-
+<p text-align="center">
+<img src="https://user-images.githubusercontent.com/25544668/150818035-4499a92c-0d19-4ce2-b4fa-b9efedf4229d.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150818262-adc691ac-7b51-452f-9059-b1b0f275be6e.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150818526-ec5f2fad-6b9c-4fad-80c5-e633ccf9dd38.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150818618-8b093db6-7cf5-409f-92f5-9623d3cfe8bb.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819254-853dab4b-2db6-46fe-8a23-926d331c5a58.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819362-d2fe9a64-cfe5-483e-a27a-3a9b679be6c2.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819576-650785a0-cfaf-4b6a-9b04-b4f5d1dc2295.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819583-7bde66f2-2d4a-4917-8308-b2dcc7b52fcf.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819584-1dbb3226-4931-4a02-b7fe-2088bf4c0635.png" width="150px" alt="page" />
+<img src="https://user-images.githubusercontent.com/25544668/150819587-2a431876-845e-4e3f-9c37-c2a75af69b20.png" width="150px" alt="page" />
+<img src="https://i0.wp.com/www.midnightinsomewhere.com/wp-content/uploads/2022/01/page12.png?resize=248%2C482&ssl=1" width="150px" alt="page" />
+<img src="https://i0.wp.com/www.midnightinsomewhere.com/wp-content/uploads/2022/01/page13.png?resize=248%2C482&ssl=1" width="150px" alt="page" />
 </p> 
 
 <br />
@@ -59,11 +59,13 @@
   <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">
   <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
   <img src="https://img.shields.io/badge/Springboot-6DB33F?style=for-the-badge&logo=Springboot&logoColor=white">
+  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=SpringDataJPA&logoColor=white">
   <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
   <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
   <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black">
   <img src="https://img.shields.io/badge/aws-232F3E?style=for-the-badge&logo=AmazonAWS&logoColor=white">
   <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+  
 
 </div>  
 
@@ -87,45 +89,68 @@
 # 🔑 프로젝트 주요 기능
 * Nginx에 HTTPS SSL 적용
   
-* 로그인 페이지  
-  \- 가입된 회원의 정보와 일치하는지 확인 후, 일치할 경우 로그인 성공 
-  \- 로그인시 jwt 토큰 발행
-  
 * 회원가입 페이지  
-  \- 아이디 : 중복확인 / 이메일 형식  
-  \- 닉네임 : 중복확인 / 영어 대소문자 숫자, 한글 3-10자  
-  \- 비밀번호 : 영어 대소문자, 숫자 4-12자  
-  \- 비밀번호 확인 : 위 비밀번호와 일치하는지 확인  
-
-* 내 즐겨찾기 목록 조회
-
-* 마이페이지 에서 프로필 변경
+  - 아이디 : 중복확인(이메일 형식)
+  - 닉네임 : 중복확인 
+  - 비밀번호 : 8자 이상 16자 이하, 영문 필수 1자이상,특수문자 하나 이상 필수
+  - 비밀번호 확인 : 8자 이상 16자 이하, 영문 필수 1자이상,특수문자 하나 이상 필수 
+  
+* 로그인 페이지 (일반 로그인, 소셜 카카오 로그인)
+  - 가입된 회원의 정보와 일치하는지 확인 후, 일치할 경우 로그인 성공 
+  - 로그인시 jwt 토큰 발행
   
 * 메인 페이지  
-  \- 전체 게시글 조회 기능
-  \- 게시글 검색기능
-  \- 게시글 주소선택으로 게시물 필터링 기능
-  \- 게시글 식품,의류,가전 중 1택 카테고리 필터링 기능
+  - 전체 게시글 조회 기능
+    - 게시글 주소선택으로 게시물 필터링 기능
+    - 게시글 식품,의류,가전 중 1택 카테고리 필터링 기능
 
-* 게시물 검색 인기순 top 10 
+* 즐겨찾기
+  - 본인 게시물은 즐겨찾기 불가능
+
+* 마이페이지 
+  - 프로필 수정
+  - 내가 작성한 글 확인
+  - 내 즐겨찾기 목록 확인
+  
+* 메인 페이지 (전체 게시글 조회 기능)
+  - 게시글 주소선택으로 게시물 필터링 기능
+  - 게시글 식품,의류,가전등 중 1택 카테고리 필터링 기능
   
 * 게시글 작성 페이지  
- \- 게시물 CRUD (이미지 포함)
- \- 게시물 등록, 해시태그 기능 추가
-
+  - 게시물 CRUD (이미지 포함)
+  - 해시태그 기능 추가
 
 * 게시글 상세 페이지  
-  \- 좋아요 : 게시글 좋아요 기능  
-  \- 댓글 : 게시글 대댓글  
+  - 좋아요 : 게시글 즐겨찾기 기능  
+  - 댓글 : 게시글 대댓글
+  - 채팅 : 1:1 채팅기능
   
 * 실시간 채팅 페이지
-  \- 채팅방 생성, 나가기 ,방 폭파
-  \- 읽지 않은 채팅 COUNT
-  \- 채팅방 인원정보 표시
-  \- 채팅 알람 기능 추가
+  - 채팅방 생성, 나가기 ,방 폭파
+  - 읽지 않은 채팅 COUNT
+  - 채팅방 인원정보 표시
+  - 채팅 알람 기능 추가
   
+* 게시물 검색 인기순 top 10 
 <br />
 
 # 💡 Trouble Shooting
-* 한글 닉네임을 Header에 담아 전송시 UTF-8 인코딩이 인식을못해 한글 깨짐현상
-  * 닉네임을 바이트코드로 변환후 Base64로 인코딩 후 header에 담아 전송 (프론트 딴에서 decode후 받음 -> 한글 데이터 보존)
+* 무중단 배포를위해 특정 브랜치에 push 이벤트 발생시 자동 빌드,배포가 진행되는 상황에서 yml파일을 같이 push하면 안되는데 ec2서버 내부에서 yml을 읽어들어야 jar파일 구동이 되는 상황 
+  - 해결: 
+     - 1.ec2서버 내부에 임의의 yml파일 저장공간을 만들어 넣어두고  
+ ![image](https://user-images.githubusercontent.com/25544668/151780893-c74936cf-75a0-43c4-bac0-1df8a0b540c0.png)
+ 
+     - 2.무중단 배포를위한 bin/bash 내부에 1번의 특정경로의 yml을  -Dspring.config.location=file 을 사용해 읽어들여 
+ ![image](https://user-images.githubusercontent.com/25544668/151781088-07e01f38-04da-4139-8540-5f9ced139e3c.png)
+</br>
+    
+
+* 카테고리 필터 및 검색기능 적용 시 쿼리문이 복잡해짐 → 쿼리DSL 사용. 
+  * 쿼리를 자바코드로 작성하여 컴파일 시점에서 오류를 잡기쉬우면서 동적쿼리를 쉽게 작성
+![img.png](img.png)
+</br>
+
+
+* 인기검색어 기능 구현 시 처음에는 검색어를 전부 DB에 저장해 많이 검색된 검색어 순위를 출력 → DB접근을 줄이기위해 cache적용
+  * 단순한 정보를 반복적으로 동일하게 제공해야 하고, 정보의 업데이트가 실시간으로 이루어질 필요가 없기 때문
+    ![image](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FSXOX1%2Fbtrr9fKbY8N%2FNNJBh3fFBrn7TCzXhfspw0%2Fimg.png)

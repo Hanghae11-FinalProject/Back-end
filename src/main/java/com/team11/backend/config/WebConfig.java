@@ -9,8 +9,8 @@ public class  WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/images/**")
-                .addResourceLocations("file:///Users/jeong-yeongbin/Desktop/image/");
+                .addResourceHandler("/images/**") //매핑 URI설정
+                .addResourceLocations("file:///Users/jeong-yeongbin/Desktop/image/"); //정적 리소스 위치 설정
     }
 }
 

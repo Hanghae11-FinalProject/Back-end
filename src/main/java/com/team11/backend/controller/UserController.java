@@ -20,7 +20,7 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
     private final KakaoUserService kakaoUserService;
-
+    //회원가입
     @PostMapping("/user/signup")
     public Long Signup(@RequestBody @Valid SignupDto.RequestDto requestDto){
         return userService.signUp(requestDto);
@@ -37,7 +37,7 @@ public class UserController {
     public void nicknameCheck(@RequestBody SignupDto.RequestDto signupRequestDto) {
         userService.nicknameCheck(signupRequestDto.getNickname());
     }
-
+    //마이페이지 정보
     @GetMapping("/api/userInfos")
     public MyPageDto.ResponseDto MyPage(@AuthenticationPrincipal UserDetailsImpl customUserDetails){
         return userService.findMyPage(customUserDetails.getUser());
@@ -50,7 +50,7 @@ public class UserController {
         return userService.MyPageModify(customUserDetails.getUser(),requestDto);
     }
 
-
+    //카카오 소셜로그인
     @GetMapping("/oauth/callback/kakao")
     public HeaderDto kakaoLogin(
             @RequestParam String code
@@ -58,6 +58,7 @@ public class UserController {
         return kakaoUserService.kakaoLogin(code);
     }
 
+    //카카오 소셜로그인을 하게되면 주소정보를 받을 수없기 때문에 따로 api 작성
     @PutMapping("/user/address")
     public KakaoUserUpdateAddressDto.ResponseDto kakaoAddressUpdate(@RequestBody KakaoUserUpdateAddressDto.RequestDto requestDto,
                                                                     @AuthenticationPrincipal UserDetailsImpl customUserDetails){

@@ -5,6 +5,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//nginx로 현재 구동중인 서버의 포트번호를 구분하기위해
 @RequiredArgsConstructor
 @RestController
 public class ProfileController {
