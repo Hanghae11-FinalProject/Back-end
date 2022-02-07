@@ -1,11 +1,8 @@
 package com.team11.backend.config;
 
-import io.findify.s3mock.S3Mock;
 import org.assertj.core.api.Assertions;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
@@ -15,13 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Rollback
 class JasyptConfigTest {
-
-    @Autowired
-    private S3Mock s3Mock;
-    @Test
-    void contextLoads(){
-
-    }
 
     @Test
     void jasypt(){
@@ -57,11 +47,6 @@ class JasyptConfigTest {
         pbeEnc.setPassword(key);
 
         return pbeEnc.decrypt(value);
-    }
-
-    @AfterEach
-    public void shutdownMockS3(){
-        s3Mock.stop();
     }
 
 }
