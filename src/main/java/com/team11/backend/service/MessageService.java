@@ -42,6 +42,7 @@ public class MessageService {
                 () -> new IllegalArgumentException("해당되는 receiver없음")
         );
 
+        //전달받은 메세지 타입체크
         if (Message.MessageType.Start.equals(messageDto.getType())) {
             sendMessageDto = MessageDto.builder()
                     .message(sender.getNickname() + "님이 입장")
@@ -75,7 +76,7 @@ public class MessageService {
 
         }
 
-
+        //채팅방이 있는지 없는지 확인
         if (!check) {
             Room room = roomRepository.findByRoomName(sendMessageDto.getRoomName()).orElseThrow(
                     () -> new IllegalArgumentException("해당되는 룸 없습니다.")

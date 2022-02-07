@@ -29,10 +29,8 @@ public class UserRoom extends Timestamped{
     @JoinColumn(name = "roomId",nullable = false)
     private Room room;
 
-
     @Column(nullable = true)
     private Long lastMessageId;
-
 
     @Column(nullable = false)
     private int count;

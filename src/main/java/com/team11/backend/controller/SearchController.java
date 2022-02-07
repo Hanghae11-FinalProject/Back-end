@@ -23,6 +23,7 @@ public class SearchController {
 
     private final SearchService searchService;
 
+    //검색 api
     @PostMapping("/api/search")
     public Result<?> searchList(@RequestBody SearchDto.RequestDto searchRequestDto,
                                                  @PageableDefault(size = 6, sort = "createdAt",
@@ -31,6 +32,7 @@ public class SearchController {
         return new Result<>(searchService.keywordSearch(searchRequestDto, pageable));
     }
 
+    //검색 인기순 api
     @GetMapping("/api/search/rank")
     public List<SearchRankResponseDto> searchRankList(){
         return searchService.SearchRankList();

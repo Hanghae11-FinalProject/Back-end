@@ -17,7 +17,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-
+    //댓글, 대댓글기능
     @PostMapping("/api/comments")
     public CommentDto.ResponseDto addComment(@Valid @RequestBody CommentDto.RequestDto requestDto,
                                              @AuthenticationPrincipal UserDetailsImpl userDetails)
@@ -25,6 +25,7 @@ public class CommentController {
         return commentService.create(requestDto,userDetails.getUser().getId());
     }
 
+    //댓글, 대댓글 삭제
     @DeleteMapping("/api/comments/{commentId}")
     public Long deleteComment(@PathVariable Long commentId,
                               @AuthenticationPrincipal UserDetailsImpl userDetails
