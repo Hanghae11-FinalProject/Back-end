@@ -7,7 +7,6 @@ import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
