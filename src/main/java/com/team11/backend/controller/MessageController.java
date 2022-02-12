@@ -7,7 +7,6 @@ import com.team11.backend.security.UserDetailsImpl;
 import com.team11.backend.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,7 +25,6 @@ public class MessageController {
 
     @PostMapping("/api/roomcount")
     public void updateCount(@RequestBody RoomDto.UpdateCountDto updateCountDto){
-        System.out.println("연결 게속 되고 있어요 ㅠㅠ");
         messageService.updateRoomMessageCount(updateCountDto);
     }
 //    pub/api/message 클라이언트 요청으로 메세지 발행
